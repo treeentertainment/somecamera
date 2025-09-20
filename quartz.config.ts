@@ -65,6 +65,7 @@ const config: QuartzConfig = {
         },
         keepBackground: false,
       }),
+      Plugin.RemarkEmoji(),
       Plugin.ObsidianFlavoredMarkdown({ enableInHtmlEmbed: false }),
       Plugin.GitHubFlavoredMarkdown(),
       Plugin.TableOfContents(),
