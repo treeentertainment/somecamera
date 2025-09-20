@@ -36,3 +36,7 @@
 | Select focus point                     | ✅ | ❌ |
 | Live View focus box                    | ✅ | ❌ |
 | Exposure compensation                  | ✅ | ✅ |
+
+## Progress
+- [ ] Change UI to material design for android
+- [ ] Add live view continue after taking picture
