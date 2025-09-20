@@ -14,6 +14,7 @@ on:
       - 'quartz.layout.ts'
       - 'quartz.config.ts'
       - 'quartz/**'
+      - .'.github/DISCUSSION_TEMPLATE/**'
   pull_request:
     branches:
       - main
