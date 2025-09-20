@@ -7,13 +7,26 @@ on:
       - dev
     paths-ignore:
       - 'docs/**'
-      - 'README.md'
+      - '*.md'
       - '.github/workflows/deploy.yml'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'quartz.layout.ts'
+      - 'quartz.config.ts'
+      - 'quartz/**'
   pull_request:
+    branches:
+      - main
+      - dev
     paths-ignore:
       - 'docs/**'
-      - 'README.md'
+      - '*.md'
       - '.github/workflows/deploy.yml'
+      - '.gitignore'
+      - 'LICENSE'
+      - 'quartz.layout.ts'
+      - 'quartz.config.ts'
+      - 'quartz/**'
 
 jobs:
   build:
