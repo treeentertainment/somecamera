@@ -4,7 +4,11 @@ on:
   push:
     branches:
       - main
-      - master
+      - dev
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - '.github/workflows/deploy.yml'
   pull_request:
 
 jobs:
