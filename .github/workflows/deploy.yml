@@ -1,0 +1,48 @@
+name: Deploy Quartz site
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/**'
+      - 'README.md'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      # README.md 와 docs/ → Quartz content/ 로 복사
+      - name: Prepare content
+        run: |
+          mkdir -p content
+          cp README.md content/index.md
+          rm -rf content/docs
+          cp -r docs content/docs
+
+      - name: Build Quartz
+        run: npx quartz build --output public
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+        with:
+          folder: public
