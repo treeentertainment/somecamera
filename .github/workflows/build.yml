@@ -10,6 +10,10 @@ on:
       - 'README.md'
       - '.github/workflows/deploy.yml'
   pull_request:
+    paths-ignore:
+      - 'docs/**'
+      - 'README.md'
+      - '.github/workflows/deploy.yml'
 
 jobs:
   build:
