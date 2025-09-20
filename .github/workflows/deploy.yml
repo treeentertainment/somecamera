@@ -8,6 +8,8 @@ on:
       - 'docs/**'
       - 'README.md'
       - '.github/workflows/deploy.yml'
+      - 'quartz.config.ts'
+      - 'quartz.layout.ts'
   workflow_dispatch:
   
 permissions:
