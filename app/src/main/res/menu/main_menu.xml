@@ -13,26 +13,28 @@
   See the License for the specific language governing permissions and
   limitations under the License.
 -->
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-  <item
-    android:id="@+id/menu_feedback"
-    android:onClick="onMenuFeedbackClicked"
-    android:showAsAction="ifRoom"
-    android:title="@string/menu_feedback"/>
-  <item
-    android:id="@+id/menu_settings"
-    android:onClick="onMenuSettingsClicked"
-    android:title="@string/menu_settings"
-    android:visible="@bool/is_pro"/>
-  <item
-    android:id="@+id/menu_changelog"
-    android:onClick="onMenuChangelogClicked"
-    android:title="@string/menu_changelog"
-    android:visible="@bool/is_pro"/>
-  <item
-    android:id="@+id/menu_about"
-    android:onClick="onMenuAboutClicked"
-    android:title="@string/menu_about"/>
+
+    <item
+        android:id="@+id/menu_feedback"
+        android:onClick="onMenuFeedbackClicked"
+        android:title="@string/menu_feedback"
+        app:showAsAction="ifRoom" />
+    <item
+        android:id="@+id/menu_settings"
+        android:onClick="onMenuSettingsClicked"
+        android:title="@string/menu_settings"
+        android:visible="@bool/is_pro"/>
+    <item
+        android:id="@+id/menu_changelog"
+        android:onClick="onMenuChangelogClicked"
+        android:title="@string/menu_changelog"
+        android:visible="@bool/is_pro"/>
+    <item
+        android:id="@+id/menu_about"
+        android:onClick="onMenuAboutClicked"
+        android:title="@string/menu_about"/>
 
 </menu>

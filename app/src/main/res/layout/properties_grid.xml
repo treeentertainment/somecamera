@@ -18,19 +18,19 @@
 
   <TableRow>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/liveViewToggle"
       style="@style/GridPropertyToggle"
       android:textOff="Live"
       android:textOn="Live"/>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/histogramToggle"
       style="@style/GridPropertyToggle"
       android:textOff="Hist"
       android:textOn="Hist"/>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/driveLensToggle"
       style="@style/GridPropertyToggle"
       android:textOff="Lens"
@@ -39,45 +39,45 @@
 
   <TableRow>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/shutterSpeedToggle"
       style="@style/GridPropertyToggle"/>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/apertureValueToggle"
       style="@style/GridPropertyToggle"/>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/isoSpeedToggle"
       style="@style/GridPropertyToggle"/>
   </TableRow>
 
   <TableRow>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/whitebalanceToggle"
       style="@style/GridPropertyToggle"/>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/colorTemperatureToggle"
       style="@style/GridPropertyToggle"/>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/pictureStyleToggle"
       style="@style/GridPropertyToggle"/>
   </TableRow>
 
   <TableRow>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/meteringModeToggle"
       style="@style/GridPropertyToggle"/>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/focusMeteringModeToggle"
       style="@style/GridPropertyToggle"/>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/focusPointsToggle"
       style="@style/GridPropertyToggle"
       android:text="@string/af_label"
@@ -87,7 +87,7 @@
 
   <TableRow>
 
-    <com.remoteyourcam.usb.PropertyToggle
+    <tech.treeentertainment.a_ucam.PropertyToggle
       android:id="@+id/exposureCompensationToggle"
       style="@style/GridPropertyToggle"/>
 

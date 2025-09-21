@@ -17,9 +17,9 @@
 <resources>
 
   <!-- App specific, need to be overridden -->
-  <string name="app_name">Remote Your Cam USB</string>
-  <string name="launcher_label">RYC USB</string>
-  <string name="ok">Ok</string>
+  <string name="app_name">TRANQUIL_EXPERT</string>
+  <string name="launcher_label">TRANQUIL_EXPERT_USB</string>
+  <string name="ok">OK</string>
   <string name="cancel">Cancel</string>
 
   <!-- session -->
@@ -40,12 +40,12 @@
 
   <!-- about dialog -->
   <string name="about_dialog_version">Version %1$s</string>
-  <string name="about_dialog_copyright">Copyright \u00A9 2011 Nils Assbeck and Michael Z\u00F6ch</string>
+  <string name="about_dialog_copyright">Copyright \u00A9 2011 Nils Assbeck and MichaeXl Z\u00F6ch</string>
   <string name="about_dialog_message">Remote Your Cam USB allows you to control your Canon DSLR camera via USB directly form your Android tablet.</string>
 
   <!-- feedback dialog -->
-  <string name="feedback_dialog_title">Help us improve RYC USB</string>
-  <string name="feedback_dialog_message">Want to help improving RYC USB? Then please give us feedback by sending us device information of your camera. Click the "Ok" button to open your preferred Email application.</string>
+  <string name="feedback_dialog_title">Help us improve TRANQUIL_EXPERT USB</string>
+  <string name="feedback_dialog_message">Want to help improving TRANQUIL_EXPERT USB? Then please give us feedback by sending us device information of your camera. Click the "Ok" button to open your preferred Email application.</string>
 
   <!-- no camera dialog -->
   <string name="dialog_no_camera_title">No camera found!</string>
@@ -55,14 +55,14 @@
   <string name="whats_new">What\'s New</string>
 
   <!-- worker notification -->
-  <string name="worker_ticker">RYC is running</string>
+  <string name="worker_ticker">TRANQUIL_EXPERT is running</string>
   <string name="worker_content_title">@string/launcher_label</string>
   <string name="worker_content_text">Is running!</string>
 
   <!-- gallery -->
   <string name="gallery_reverse_sort_order">Reverse sort order</string>
   <string name="gallery_empty">No pictures found</string>
-  <string name="gallery_loading">Loading ...</string>
+  <string name="gallery_loading">Loading …</string>
   <string name="error_loading_image">Error loading image</string>
   <string name="gallery_no_camera_connected">No camera connected</string>
 
@@ -82,9 +82,9 @@
 
   <!-- acra -->
   <string name="crash_notif_ticker_text">Unexpected error, please send a report...</string>
-  <string name="crash_notif_title">RYC USB has crashed...</string>
+  <string name="crash_notif_title">TRANQUIL_EXPERT has crashed...</string>
   <string name="crash_notif_text">Please click here to help fix the issue.</string>
-  <string name="crash_dialog_title">RYC USB has crashed</string>
+  <string name="crash_dialog_title">TRANQUIL_EXPERT USB has crashed</string>
   <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop. Please help us fix this by sending us error data, all you have to do is click \'OK\'.</string>
   <string name="crash_dialog_comment_prompt">You might add your comments about the problem below or add your email address so we can contact:</string>
   <string name="crash_dialog_ok_toast">Thank you!</string>

@@ -18,7 +18,7 @@
   android:layout_width="fill_parent"
   android:layout_height="wrap_content">
 
-  <com.remoteyourcam.usb.view.AspectRatioImageView
+  <tech.treeentertainment.a_ucam.view.AspectRatioImageView
     android:id="@+id/image1"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
