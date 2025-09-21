@@ -8,7 +8,7 @@ export const sharedPageComponents: SharedLayout = {
   afterBody: [],
   footer: Component.Footer({
     links: {
-      GitHub: "https://github.com/treeentertainment/a_ucam",
+      GitHub: "https://github.com/treeentertainment/tranquil_expert",
     },
   }),
 }
@@ -18,7 +18,7 @@ export const defaultContentPageLayout: PageLayout = {
   beforeBody: [
     Component.ConditionalRender({
       component: Component.Breadcrumbs(),
-      condition: (page) => page.fileData.slug !== "A_UCAM",
+      condition: (page) => page.fileData.slug !== "",
     }),
     Component.ArticleTitle(),
     Component.ContentMeta(),
