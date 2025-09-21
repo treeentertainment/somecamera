@@ -19,6 +19,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import android.util.Log;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -31,12 +33,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.google.android.material.button.MaterialButton;
@@ -104,9 +103,9 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
 
     private View pictureStreamContainer;
 
-    private Button btnLiveview;
+    private MaterialButton btnLiveview;
 
-    private ImageView streamToggle;
+    private MaterialButton streamToggle;
 
     private Runnable liveViewRestarterRunner;
 
@@ -138,7 +137,7 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         liveViewToggle = (MaterialButton) view.findViewById(R.id.liveViewToggle);
         histogramToggle = (MaterialButton) view.findViewById(R.id.histogramToggle);
         shootingModeView = (ImageView) view.findViewById(R.id.shootingModeView);
-        btnLiveview = (Button) view.findViewById(R.id.btn_liveview);
+        btnLiveview = (MaterialButton) view.findViewById(R.id.btn_liveview);
 
         btnLiveview.setOnClickListener(new OnClickListener() {
             @Override
@@ -189,16 +188,27 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         if (isPro) {
             gestureDetector = new GestureDetector(getActivity(), this);
 
-            liveView.setOnTouchListener(new OnTouchListener() {
+            liveView.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View v, MotionEvent event) {
-                    if (camera() == null) {
-                        return true;
-                    }
+                    if (camera() == null) return true;
+
                     gestureDetector.onTouch(event);
+
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        float x = liveView.calculatePictureX(event.getX());
+                        float y = liveView.calculatePictureY(event.getY());
+                        if (camera().isLiveViewAfAreaSupported()) {
+                            camera().setLiveViewAfArea(x, y);
+                            Toast.makeText(getContext(), "Focus at ("+x+","+y+")", Toast.LENGTH_SHORT).show();
+                        }
+                        v.performClick();
+                    }
                     return true;
                 }
             });
+
+
 
             liveViewToggle.setOnClickListener(new OnClickListener() {
                 @Override
@@ -271,21 +281,23 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
                 camera().retrievePicture(handle);
             });
             pictureStream.setAdapter(thumbnailAdapter);
-
-           pictureStream.setVisibility(View.GONE);
+            pictureStream.setVisibility(View.GONE);
             // 토글 버튼 (MaterialButton)
+            pictureStreamContainer = view.findViewById(R.id.picture_stream_container);
             MaterialButton pictureStreamToggle = view.findViewById(R.id.picture_stream_toggle);
+
+            pictureStreamContainer.setVisibility(View.GONE);
+            pictureStreamToggle.setIconResource(R.drawable.ic_chevron_right);
+
             pictureStreamToggle.setOnClickListener(v -> {
-                View containerView = view.findViewById(R.id.picture_stream_container);
-                if (containerView.getVisibility() == View.VISIBLE) {
-                    containerView.setVisibility(View.GONE);
-                    pictureStreamToggle.setIconResource(R.drawable.ic_chevron_left);
-                } else {
-                    containerView.setVisibility(View.VISIBLE);
+                if (pictureStreamContainer.getVisibility() == View.VISIBLE) {
+                    pictureStreamContainer.setVisibility(View.GONE);
                     pictureStreamToggle.setIconResource(R.drawable.ic_chevron_right);
+                } else {
+                    pictureStreamContainer.setVisibility(View.VISIBLE);
+                    pictureStreamToggle.setIconResource(R.drawable.ic_chevron_left);
                 }
             });
-
 
             liveViewRestarterRunner = new Runnable() {
                 @Override
@@ -363,7 +375,6 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         thumbnailAdapter.setMaxNumPictures(getSettings().getNumPicturesInStream());
         thumbnailAdapter.setShowFilename(getSettings().isShowFilenameInStream());
         boolean hasNoPictures = getSettings().getNumPicturesInStream() == 0;
-        pictureStreamContainer.setVisibility(hasNoPictures ? View.GONE : View.VISIBLE);
         liveView.setLiveViewData(null);
         if (camera() != null) {
             cameraStarted(camera());
@@ -629,6 +640,13 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
 
     @Override
     public void capturedPictureReceived(int objectHandle, String filename, Bitmap thumbnail, Bitmap bitmap) {
+        Log.d("CameraDebug", "capturedPictureReceived called");
+        Log.d("CameraDebug", "isPro = " + isPro);
+        Log.d("CameraDebug", "liveViewToggle.isChecked() = " + (liveViewToggle != null ? liveViewToggle.isChecked() : "null"));
+        Log.d("CameraDebug", "showCapturedPictureDurationManual = " + showCapturedPictureDurationManual);
+        Log.d("CameraDebug", "showCapturedPictureNever = " + showCapturedPictureNever);
+        Log.d("CameraDebug", "btnLiveview visibility before = " + btnLiveview.getVisibility());
+
         if (!inStart) {
             bitmap.recycle();
             return;
@@ -639,8 +657,10 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
                 handler.postDelayed(liveViewRestarterRunner, showCapturedPictureDuration);
             } else {
                 btnLiveview.setVisibility(View.VISIBLE);
+                Log.d("CameraDebug", "btnLiveview set to VISIBLE");
             }
         }
+
         thumbnailAdapter.addFront(objectHandle, filename, thumbnail);
         liveView.setPicture(bitmap);
         Toast.makeText(getActivity(), filename, Toast.LENGTH_SHORT).show();
@@ -652,6 +672,8 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
             Toast.makeText(getActivity(), "Error decoding picture. Try to reduce picture size in settings!",
                     Toast.LENGTH_LONG).show();
         }
+
+        Log.d("CameraDebug", "btnLiveview visibility after = " + btnLiveview.getVisibility());
     }
 
     @Override
@@ -677,7 +699,7 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         camera().setLiveView(liveViewToggle.isChecked());
         if (liveViewToggle.isChecked()) {
         } else {
-            handler.removeCallbacks(liveViewRestarterRunner);
+//            handler.removeCallbacks(liveViewRestarterRunner);
             btnLiveview.setVisibility(View.GONE);
             liveView.setLiveViewData(null);
             histogramToggle.setChecked(false);

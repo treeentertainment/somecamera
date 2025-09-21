@@ -1,18 +1,3 @@
-/**
- * Copyright 2013 Nils Assbeck, Guersel Ayaz and Michael Zoech
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package tech.treeentertainment.camera;
 
 import java.util.ArrayList;
@@ -24,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Scroller;
 
@@ -53,12 +39,24 @@ public class PictureView extends View {
     private final float af4[] = new float[4];
 
     private int viewWidth;
-
     private int viewHeight;
-
     private int pictureWidth;
-
     private int pictureHeight;
+
+    // --- 추가: 마지막 터치 좌표 저장 ---
+    private float lastTouchX = -1;
+    private float lastTouchY = -1;
+
+    // --- 추가: PictureView 클릭 리스너 인터페이스 ---
+    public interface OnPictureClickListener {
+        void onPictureClick(float x, float y);
+    }
+
+    private OnPictureClickListener pictureClickListener;
+
+    public void setOnPictureClickListener(OnPictureClickListener l) {
+        this.pictureClickListener = l;
+    }
 
     public PictureView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
@@ -96,9 +94,6 @@ public class PictureView extends View {
         } else {
             return posx / getWidth();
         }
-        // TODO
-        //posx -= dst.left;
-        //return posx / dst.width();
     }
 
     public float calculatePictureY(float posy) {
@@ -113,9 +108,6 @@ public class PictureView extends View {
         } else {
             return posy / getHeight();
         }
-        // TODO
-        //        posy -= dst.top;
-        //        return posy / dst.height();
     }
 
     public void setPicture(Bitmap picture) {
@@ -287,6 +279,29 @@ public class PictureView extends View {
                 canvas.drawLine(left, bottom, right, bottom, linePaint);
             }
         }
+    }
+
+    // --- 추가: performClick() 오버라이드 ---
+    @Override
+    public boolean performClick() {
+        super.performClick();
+        if (lastTouchX >= 0 && lastTouchY >= 0 && pictureClickListener != null) {
+            float px = calculatePictureX(lastTouchX);
+            float py = calculatePictureY(lastTouchY);
+            pictureClickListener.onPictureClick(px, py);
+        }
+        return true;
+    }
+
+    // --- 추가: onTouchEvent에서 터치 좌표 저장 ---
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        lastTouchX = event.getX();
+        lastTouchY = event.getY();
+        if (event.getAction() == MotionEvent.ACTION_UP) {
+            performClick(); // 터치 끝나면 클릭 처리
+        }
+        return false;
     }
 
     public void zoomAt(float pX, float pY, float distInPixel) {

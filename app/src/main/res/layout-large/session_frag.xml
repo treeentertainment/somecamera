@@ -63,21 +63,6 @@
         android:orientation="horizontal">
 
       <com.google.android.material.button.MaterialButton
-          android:id="@+id/focusBtn"
-          style="@style/Widget.MaterialComponents.Button"
-          android:layout_width="0dp"
-          android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:paddingBottom="30dp"
-          android:paddingTop="20dp"
-          android:text="@string/capture"
-          android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
-          app:backgroundTint="?attr/colorPrimary"
-          app:iconTint="?attr/colorOnPrimary"
-          android:textColor="?attr/colorOnPrimary"
-          app:strokeWidth="3dp"  />
-
-      <com.google.android.material.button.MaterialButton
           android:id="@+id/takePictureBtn"
           style="@style/Widget.MaterialComponents.Button"
           android:layout_width="0dp"
@@ -85,13 +70,29 @@
           android:layout_weight="1"
           android:paddingBottom="30dp"
           android:paddingTop="20dp"
-          android:text="@string/focus"
-          android:textAppearance="@style/TextAppearance.MaterialComponents.Button"
+          android:text="@string/capture"
+          android:textAppearance="@style/Widget.MaterialComponents.Button.OutlinedButton"
           app:backgroundTint="?attr/colorPrimary"
           app:iconTint="?attr/colorOnPrimary"
           android:textColor="?attr/colorOnPrimary"
           app:strokeWidth="3dp"
-      />
+          />
+
+      <com.google.android.material.button.MaterialButton
+          android:id="@+id/focusBtn"
+          style="@style/Widget.MaterialComponents.Button"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="1"
+          android:paddingBottom="30dp"
+          android:paddingTop="20dp"
+          android:text="@string/focus"
+          app:strokeWidth="3dp"
+          android:textAppearance="@style/Widget.MaterialComponents.Button.OutlinedButton"
+          app:backgroundTint="?attr/colorPrimary"
+          app:iconTint="?attr/colorOnPrimary"
+          android:textColor="?attr/colorOnPrimary"
+          />
     </LinearLayout>
   </LinearLayout>
 </LinearLayout>

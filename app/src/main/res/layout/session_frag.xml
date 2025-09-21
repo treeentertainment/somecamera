@@ -63,7 +63,7 @@
         android:orientation="horizontal">
 
       <com.google.android.material.button.MaterialButton
-          android:id="@+id/focusBtn"
+          android:id="@+id/takePictureBtn"
           style="@style/Widget.MaterialComponents.Button"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
@@ -79,7 +79,7 @@
       />
 
       <com.google.android.material.button.MaterialButton
-          android:id="@+id/takePictureBtn"
+          android:id="@+id/focusBtn"
           style="@style/Widget.MaterialComponents.Button"
           android:layout_width="0dp"
           android:layout_height="wrap_content"
