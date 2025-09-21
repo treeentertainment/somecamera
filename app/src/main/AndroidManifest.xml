@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="tech.treeentertainment.a_ucam"
+    package="tech.treeentertainment.camera"
   android:versionCode="10"
   android:versionName="0.3.0">
 
@@ -21,13 +21,13 @@
   <uses-permission android:name="android.permission.INTERNET"/>
 
   <application
-    android:name="tech.treeentertainment.a_ucam.RycApplication"
+    android:name="tech.treeentertainment.camera.RycApplication"
     android:icon="@mipmap/ic_launcher"
     android:label="@string/app_name"
     android:largeHeap="true"
-    android:theme="@style/Theme.RYC">
+    android:theme="@style/Theme.TeCam">
     <activity
-      android:name="tech.treeentertainment.a_ucam.MainActivity"
+      android:name="tech.treeentertainment.camera.MainActivity"
       android:configChanges="orientation"
       android:label="@string/launcher_label"
       android:launchMode="singleTask"
@@ -48,7 +48,7 @@
         android:resource="@xml/device_filter"/>
     </activity>
     <activity
-      android:name="tech.treeentertainment.a_ucam.activities.AppSettingsActivity"
+      android:name="tech.treeentertainment.camera.activities.AppSettingsActivity"
       android:label="@string/activity_app_settings_title" />
   </application>
 

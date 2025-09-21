@@ -18,11 +18,11 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent">
 
-  <tech.treeentertainment.a_ucam.PictureView
+  <tech.treeentertainment.camera.PictureView
     android:id="@+id/image1"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-  </tech.treeentertainment.a_ucam.PictureView>
+  </tech.treeentertainment.camera.PictureView>
 
   <ProgressBar
     android:id="@+id/progress"

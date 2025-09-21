@@ -8,14 +8,13 @@
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        android:background="?attr/colorPrimary">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light">
+            android:background="?attr/colorPrimary">
 
             <!-- 툴바 안에 카메라 이름 표시 -->
             <TextView
@@ -26,6 +25,7 @@
                 android:textStyle="bold"
                 android:ellipsize="end"
                 android:singleLine="true"
+                android:textColor="@color/contrastColor"
                 android:layout_gravity="center_vertical"/>
         </androidx.appcompat.widget.Toolbar>
 
@@ -34,11 +34,11 @@
             android:id="@+id/tabLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:tabIndicatorColor="@android:color/white"
-            app:tabSelectedTextColor="@android:color/white"
-            app:tabTextColor="@android:color/darker_gray" />
+            app:tabIndicatorColor="@color/contrastColor"
+            app:tabSelectedTextColor="@color/contrastColor"
+            app:tabTextColor="@color/contrastSecondaryColor"
+            app:tabRippleColor="@null" />
     </com.google.android.material.appbar.AppBarLayout>
-
 
     <!-- 실제 콘텐츠 부분 -->
     <LinearLayout

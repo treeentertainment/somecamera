@@ -17,14 +17,14 @@
 <resources>
 
   <!-- App specific, need to be overridden -->
-  <string name="app_name">TRANQUIL_EXPERT</string>
-  <string name="launcher_label">TRANQUIL_EXPERT_USB</string>
+  <string name="app_name">T EXPERT CAM</string>
+  <string name="launcher_label">T EXPERT CAM</string>
   <string name="ok">OK</string>
   <string name="cancel">Cancel</string>
 
   <!-- session -->
   <string name="focus">Focus</string>
-  <string name="capture">Capture</string>
+    <string name="capture">Capture</string>
   <string name="continue_liveview">Continue</string>
 
   <!-- property grid -->
@@ -44,8 +44,8 @@
   <string name="about_dialog_message">Remote Your Cam USB allows you to control your Canon DSLR camera via USB directly form your Android tablet.</string>
 
   <!-- feedback dialog -->
-  <string name="feedback_dialog_title">Help us improve TRANQUIL_EXPERT USB</string>
-  <string name="feedback_dialog_message">Want to help improving TRANQUIL_EXPERT USB? Then please give us feedback by sending us device information of your camera. Click the "Ok" button to open your preferred Email application.</string>
+  <string name="feedback_dialog_title">Help us improve T EXPERT CAM!</string>
+  <string name="feedback_dialog_message">Want to help improving the app? Then please give us feedback by sending us device information of your camera. Click the "Ok" button to open your preferred Email application.</string>
 
   <!-- no camera dialog -->
   <string name="dialog_no_camera_title">No camera found!</string>

@@ -1,0 +1,4 @@
+<resources>
+    <!-- 커스텀 속성 정의 -->
+    <attr name="colorContrast" format="color" />
+</resources>

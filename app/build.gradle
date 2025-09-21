@@ -4,8 +4,8 @@ plugins {
 
 android {
     defaultConfig {
-        applicationId "tech.treeentertainment.a_ucam"
-        namespace = "tech.treeentertainment.a_ucam"
+        applicationId "tech.treeentertainment.camera"
+        namespace = "tech.treeentertainment.camera"
         minSdk 21
         targetSdk 36
         versionCode 1

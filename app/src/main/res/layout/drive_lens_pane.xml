@@ -15,42 +15,54 @@
   limitations under the License.
 -->
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  android:layout_width="wrap_content"
-  android:layout_height="match_parent"
-  android:background="@color/propertyListBackground"
-  android:orientation="vertical">
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:background="@color/primaryColor"
+    android:orientation="vertical">
 
   <ImageButton
-    android:id="@+id/driveFocusFar3"
-    style="@style/DriveLensItem"
-    android:src="@drawable/arrow3"/>
+      android:id="@+id/driveFocusFar3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="15dp"
+      android:src="@drawable/arrow3"/>
 
   <ImageButton
-    android:id="@+id/driveFocusFar2"
-    style="@style/DriveLensItem"
-    android:src="@drawable/arrow2"/>
+      android:id="@+id/driveFocusFar2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="15dp"
+      android:src="@drawable/arrow2"/>
 
   <ImageButton
-    android:id="@+id/driveFocusFar1"
-    style="@style/DriveLensItem"
-    android:src="@drawable/arrow1"/>
+      android:id="@+id/driveFocusFar1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="15dp"
+      android:src="@drawable/arrow1"/>
 
   <ImageButton
-    android:id="@+id/driveFocusNear1"
-    style="@style/DriveLensItem"
-    android:rotation="180"
-    android:src="@drawable/arrow1"/>
+      android:id="@+id/driveFocusNear1"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="15dp"
+      android:rotation="180"
+      android:src="@drawable/arrow1"/>
 
   <ImageButton
-    android:id="@+id/driveFocusNear2"
-    style="@style/DriveLensItem"
-    android:rotation="180"
-    android:src="@drawable/arrow2"/>
+      android:id="@+id/driveFocusNear2"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="15dp"
+      android:rotation="180"
+      android:src="@drawable/arrow2"/>
 
   <ImageButton
-    android:id="@+id/driveFocusNear3"
-    style="@style/DriveLensItem"
-    android:rotation="180"
-    android:src="@drawable/arrow3"/>
+      android:id="@+id/driveFocusNear3"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:padding="15dp"
+      android:rotation="180"
+      android:src="@drawable/arrow3"/>
 
 </LinearLayout>

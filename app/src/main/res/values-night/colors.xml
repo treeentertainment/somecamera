@@ -1,0 +1,14 @@
+<resources>
+    <!-- 메인 색상 (어두운 모드 배경용) -->
+    <color name="primaryColor">#000000</color>
+    <color name="primaryVariant">#666666</color>
+    <color name="secondaryColor">#666666</color>
+
+    <!-- 대비용 텍스트 색상 -->
+    <color name="contrastColor">#FFFFFF</color>
+    <color name="contrastSecondaryColor">#666666</color>
+
+
+    <color name="colorPrimary">@color/primaryColor</color>
+    <color name="colorOnPrimary">@color/contrastColor</color>
+</resources>
