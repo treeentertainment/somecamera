@@ -1,4 +1,4 @@
-## tranquil_expert
+## TRANQUIL_EXPERT
 
 > [!NOTE]
 > This repository is a fork of [michaelzoech/remoteyourcam-usb](https://github.com/michaelzoech/remoteyourcam-usb)
