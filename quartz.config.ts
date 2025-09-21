@@ -7,7 +7,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "tranquil_expert",
+    pageTitle: "TRANQUIL_EXPERT",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
