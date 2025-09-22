@@ -1,28 +1,19 @@
-/**
- * Copyright 2013 Nils Assbeck, Guersel Ayaz and Michael Zoech
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package tech.treeentertainment.camera.view;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import android.os.Environment;
+import android.net.Uri;
+import android.content.Intent;
+import java.io.File;
+import java.io.FileOutputStream;
 
 import android.util.Log;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import androidx.preference.PreferenceManager;
 import android.content.SharedPreferences.Editor;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -31,9 +22,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -70,8 +59,8 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
     private MaterialButton driveLensToggle;
     private ImageView shootingModeView;
 
-    private Button focusBtn;
-    private Button takePictureBtn;
+    private MaterialButton focusBtn;
+    private MaterialButton takePictureBtn;
     private PictureView liveView;
     private TextView availableShotsText;
     private TextView focusModeText;
@@ -125,8 +114,8 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         this.inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
         leftPropertiesView = (LinearLayout) view.findViewById(R.id.leftPropertiesLayout);
-        focusBtn = (Button) view.findViewById(R.id.focusBtn);
-        takePictureBtn = (Button) view.findViewById(R.id.takePictureBtn);
+        focusBtn = (MaterialButton) view.findViewById(R.id.focusBtn);
+        takePictureBtn = (MaterialButton) view.findViewById(R.id.takePictureBtn);
         liveView = (PictureView) view.findViewById(R.id.liveView);
         availableShotsText = (TextView) view.findViewById(R.id.availableShotsText);
         batteryLevelView = (ImageView) view.findViewById(R.id.batteryLevelIcon);
@@ -178,12 +167,61 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
                 onFocusClicked(v);
             }
         });
-        takePictureBtn.setOnClickListener(new OnClickListener() {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        String triggerMode = prefs.getString("capture_trigger_mode", "single_click");
+        String singleClickMode = prefs.getString("single_click_mode", "liveview");
+        String longPressMode = prefs.getString("long_press_mode", "high_quality");
+        String doubleClickMode = prefs.getString("double_click_mode", "high_quality");
+
+        takePictureBtn.setOnTouchListener(new View.OnTouchListener() {
+            private long pressStartTime;
+            private long lastClickTime = 0;
+            private final int DOUBLE_CLICK_THRESHOLD = 300; // ms
+
             @Override
-            public void onClick(View v) {
-                onTakePictureClicked(v);
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        pressStartTime = System.currentTimeMillis();
+                        return true;
+
+                    case MotionEvent.ACTION_UP:
+                        v.performClick();
+                        long pressDuration = System.currentTimeMillis() - pressStartTime;
+
+                        switch (triggerMode) {
+                            case "single_click":
+                                camera().capture(singleClickMode.equals("high_quality")
+                                        ? Camera.CAPTURE_HIGH_QUALITY
+                                        : Camera.CAPTURE_DEFAULT);
+                                break;
+
+                            case "long_press":
+                                if (pressDuration >= getCaptureHoldThreshold()) {
+                                    camera().capture(longPressMode.equals("high_quality")
+                                            ? Camera.CAPTURE_HIGH_QUALITY
+                                            : Camera.CAPTURE_DEFAULT);
+                                }
+                                break;
+
+                            case "double_click":
+                                long now = System.currentTimeMillis();
+                                if (now - lastClickTime <= DOUBLE_CLICK_THRESHOLD) {
+                                    camera().capture(doubleClickMode.equals("high_quality")
+                                            ? Camera.CAPTURE_HIGH_QUALITY
+                                            : Camera.CAPTURE_DEFAULT);
+                                }
+                                lastClickTime = now;
+                                break;
+                        }
+                        return true;
+                }
+                return false;
             }
         });
+
+
 
         if (isPro) {
             gestureDetector = new GestureDetector(getActivity(), this);
@@ -325,6 +363,7 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         leftPropertiesView.addView(displayer.getList());
     }
 
+
     @Override
     public void onLongTouch(float posx, float posy) {
         if (camera() == null) {
@@ -344,6 +383,19 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
                 }
             }
         }
+    }
+
+    private int getCaptureHoldThreshold() {
+        // 기본값 2초
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
+        String valueStr = prefs.getString("capture_hold_seconds", "2");
+        int thresholdSeconds = 2;
+        try {
+            thresholdSeconds = Integer.parseInt(valueStr);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return thresholdSeconds * 1000; // ms 단위로 변환
     }
 
     @Override
@@ -641,39 +693,65 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
     @Override
     public void capturedPictureReceived(int objectHandle, String filename, Bitmap thumbnail, Bitmap bitmap) {
         Log.d("CameraDebug", "capturedPictureReceived called");
-        Log.d("CameraDebug", "isPro = " + isPro);
-        Log.d("CameraDebug", "liveViewToggle.isChecked() = " + (liveViewToggle != null ? liveViewToggle.isChecked() : "null"));
-        Log.d("CameraDebug", "showCapturedPictureDurationManual = " + showCapturedPictureDurationManual);
-        Log.d("CameraDebug", "showCapturedPictureNever = " + showCapturedPictureNever);
-        Log.d("CameraDebug", "btnLiveview visibility before = " + btnLiveview.getVisibility());
 
-        if (!inStart) {
-            bitmap.recycle();
+        if (!inStart || bitmap == null) {
+            if (bitmap != null) bitmap.recycle();
             return;
         }
+
         showsCapturedPicture = true;
+
+        // LiveView 캡처 확인: objectHandle == -1 또는 filename이 "liveview_"로 시작
+        boolean isLiveViewCapture = (objectHandle == -1 || (filename != null && filename.startsWith("liveview_")));
+        if (isLiveViewCapture) {
+            saveLiveViewBitmap(bitmap, filename); // 저장
+        }
+
+        // 기존 thumbnail 처리
+        if (objectHandle != -1 && thumbnail != null) {
+            thumbnailAdapter.addFront(objectHandle, filename, thumbnail);
+        }
+
+        // LiveView에 보여주기
+        liveView.setPicture(bitmap);
+
+        // Toast로 파일명 표시
+        Toast.makeText(getActivity(), filename, Toast.LENGTH_SHORT).show();
+
+        if (currentCapturedBitmap != null && currentCapturedBitmap != bitmap) {
+            currentCapturedBitmap.recycle();
+        }
+        currentCapturedBitmap = bitmap;
+
+        // LiveView 관련 UI 처리
         if (isPro && liveViewToggle.isChecked()) {
             if (!showCapturedPictureDurationManual && !showCapturedPictureNever) {
                 handler.postDelayed(liveViewRestarterRunner, showCapturedPictureDuration);
             } else {
                 btnLiveview.setVisibility(View.VISIBLE);
-                Log.d("CameraDebug", "btnLiveview set to VISIBLE");
             }
         }
+    }
 
-        thumbnailAdapter.addFront(objectHandle, filename, thumbnail);
-        liveView.setPicture(bitmap);
-        Toast.makeText(getActivity(), filename, Toast.LENGTH_SHORT).show();
-        if (currentCapturedBitmap != null) {
-            currentCapturedBitmap.recycle();
-        }
-        currentCapturedBitmap = bitmap;
-        if (bitmap == null) {
-            Toast.makeText(getActivity(), "Error decoding picture. Try to reduce picture size in settings!",
-                    Toast.LENGTH_LONG).show();
-        }
+    private void saveLiveViewBitmap(Bitmap bmp, String filename) {
+        try {
+            File file = new File(getContext().getExternalFilesDir(Environment.DIRECTORY_PICTURES), filename);
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 90, out);
+            out.flush();
+            out.close();
 
-        Log.d("CameraDebug", "btnLiveview visibility after = " + btnLiveview.getVisibility());
+            // 갤러리 등록
+            Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+            Uri contentUri = Uri.fromFile(file);
+            mediaScanIntent.setData(contentUri);
+            getContext().sendBroadcast(mediaScanIntent);
+
+            Log.d("CameraDebug", "LiveView saved: " + file.getAbsolutePath());
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("CameraDebug", "Failed to save LiveView: " + e.getMessage());
+        }
     }
 
     @Override
@@ -711,15 +789,6 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
     public void onFocusClicked(View view) {
         camera().focus();
     }
-
-    public void onTakePictureClicked(View view) {
-        // TODO necessary
-        //liveView.setLiveViewData(null);
-        camera().capture();
-        justCaptured = true;
-        handler.postDelayed(justCapturedResetRunner, 500);
-    }
-
     public void onDriveLensNear3(View v) {
         camera().driveLens(DriveLens.Near, DriveLens.Hard);
     }

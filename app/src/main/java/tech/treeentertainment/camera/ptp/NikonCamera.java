@@ -247,7 +247,6 @@ public class NikonCamera extends PtpCamera {
         queue.add(new NikonAfDriveCommand(this));
     }
 
-    @Override
     public void capture() {
         if (liveViewOpen) {
             queue.add(new NikonStopLiveViewAction(this, false));

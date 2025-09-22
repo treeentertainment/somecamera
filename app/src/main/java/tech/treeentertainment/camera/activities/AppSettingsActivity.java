@@ -1,20 +1,30 @@
 package tech.treeentertainment.camera.activities;
 
-import android.content.Context;
 import android.os.Bundle;
-import android.preference.PreferenceActivity;
-import android.preference.PreferenceManager;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.PreferenceFragmentCompat;
 
 import tech.treeentertainment.camera.R;
 
-public class AppSettingsActivity extends PreferenceActivity {
+public class AppSettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getPreferenceManager().setSharedPreferencesMode(Context.MODE_PRIVATE);
-        getPreferenceManager().setSharedPreferencesName("app_settings");
-        PreferenceManager.setDefaultValues(this, R.xml.app_settings_preferences, false);
-        addPreferencesFromResource(R.xml.app_settings_preferences);
+        // SettingsFragment 를 content view 로 붙임
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, new SettingsFragment())
+                .commit();
+    }
+
+    public static class SettingsFragment extends PreferenceFragmentCompat {
+
+        @Override
+        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+            // XML 기반 preference 불러오기
+            setPreferencesFromResource(R.xml.app_settings_preferences, rootKey);
+        }
     }
 }

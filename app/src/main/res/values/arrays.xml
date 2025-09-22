@@ -68,5 +68,27 @@
     <item>2</item>
     <item>4</item>
   </string-array>
+  <string-array name="capture_trigger_entries">
+    <item>한 번 클릭</item>
+    <item>길게 누름</item>
+    <item>더블 클릭</item>
+  </string-array>
+
+  <string-array name="capture_trigger_values">
+    <item>single_click</item>
+    <item>long_press</item>
+    <item>double_click</item>
+  </string-array>
+
+  <string-array name="capture_mode_entries">
+    <item>LiveView</item>
+    <item>High Quality</item>
+  </string-array>
+
+  <string-array name="capture_mode_values">
+    <item>liveview</item>
+    <item>high_quality</item>
+  </string-array>
+
 
 </resources>

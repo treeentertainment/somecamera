@@ -89,4 +89,7 @@
   <string name="crash_dialog_comment_prompt">You might add your comments about the problem below or add your email address so we can contact:</string>
   <string name="crash_dialog_ok_toast">Thank you!</string>
 
+  <string name="pref_category_capture_title">캡처 설정</string>
+  <string name="pref_capture_button_hold_seconds_label">버튼 길게 누르는 시간</string>
+  <string name="pref_capture_button_hold_seconds_summary">이 시간 이상 누르면 정식 캡처, 짧게 누르면 라이브뷰 캡처</string>
 </resources>

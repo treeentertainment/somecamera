@@ -1,25 +1,12 @@
-/**
- * Copyright 2013 Nils Assbeck, Guersel Ayaz and Michael Zoech
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package tech.treeentertainment.camera.ptp.model;
 
 import java.nio.ByteBuffer;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 public class LiveViewData {
+    public byte[] jpegData;
 
     public Bitmap bitmap;
 
@@ -41,4 +28,17 @@ public class LiveViewData {
 
     public int nikonWholeWidth;
     public int nikonWholeHeight;
+
+    /**
+     * jpegData → Bitmap 변환
+     */
+    public Bitmap createBitmap() {
+        if (bitmap != null) {
+            return bitmap; // 이미 만들어진 경우
+        }
+        if (jpegData != null) {
+            bitmap = BitmapFactory.decodeByteArray(jpegData, 0, jpegData.length);
+        }
+        return bitmap;
+    }
 }

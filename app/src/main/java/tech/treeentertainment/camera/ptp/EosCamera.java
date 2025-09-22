@@ -84,7 +84,6 @@ public class EosCamera extends PtpCamera {
         //queue.add(new SimpleCommand(this, Operation.EosRemoteReleaseOn, 1, 0));
     }
 
-    @Override
     public void capture() {
         if (isBulbCurrentShutterSpeed()) {
             queue.add(new SimpleCommand(this, cameraIsCapturing ? Operation.EosBulbEnd : Operation.EosBulbStart));

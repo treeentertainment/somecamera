@@ -807,12 +807,38 @@ public abstract class PtpCamera implements Camera {
         }
     }
 
-    @Override
-    public void capture() {
-        queue.add(new InitiateCaptureCommand(this));
-    }
 
     @Override
+    public void capture(int mode) {
+        if (mode == CAPTURE_HIGH_QUALITY) {
+            queue.add(new InitiateCaptureCommand(this));
+        } else if (mode == CAPTURE_DEFAULT) {
+            // LiveView 프레임 캡쳐
+            LiveViewData frame = new LiveViewData();
+            getLiveViewPicture(frame);
+            Bitmap bmp = frame.createBitmap();
+            if (bmp != null) {
+                // 1. mutable 복사
+                bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
+
+                // 2. 휴대폰 저장
+                // 3. Fragment listener 호출
+                if (listener != null) {
+                    int handle = (int) System.currentTimeMillis();
+                    listener.onCapturedPictureReceived(
+                            handle,
+                            "liveview_" + handle + ".jpg",
+                            bmp,
+                            bmp
+                    );
+                }
+            }
+        }
+    }
+
+
+
+        @Override
     public boolean isAutoFocusSupported() {
         return autoFocusSupported;
     }

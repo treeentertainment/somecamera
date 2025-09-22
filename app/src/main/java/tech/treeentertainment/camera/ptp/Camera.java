@@ -24,6 +24,9 @@ import tech.treeentertainment.camera.ptp.model.LiveViewData;
 import tech.treeentertainment.camera.ptp.model.ObjectInfo;
 
 public interface Camera {
+    int CAPTURE_DEFAULT = 0;
+    int CAPTURE_HIGH_QUALITY = 1;
+
 
     public static class Property {
         public static final int ShutterSpeed = 1;
@@ -100,6 +103,7 @@ public interface Camera {
 
     // callbacks aren't on UI thread
     public interface StorageInfoListener {
+
         void onStorageFound(int handle, String label);
 
         void onAllStoragesFound();
@@ -141,7 +145,7 @@ public interface Camera {
 
     boolean isAutoFocusSupported();
 
-    void capture();
+    void capture(int captureMode); // 확장
 
     boolean isLiveViewSupported();
 
@@ -186,4 +190,5 @@ public interface Camera {
     void retrieveImageInfo(RetrieveImageInfoListener listener, int objectHandle);
 
     void retrieveImage(RetrieveImageListener listener, int objectHandle);
+
 }
