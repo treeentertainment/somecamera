@@ -32,10 +32,10 @@ jobs:
       - name: Download latest artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: build.yml              # build.yml 결과물
+          workflow: build.yml             
           workflow_conclusion: success
-          name: app-release-apk            # build.yml 에서 업로드한 artifact 이름
-          path: extracted                  # 추출될 위치 (자동으로 unzip 됨)
+          name: app-release-apk            
+          path: extracted                  
 
       - name: Check extracted files
         run: ls -R extracted
@@ -47,6 +47,6 @@ jobs:
           name: ${{ github.event.inputs.release_title }}
           body: ${{ github.event.inputs.release_body }}
           draft: ${{ github.event.inputs.draft }}
-          files: extracted/app-release-signed.apk   # APK 파일 경로
+          files: extracted/app-release.apk   # APK 파일 경로
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
