@@ -1,0 +1,43 @@
+name: Bug Report
+description: Submit bugs using this form.
+title: "🐛 [BUG]: "
+labels: ["bug"]
+fields:
+- type: "textarea"
+  attributes:
+    label: "Description"
+    description: "Give a concise description of the problem"
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Expected outcome"
+    description: "What did you expect to happen instead?"
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Current outcome"
+    description: "What did actually happened?"
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Minimal Reproducible Example"
+    description: "Provide an example that reproduces the issue, either as a code snippet or a link."
+  validations:
+    required: true
+- type: "textarea"
+  attributes:
+    label: "Anything else to describe?"
+    description: "You can add links or related stackoverflow issue to fix this issue"
+  validations:
+    required: false
+- type: "checkboxes"
+  attributes:
+    label: "I didn't found any similar issues or pull requests"
+    options:
+    - label: "yes"
+      required: true
+  validations:
+    required: false
