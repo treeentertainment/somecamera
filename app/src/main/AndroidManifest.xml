@@ -1,9 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="tech.treeentertainment.camera"
-  android:versionCode="10"
-  android:versionName="0.3.0">
+    xmlns:tools="http://schemas.android.com/tools">
 
   <uses-feature android:name="android.hardware.usb.host"/>
 
@@ -22,7 +19,7 @@
 
   <application
     android:name="tech.treeentertainment.camera.RycApplication"
-    android:icon="@mipmap/ic_launcher"
+    android:icon="@mipmap/somecamera_logo_icon"
     android:label="@string/app_name"
     android:largeHeap="true"
     android:theme="@style/Theme.TeCam">
