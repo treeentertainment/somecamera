@@ -1,0 +1,49 @@
+name: Release APK from latest build
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag_name:
+        description: "Release tag (e.g. v1.0.0)"
+        required: true
+        default: "V1.0.0"
+      release_title:
+        description: "Release title"
+        required: true
+        default: "V"
+      release_body:
+        description: "Release notes / content"
+        required: true
+        default: "Changelog goes here..."
+      draft:
+        description: "Create as draft?"
+        required: true
+        default: "false"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download latest artifact
+        uses: dawidd6/action-download-artifact@v2
+        with:
+          workflow: build.yml   # your build workflow filename
+          workflow_conclusion: success
+          name: app-release     # must match artifact name in build.yml
+          path: .
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.inputs.tag_name }}
+          name: ${{ github.event.inputs.release_title }}
+          body: ${{ github.event.inputs.release_body }}
+          draft: ${{ github.event.inputs.draft }}
+          files: app-release.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
