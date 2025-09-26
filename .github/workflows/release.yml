@@ -6,7 +6,7 @@ on:
       tag_name:
         description: "Release tag (e.g. v1.0.0)"
         required: true
-        default: "V1.0.0"
+        default: "V"
       release_title:
         description: "Release title"
         required: true
@@ -14,7 +14,7 @@ on:
       release_body:
         description: "Release notes / content"
         required: true
-        default: "Changelog goes here..."
+        default: ""
       draft:
         description: "Create as draft?"
         required: true
@@ -38,7 +38,7 @@ jobs:
           path: .
 
       - name: Unzip artifact
-        run: unzip app-release-apk.zip -d extracted
+        run: unzip app-release-apk -d extracted
 
       - name: Check extracted files
         run: ls -R extracted
