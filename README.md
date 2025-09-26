@@ -17,7 +17,7 @@
 >     click B "https://github.com/treeentertainment/somecamera" "Go to somecamera"
 > ```
 
-### Features
+## Features
 
 | Feature                                | Nikon | Canon |
 | -------------------------------------- | :---: | :---: |
