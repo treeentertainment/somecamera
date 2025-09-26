@@ -7,7 +7,7 @@ import * as Plugin from "./quartz/plugins"
  */
 const config: QuartzConfig = {
   configuration: {
-    pageTitle: "TRANQUIL_EXPERT",
+    pageTitle: "SomeCamera",
     pageTitleSuffix: "",
     enableSPA: true,
     enablePopovers: true,
