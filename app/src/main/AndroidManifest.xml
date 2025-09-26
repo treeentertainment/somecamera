@@ -3,13 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools">
 
   <uses-feature android:name="android.hardware.usb.host"/>
-
-  <supports-screens
-    android:largeScreens="true"
-    android:normalScreens="true"
-    android:smallScreens="false"
-    android:xlargeScreens="true"/>
-
   <!-- For Feedback -->
   <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
       android:maxSdkVersion="32"
@@ -22,7 +15,7 @@
     android:icon="@mipmap/somecamera_logo_icon"
     android:label="@string/app_name"
     android:largeHeap="true"
-    android:theme="@style/Theme.TeCam">
+    android:theme="@style/Theme.SomeCamera">
     <activity
       android:name="tech.treeentertainment.camera.MainActivity"
       android:configChanges="orientation"
