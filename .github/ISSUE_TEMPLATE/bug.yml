@@ -1,43 +1,97 @@
-name: Bug Report
-description: Submit bugs using this form.
-title: "🐛 [BUG]: "
-labels: ["bug"]
-fields:
-- type: "textarea"
-  attributes:
-    label: "Description"
-    description: "Give a concise description of the problem"
-  validations:
-    required: true
-- type: "textarea"
-  attributes:
-    label: "Expected outcome"
-    description: "What did you expect to happen instead?"
-  validations:
-    required: true
-- type: "textarea"
-  attributes:
-    label: "Current outcome"
-    description: "What did actually happened?"
-  validations:
-    required: true
-- type: "textarea"
-  attributes:
-    label: "Minimal Reproducible Example"
-    description: "Provide an example that reproduces the issue, either as a code snippet or a link."
-  validations:
-    required: true
-- type: "textarea"
-  attributes:
-    label: "Anything else to describe?"
-    description: "You can add links or related stackoverflow issue to fix this issue"
-  validations:
-    required: false
-- type: "checkboxes"
-  attributes:
-    label: "I didn't found any similar issues or pull requests"
-    options:
-    - label: "yes"
+name: bug report form
+description: report bugs using this form
+title: '🐛 [BUG]:'
+labels:
+  - bug
+body:
+  - type: textarea
+    id: when
+    attributes:
+      label: When?
+      description: When did the error or bug happened?
+    validations:
       required: true
-  validations:
-    required: false
+  - type: textarea
+    id: how
+    attributes:
+      label: How?
+      description: How to reproduce or again see the error
+    validations:
+      required: true
+  - type: dropdown
+    id: android_version
+    attributes:
+      label: What android version?
+      description: On what android version?
+      multiple: true
+      options:
+        - '5'
+        - '6'
+        - '7'
+        - '8'
+        - '9'
+        - '10'
+        - '11'
+        - '12'
+        - '13'
+        - '14'
+        - '15'
+        - '16'
+    validations:
+      required: true
+  - type: dropdown
+    id: app_version
+    attributes:
+      label: What app version?
+      description: What version is the app on?
+      multiple: true
+      options:
+        - V0.0.1
+    validations:
+      required: true
+  - type: textarea
+    id: why
+    attributes:
+      label: Why?
+      description: Why do this issue appropriate and must be fixed?
+    validations:
+      required: true
+  - type: textarea
+    id: lastwords
+    attributes:
+      label: Any last words?
+      description: You can write additional informations
+      value: 'no'
+    validations:
+      required: true
+  - type: checkboxes
+    id: check1
+    attributes:
+      label: >-
+        I checked that there were no issue related and this issue is unique to
+        this project
+      options:
+        - label: 'yes'
+          required: false
+  - type: checkboxes
+    id: check2
+    attributes:
+      label: You didn't used any words that aren't appropriate
+      options:
+        - label: 'yes'
+          required: true
+  - type: markdown
+    attributes:
+      value: >-
+        if this issue violates the github terms, you won't be able to write
+        additional words or contributions to this repo and if it violates very
+        badly then we will call github support and take the step of the report
+        process
+  - type: markdown
+    attributes:
+      value: Please make sure you're not violating the github rules and now submit!
+  - type: markdown
+    attributes:
+      value: >-
+        This template was generated with [Issue Forms
+        Creator](https://issue-forms-creator.netlify.app)
