@@ -72,7 +72,7 @@ body:
         this project
       options:
         - label: 'yes'
-          required: false
+          required: true
   - type: checkboxes
     id: check2
     attributes:
