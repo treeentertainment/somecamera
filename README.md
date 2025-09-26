@@ -1,4 +1,4 @@
-## TRANQUIL_EXPERT
+## SOME CAMERA
 
 > [!NOTE]
 > This repository is a fork of [michaelzoech/remoteyourcam-usb](https://github.com/michaelzoech/remoteyourcam-usb)
@@ -6,10 +6,10 @@
 > ```mermaid
 > graph LR;
 >
->     A[fa:fa-github Remote Your Cam OSS] -->|FORK| B[fa:fa-github TRANQUIL_EXPERT]
+>     A[fa:fa-github Remote Your Cam OSS] -->|FORK| B[fa:fa-github SomeCamera]
 >
 >     click A "https://github.com/michaelzoech/remoteyourcam-usb" "Go to Remote Your Cam OSS"
->     click B "https://github.com/treeentertainment/tranquil_expert" "Go to tranquil_expert"
+>     click B "https://github.com/treeentertainment/somecamera" "Go to somecamera"
 > ```
 
 ### Features
