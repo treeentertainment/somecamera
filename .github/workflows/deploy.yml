@@ -39,14 +39,17 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      # README.md 와 docs/ → Quartz content/ 로 복사
       - name: Prepare content
         run: |
           mkdir -p content
-          cp README.md content/index.md
           rm -rf content/docs
           cp -r docs content/docs
-
+      
+          # README.md 첫 번째 heading 추출 → title 로 사용
+          TITLE=$(grep -m1 '^## ' README.md | sed 's/^## //')
+          echo -e "---\ntitle: \"${TITLE}\"\n---\n" > content/index.md
+          cat README.md >> content/index.md
+          
       - name: Build Quartz
         run: npx quartz build --output public
 
