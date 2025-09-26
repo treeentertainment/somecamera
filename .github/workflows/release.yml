@@ -32,10 +32,16 @@ jobs:
       - name: Download latest artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: build.yml   # your build workflow filename
+          workflow: build.yml   # build.yml 결과물
           workflow_conclusion: success
-          name: app-release     # must match artifact name in build.yml
+          name: app-release-apk     # build.yml 에서 업로드한 artifact 이름
           path: .
+
+      - name: Unzip artifact
+        run: unzip app-release-apk.zip -d extracted
+
+      - name: Check extracted files
+        run: ls -R extracted
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
@@ -44,6 +50,7 @@ jobs:
           name: ${{ github.event.inputs.release_title }}
           body: ${{ github.event.inputs.release_body }}
           draft: ${{ github.event.inputs.draft }}
-          files: app-release.apk
+          files: extracted/app-release-signed.apk   # 실제 APK 파일 이름 확인 필요
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
