@@ -21,7 +21,11 @@ export const defaultContentPageLayout: PageLayout = {
       condition: (page) => page.fileData.slug !== "",
     }),
     Component.ArticleTitle(),
-    Component.ContentMeta(),
+    Component.ContentMeta({
+      showDate: false,
+      showUpdated: false,
+      showTags: true,
+    }),
     Component.TagList(),
   ],
   left: [
