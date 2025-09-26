@@ -1,6 +1,6 @@
 ## SOME CAMERA
 
-<img src="https://github.com/treeentertainment/somecamera/blob/main/logo.png" width="200" height="200">
+<img src="https://github.com/treeentertainment/somecamera/blob/main/logo.png?raw=true" width="200" height="200">
 
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/treeentertainment/somecamera/build.yml?style=for-the-badge)
 ](https://github.com/treeentertainment/somecamera/actions/workflows/build.yml)
