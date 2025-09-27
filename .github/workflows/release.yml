@@ -12,9 +12,10 @@ on:
         required: true
         default: "V"
       release_body:
-        description: "Release notes / content"
+        description: "Release notes / content (HTML one line)"
         required: true
         default: ""
+        type: string
       draft:
         description: "Create as draft?"
         required: true
@@ -32,21 +33,27 @@ jobs:
       - name: Download latest artifact
         uses: dawidd6/action-download-artifact@v2
         with:
-          workflow: build.yml             
+          workflow: build.yml
           workflow_conclusion: success
-          name: app-release-apk            
-          path: extracted                  
+          name: app-release-apk
+          path: extracted
 
-      - name: Check extracted files
-        run: ls -R extracted
+      - name: Install tidy-html5
+        run: sudo apt-get update && sudo apt-get install -y tidy
+
+      - name: Format release notes with tidy
+        run: |
+          echo "${{ github.event.inputs.release_body }}" > raw_release_body.html
+          tidy -indent -wrap 0 -quiet -o release_body.html raw_release_body.html || true
+          cat release_body.html
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
           tag_name: ${{ github.event.inputs.tag_name }}
           name: ${{ github.event.inputs.release_title }}
-          body: ${{ github.event.inputs.release_body }}
+          body_path: release_body.html
           draft: ${{ github.event.inputs.draft }}
-          files: extracted/app-release.apk   # APK 파일 경로
+          files: extracted/app-release.apk
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
