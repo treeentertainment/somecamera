@@ -4,7 +4,7 @@
 
   <dimen name="gridPropertyWidth">100dp</dimen>
   <dimen name="gridPropertyHeight">80dp</dimen>
-  <dimen name="pictureStreamWidth">200dp</dimen>
+  <dimen name="pictureStreamWidth">30dp</dimen>
   <dimen name="webviewDialogHeight">400dp</dimen>
   <dimen name="gallery_column_width">240dp</dimen>
   <dimen name="gallery_spacing">10dp</dimen>

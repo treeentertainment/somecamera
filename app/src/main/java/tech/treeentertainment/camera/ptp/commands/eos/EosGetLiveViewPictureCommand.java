@@ -45,7 +45,7 @@ public class EosGetLiveViewPictureCommand extends EosCommand {
             camera.onDeviceBusy(this, true);
             return;
         }
-        if (this.data.bitmap != null && responseCode == Response.Ok) {
+        if (this.data.getBitmap() != null && responseCode == Response.Ok) {
             camera.onLiveViewReceived(data);
         } else {
             camera.onLiveViewReceived(null);
@@ -103,7 +103,7 @@ public class EosGetLiveViewPictureCommand extends EosCommand {
                             if (bitmap != null && !bitmap.isMutable()) {
                                 bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
                             }
-                            data.bitmap = bitmap;
+                            data.setBitmap(bitmap);
                         } else {
                             Log.w(TAG, "JPEG markers not found in EOS sub-block");
                         }

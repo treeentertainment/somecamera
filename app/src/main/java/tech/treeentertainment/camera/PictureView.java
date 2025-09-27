@@ -129,7 +129,7 @@ public class PictureView extends View {
         this.reset = this.data == null || data == null;
         this.data = data;
         if (data != null) {
-            this.picture = data.bitmap;
+            this.picture = data.getBitmap();
         }
         if (this.picture == null) {
             scroller.abortAnimation();

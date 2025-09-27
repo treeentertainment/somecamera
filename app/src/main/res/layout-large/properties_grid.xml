@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <TableRow>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/liveViewToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/live"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/histogramToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/hist"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/driveLensToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/lens"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+    </TableRow>
+
+    <TableRow>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/shutterSpeedToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/shutter"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/apertureValueToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/aperture"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/isoSpeedToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/iso_label"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+    </TableRow>
+
+    <TableRow>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/whitebalanceToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/wb_label"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/colorTemperatureToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/temp_label"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/pictureStyleToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/style_label"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+    </TableRow>
+
+    <TableRow>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/meteringModeToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/meter_label"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/focusMeteringModeToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/f_meter_label"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/focusPointsToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/af_label"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+    </TableRow>
+
+    <TableRow>
+
+        <tech.treeentertainment.camera.PropertyToggle
+            android:id="@+id/exposureCompensationToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:text="@string/exp_label"
+            android:checkable="true"
+            app:cornerRadius="0dp"/>
+
+        <View
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"/>
+
+        <ImageView
+            android:id="@+id/shootingModeView"
+            android:layout_width="@dimen/gridPropertyWidth"
+            android:layout_height="@dimen/gridPropertyHeight"
+            android:gravity="center"/>
+    </TableRow>
+
+</TableLayout>

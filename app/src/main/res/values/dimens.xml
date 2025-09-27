@@ -3,7 +3,7 @@
 
   <dimen name="gridPropertyWidth">60dp</dimen>
   <dimen name="gridPropertyHeight">48dp</dimen>
-  <dimen name="pictureStreamWidth">120dp</dimen>
+  <dimen name="pictureStreamWidth">30dp</dimen>
   <dimen name="webviewDialogHeight">240dp</dimen>
   <dimen name="gallery_column_width">120dp</dimen>
   <dimen name="gallery_spacing">3dp</dimen>

@@ -7,7 +7,7 @@
 
   <!-- session -->
   <string name="focus">Focus</string>
-    <string name="capture">Capture</string>
+  <string name="capture">Capture</string>
   <string name="continue_liveview">Continue</string>
 
   <!-- property grid -->
@@ -28,7 +28,7 @@
 
   <!-- feedback dialog -->
   <string name="feedback_dialog_title">Help us improve T EXPERT CAM!</string>
-  <string name="feedback_dialog_message">Want to help improving the app? Then please give us feedback by sending us device information of your camera. Click the "Ok" button to open your preferred Email application.</string>
+  <string name="feedback_dialog_message">Want to help improving the app? Then please give us feedback by sending us device information of your camera. Click the "OK" button to open your preferred Email application.</string>
 
   <!-- no camera dialog -->
   <string name="dialog_no_camera_title">No camera found!</string>
@@ -64,8 +64,8 @@
   <string name="pref_memory_picture_size_summary">Size of captured pictures in Live View and Gallery</string>
 
   <!-- acra -->
-  <string name="crash_notif_ticker_text">Unexpected error, please send a report...</string>
-  <string name="crash_notif_title">SOME CAMERA has crashed...</string>
+  <string name="crash_notif_ticker_text">Unexpected error, please send a report…</string>
+  <string name="crash_notif_title">SOME CAMERA has crashed…</string>
   <string name="crash_notif_text">Please click here to help fix the issue.</string>
   <string name="crash_dialog_title">SOME CAMERA USB has crashed</string>
   <string name="crash_dialog_text">An unexpected error occurred forcing the application to stop. Please help us fix this by sending us error data, all you have to do is click \'OK\'.</string>
@@ -75,4 +75,17 @@
   <string name="pref_category_capture_title">캡처 설정</string>
   <string name="pref_capture_button_hold_seconds_label">버튼 길게 누르는 시간</string>
   <string name="pref_capture_button_hold_seconds_summary">이 시간 이상 누르면 정식 캡처, 짧게 누르면 라이브뷰 캡처</string>
+  <string name="shutter">Shutter</string>
+  <string name="live">Live</string>
+  <string name="hist">Hist</string>
+  <string name="lens">Lens</string>
+  <string name="aperture">Aperture</string>
+  <string name="iso_label">ISO</string>
+
+  <string name="wb_label">WB</string>
+  <string name="temp_label">Temp</string>
+  <string name="style_label">Style</string>
+  <string name="meter_label">Meter</string>
+  <string name="f_meter_label">F-Meter</string>
+  <string name="exp_label">Exp</string>
 </resources>
