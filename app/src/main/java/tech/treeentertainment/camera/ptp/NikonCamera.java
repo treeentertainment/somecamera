@@ -1,6 +1,8 @@
 
 package tech.treeentertainment.camera.ptp;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +23,7 @@ import tech.treeentertainment.camera.ptp.commands.nikon.NikonStartLiveViewAction
 import tech.treeentertainment.camera.ptp.commands.nikon.NikonStopLiveViewAction;
 import tech.treeentertainment.camera.ptp.model.DevicePropDesc;
 import tech.treeentertainment.camera.ptp.model.LiveViewData;
+import tech.treeentertainment.camera.ptp.commands.nikon.NikonCaptureDuringLvCommand;
 
 public class NikonCamera extends PtpCamera {
 
@@ -188,7 +191,7 @@ public class NikonCamera extends PtpCamera {
         if (enabled) {
             queue.add(new NikonStartLiveViewAction(this));
         } else {
-            queue.add(new NikonStopLiveViewAction(this, true));
+            queue.add(new NikonStopLiveViewAction(this, true, null));
         }
     }
 
@@ -233,12 +236,30 @@ public class NikonCamera extends PtpCamera {
         queue.add(new NikonAfDriveCommand(this));
     }
 
-    public void capture() {
+    @Override
+    public void capture(int mode) {
         if (liveViewOpen) {
-            queue.add(new NikonStopLiveViewAction(this, false));
+            // ✅ Nikon 전용 CaptureDuringLv 지원 여부 확인
+            if (hasSupportForOperation(Operation.NikonCaptureDuringLv)) {
+                Log.d("NikonCamera", "Using NikonCaptureDuringLv (high quality).");
+                queue.add(new NikonCaptureDuringLvCommand(this));
+                return;
+            } else {
+                Log.d("NikonCamera", "No CaptureDuringLv support, stopping LiveView first.");
+
+                // ✅ LiveView 종료 후 캡처 실행 (콜백 사용)
+                queue.add(new NikonStopLiveViewAction(this, false, () -> {
+                    queue.add(new InitiateCaptureCommand(NikonCamera.this));
+                }));
+                return;
+            }
         }
+
+        // ✅ 기본 캡처
+        Log.d("NikonCamera", "Normal capture (LiveView not open).");
         queue.add(new InitiateCaptureCommand(this));
     }
+
 
     private int wholeWidth;
     private int wholeHeight;

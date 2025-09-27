@@ -9,13 +9,14 @@ import tech.treeentertainment.camera.ptp.PtpConstants.Response;
 import tech.treeentertainment.camera.ptp.commands.SimpleCommand;
 
 public class NikonStopLiveViewAction implements PtpAction {
-
     private final NikonCamera camera;
     private final boolean notifyUser;
+    private final Runnable callback;
 
-    public NikonStopLiveViewAction(NikonCamera camera, boolean notifyUser) {
+    public NikonStopLiveViewAction(NikonCamera camera, boolean notifyUser, Runnable callback) {
         this.camera = camera;
         this.notifyUser = notifyUser;
+        this.callback = callback;
     }
 
     @Override
@@ -30,6 +31,10 @@ public class NikonStopLiveViewAction implements PtpAction {
                 camera.onLiveViewStopped();
             } else {
                 camera.onLiveViewStoppedInternal();
+            }
+
+            if (callback != null) {
+                callback.run();
             }
         }
     }

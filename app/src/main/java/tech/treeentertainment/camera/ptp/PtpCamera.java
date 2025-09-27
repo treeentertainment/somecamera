@@ -42,7 +42,7 @@ import tech.treeentertainment.camera.ptp.model.LiveViewData;
 
 public abstract class PtpCamera implements Camera {
 
-    public interface IO {
+    public interface  IO{
         void handleCommand(Command command);
     }
 
@@ -65,7 +65,7 @@ public abstract class PtpCamera implements Camera {
     private final PtpUsbConnection connection;
 
     protected final Handler handler = new Handler();
-    protected final LinkedBlockingQueue<PtpAction> queue = new LinkedBlockingQueue<PtpAction>();
+    public final LinkedBlockingQueue<PtpAction> queue = new LinkedBlockingQueue<PtpAction>();
     protected CameraListener listener;
     protected State state;
 
@@ -584,7 +584,7 @@ public abstract class PtpCamera implements Camera {
         @Override
         public void handleCommand(Command command) {
             if (AppConfig.LOG) {
-//                Log.i(TAG, "handling command " + command.getClass().getSimpleName());
+//                   Log.i(TAG, "handling command " + command.getClass().getSimpleName());
             }
 
             ByteBuffer b = smallIn;

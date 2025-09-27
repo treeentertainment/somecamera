@@ -49,6 +49,7 @@ public class NikonEventCheckCommand extends NikonCommand {
             switch (eventCode) {
             case Event.ObjectAdded:
                 camera.onEventObjectAdded(eventParam);
+                camera.onEventCaptureComplete(); // ✅ Nikon은 이걸로 끝날 때가 많음
                 break;
             case Event.DevicePropChanged:
                 camera.onEventDevicePropChanged(eventParam);

@@ -121,6 +121,8 @@ public class PtpConstants {
         public static final int EosRemoteReleaseOff = 0x9129;
         public static final int EosGetLiveViewPicture = 0x9153;
         public static final int EosDriveLens = 0x9155;
+
+        public static final int NikonCaptureDuringLv = 0x90C0;
     }
 
     public static String operationToString(int operation) {
