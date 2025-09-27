@@ -45,5 +45,5 @@
 | Exposure compensation                  | ✅ | ✅ |
 
 ## Progress
-- [ ] Change UI to material design for android
-- [ ] Add live view continue after taking picture
+- [X] Change UI to material design for android
+- [X] Add live view continue after taking picture
