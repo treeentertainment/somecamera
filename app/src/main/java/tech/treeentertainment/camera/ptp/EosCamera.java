@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import android.util.Log;
+
 import tech.treeentertainment.camera.ptp.PtpConstants.Operation;
 import tech.treeentertainment.camera.ptp.commands.SimpleCommand;
 import tech.treeentertainment.camera.ptp.commands.eos.EosEventCheckCommand;
@@ -96,8 +98,11 @@ public class EosCamera extends PtpCamera {
     public void getLiveViewPicture(LiveViewData data) {
         if (liveViewOpen) {
             queue.add(new EosGetLiveViewPictureCommand(this, data));
+        } else {
+            Log.w("EosCamera", "LiveView is not open, cannot capture frame");
         }
     }
+
 
     @Override
     protected boolean isBulbCurrentShutterSpeed() {

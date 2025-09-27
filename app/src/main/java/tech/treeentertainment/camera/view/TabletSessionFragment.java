@@ -173,7 +173,6 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         String singleClickMode = prefs.getString("single_click_mode", "liveview");
         String longPressMode = prefs.getString("long_press_mode", "high_quality");
         String doubleClickMode = prefs.getString("double_click_mode", "high_quality");
-
         takePictureBtn.setOnTouchListener(new View.OnTouchListener() {
             private long pressStartTime;
             private long lastClickTime = 0;
@@ -184,30 +183,39 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         pressStartTime = System.currentTimeMillis();
+                        Log.d("TakePictureBtn", "ACTION_DOWN at " + pressStartTime);
                         return true;
 
                     case MotionEvent.ACTION_UP:
                         v.performClick();
                         long pressDuration = System.currentTimeMillis() - pressStartTime;
+                        Log.d("TakePictureBtn", "ACTION_UP, pressDuration=" + pressDuration + "ms");
 
                         switch (triggerMode) {
                             case "single_click":
+                                Log.d("TakePictureBtn", "Mode=single_click");
                                 camera().capture(singleClickMode.equals("high_quality")
                                         ? Camera.CAPTURE_HIGH_QUALITY
                                         : Camera.CAPTURE_DEFAULT);
                                 break;
 
                             case "long_press":
+                                Log.d("TakePictureBtn", "Mode=long_press, Threshold=" + getCaptureHoldThreshold());
                                 if (pressDuration >= getCaptureHoldThreshold()) {
+                                    Log.d("TakePictureBtn", "Long press triggered!");
                                     camera().capture(longPressMode.equals("high_quality")
                                             ? Camera.CAPTURE_HIGH_QUALITY
                                             : Camera.CAPTURE_DEFAULT);
+                                } else {
+                                    Log.d("TakePictureBtn", "Press too short for long press");
                                 }
                                 break;
 
                             case "double_click":
                                 long now = System.currentTimeMillis();
+                                Log.d("TakePictureBtn", "Mode=double_click, now=" + now + ", lastClick=" + lastClickTime);
                                 if (now - lastClickTime <= DOUBLE_CLICK_THRESHOLD) {
+                                    Log.d("TakePictureBtn", "Double click detected!");
                                     camera().capture(doubleClickMode.equals("high_quality")
                                             ? Camera.CAPTURE_HIGH_QUALITY
                                             : Camera.CAPTURE_DEFAULT);
@@ -220,6 +228,7 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
                 return false;
             }
         });
+
 
 
 

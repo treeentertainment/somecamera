@@ -35,15 +35,13 @@
 
   <com.google.android.material.button.MaterialButton
       android:id="@+id/picture_stream_toggle"
-      style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
+      style="?attr/materialButtonOutlinedStyle"
       android:layout_width="30dp"
       android:layout_height="wrap_content"
       android:layout_gravity="bottom"
       app:icon="@drawable/ic_chevron_right"
       app:iconGravity="textStart"
       app:iconTint="?attr/colorOnSurface"
-      app:strokeColor="?attr/colorOnSurface"
-      app:strokeWidth="1dp"
       app:iconSize="24dp" />
   <!-- 오른쪽 패널 (오버레이, 기본 GONE) -->
   <LinearLayout

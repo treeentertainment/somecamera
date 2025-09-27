@@ -796,31 +796,48 @@ public abstract class PtpCamera implements Camera {
 
     @Override
     public void capture(int mode) {
+        Log.d("CameraCapture", "capture() called with mode=" + mode);
+
         if (mode == CAPTURE_HIGH_QUALITY) {
+            Log.d("CameraCapture", "High quality capture requested");
             queue.add(new InitiateCaptureCommand(this));
         } else if (mode == CAPTURE_DEFAULT) {
+            Log.d("CameraCapture", "Default capture (LiveView frame)");
+
             // LiveView 프레임 캡쳐
             LiveViewData frame = new LiveViewData();
             getLiveViewPicture(frame);
             Bitmap bmp = frame.createBitmap();
             if (bmp != null) {
+                Log.d("CameraCapture", "LiveView frame captured, size="
+                        + bmp.getWidth() + "x" + bmp.getHeight());
+
                 // 1. mutable 복사
                 bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
+                Log.d("CameraCapture", "Bitmap copied as mutable");
 
-                // 2. 휴대폰 저장
+                // 2. (추가 예정) 휴대폰 저장
                 // 3. Fragment listener 호출
                 if (listener != null) {
                     int handle = (int) System.currentTimeMillis();
+                    Log.d("CameraCapture", "Notify listener: handle=" + handle);
                     listener.onCapturedPictureReceived(
                             handle,
                             "liveview_" + handle + ".jpg",
                             bmp,
                             bmp
                     );
+                } else {
+                    Log.w("CameraCapture", "Listener is null, cannot deliver bitmap");
                 }
+            } else {
+                Log.w("CameraCapture", "LiveView frame capture failed, bmp=null");
             }
+        } else {
+            Log.w("CameraCapture", "Unknown capture mode=" + mode);
         }
     }
+
 
 
 

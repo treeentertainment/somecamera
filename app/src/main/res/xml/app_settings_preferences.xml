@@ -49,7 +49,9 @@
       android:title="캡처 트리거 방식"
       android:defaultValue="single_click"
       android:entries="@array/capture_trigger_entries"
-      android:entryValues="@array/capture_trigger_values"/>
+      android:entryValues="@array/capture_trigger_values"
+      android:summary="%s"/>
+  />
 
   <!-- 각 트리거별 캡처 모드 선택 -->
   <ListPreference
@@ -57,21 +59,26 @@
       android:title="한 번 클릭 시 캡처 모드"
       android:defaultValue="liveview"
       android:entries="@array/capture_mode_entries"
-      android:entryValues="@array/capture_mode_values"/>
+      android:entryValues="@array/capture_mode_values"
+      android:summary="%s"/>
+  />
 
   <ListPreference
       android:key="long_press_mode"
       android:title="길게 누름 시 캡처 모드"
       android:defaultValue="high_quality"
       android:entries="@array/capture_mode_entries"
-      android:entryValues="@array/capture_mode_values"/>
+      android:entryValues="@array/capture_mode_values"
+      android:summary="%s"/>
+  />
 
   <ListPreference
       android:key="double_click_mode"
       android:title="더블 클릭 시 캡처 모드"
       android:defaultValue="high_quality"
       android:entries="@array/capture_mode_entries"
-      android:entryValues="@array/capture_mode_values"/>
+      android:entryValues="@array/capture_mode_values"
+      android:summary="%s"/>
 
 
 </PreferenceScreen>
