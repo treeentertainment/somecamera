@@ -87,38 +87,39 @@ public class NikonGetLiveViewImageCommand extends NikonCommand {
         int pictureOffset;
 
         switch (productId) {
-        case Product.NikonD5000:
-        case Product.NikonD3S:
-        case Product.NikonD90:
-            pictureOffset = 128;
-            break;
-        case Product.NikonD3X:
-        case Product.NikonD300S:
-        case Product.NikonD3:
-        case Product.NikonD300:
-        case Product.NikonD700:
-            pictureOffset = 64;
-            break;
-        case Product.NikonD7000:
-        case Product.NikonD5100:
-            pictureOffset = 384;
-            break;
-        default:
-            if (AppConfig.USE_ACRA && !haveAddedDumpToAcra) {
-                try {
-                    haveAddedDumpToAcra = true;
-                    String hex = PacketUtil.hexDumpToString(b.array(), start, length < 728 ? length : 728);
-                    ACRA.getErrorReporter().putCustomData("liveview hexdump", hex);
-                } catch (Throwable e) {
-                    // no fail
+            case Product.NikonD5000:
+            case Product.NikonD3S:
+            case Product.NikonD90:
+                pictureOffset = 128;
+                break;
+            case Product.NikonD3X:
+            case Product.NikonD300S:
+            case Product.NikonD3:
+            case Product.NikonD300:
+            case Product.NikonD700:
+                pictureOffset = 64;
+                break;
+            case Product.NikonD7000:
+            case Product.NikonD5100:
+                pictureOffset = 384;
+                break;
+            default:
+                if (AppConfig.USE_ACRA && !haveAddedDumpToAcra) {
+                    try {
+                        haveAddedDumpToAcra = true;
+                        String hex = PacketUtil.hexDumpToString(
+                                b.array(), start, length < 728 ? length : 728);
+                        ACRA.getErrorReporter().putCustomData("liveview hexdump", hex);
+                    } catch (Throwable e) {
+                        // ignore
+                    }
                 }
-            }
-            return;
+                return;
         }
 
         b.order(ByteOrder.BIG_ENDIAN);
 
-        // read af frame
+        // read AF frame
         {
             data.hasAfFrame = true;
 
@@ -148,14 +149,40 @@ public class NikonGetLiveViewImageCommand extends NikonCommand {
             return;
         }
 
-        try {
-            data.bitmap = BitmapFactory.decodeByteArray(b.array(), b.position(), length - b.position(), options);
-        } catch (RuntimeException e) {
-            Log.e(TAG, "decoding failed " + e.toString());
-            Log.e(TAG, e.getLocalizedMessage());
-            if (AppConfig.LOG) {
-                PacketUtil.logHexdump(TAG, b.array(), start, 512);
+        byte[] arr = b.array();
+        int jpegStart = b.position();
+        int jpegEnd = start + length;
+
+        // SOI/EOI 마커 검색
+        int soi = findMarker(arr, jpegStart, jpegEnd, (byte) 0xFF, (byte) 0xD8);
+        int eoi = findMarker(arr, jpegStart, jpegEnd, (byte) 0xFF, (byte) 0xD9);
+
+        if (soi >= 0 && eoi > soi) {
+            int jpegLen = eoi - soi + 2;
+            try {
+                options.inBitmap = null; // 크기 불일치 문제 피하기 위해 재사용 안 함
+                data.bitmap = BitmapFactory.decodeByteArray(arr, soi, jpegLen, options);
+            } catch (RuntimeException e) {
+                Log.e(TAG, "decoding failed " + e.toString(), e);
+                data.bitmap = null;
+                if (AppConfig.LOG) {
+                    PacketUtil.logHexdump(TAG, arr, start, 512);
+                }
             }
+        } else {
+            Log.w(TAG, "JPEG markers not found (soi=" + soi + ", eoi=" + eoi + ")");
+            data.bitmap = null;
         }
     }
+
+    /** 헬퍼: 특정 마커 검색 */
+    private int findMarker(byte[] data, int start, int end, byte b1, byte b2) {
+        for (int i = start; i < end - 1; i++) {
+            if (data[i] == b1 && data[i + 1] == b2) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }

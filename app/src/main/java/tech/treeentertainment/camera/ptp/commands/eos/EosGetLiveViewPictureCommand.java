@@ -32,10 +32,10 @@ public class EosGetLiveViewPictureCommand extends EosCommand {
             this.data = data;
         }
         options = new BitmapFactory.Options();
-        options.inBitmap = this.data.bitmap;
+//        options.inBitmap = this.data.bitmap;
         options.inSampleSize = 1;
         options.inTempStorage = tmpStorage;
-        this.data.bitmap = null;
+//        this.data.bitmap = null;
     }
 
     @Override
@@ -59,6 +59,7 @@ public class EosGetLiveViewPictureCommand extends EosCommand {
 
     @Override
     protected void decodeData(ByteBuffer b, int length) {
+        Log.d(TAG, "decodeData() called, length=" + length);
 
         data.hasHistogram = false;
         data.hasAfFrame = false;
@@ -84,12 +85,28 @@ public class EosGetLiveViewPictureCommand extends EosCommand {
 
                 switch (type) {
                     case 0x01:
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(b.array(), b.position(), subLength - 8, options);
-                        if (bitmap != null && !bitmap.isMutable()) {
-                            bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true); // mutable로 복사
+                        byte[] jpegData = new byte[subLength - 8];
+                        b.get(jpegData);
+
+                        int soi = findMarker(jpegData, (byte)0xFF, (byte)0xD8);
+                        int eoi = findMarker(jpegData, (byte)0xFF, (byte)0xD9);
+
+                        Log.d(TAG, "subBlock: type=" + String.format("0x%02X", type)
+                                + ", subLength=" + subLength
+                                + ", pos=" + b.position());
+
+                        if (soi >= 0 && eoi > soi) {
+                            int jpegLen = eoi - soi + 2;
+                            Log.d(TAG, "decodeData: soi=" + soi + ", eoi=" + eoi + ", jpegLen=" + jpegLen);
+
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(jpegData, soi, jpegLen, options);
+                            if (bitmap != null && !bitmap.isMutable()) {
+                                bitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+                            }
+                            data.bitmap = bitmap;
+                        } else {
+                            Log.w(TAG, "JPEG markers not found in EOS sub-block");
                         }
-                        data.bitmap = bitmap;
-                        b.position(b.position() + subLength - 8);
                         break;
                 case 0x04:
                     data.zoomFactor = b.getInt();
@@ -135,9 +152,28 @@ public class EosGetLiveViewPictureCommand extends EosCommand {
                 }
             }
 
+
         } catch (RuntimeException e) {
             Log.e(TAG, "" + e.toString());
             Log.e(TAG, "" + e.getLocalizedMessage());
         }
     }
+
+    /**
+     * JPEG 마커(SOI=FFD8, EOI=FFD9) 검색
+     *
+     * @param data   검색할 바이트 배열
+     * @param b1     첫 번째 바이트 (0xFF)
+     * @param b2     두 번째 바이트 (0xD8 또는 0xD9)
+     * @return 발견된 인덱스 (없으면 -1)
+     */
+    private int findMarker(byte[] data, byte b1, byte b2) {
+        for (int i = 0; i < data.length - 1; i++) {
+            if (data[i] == b1 && data[i + 1] == b2) {
+                return i;
+            }
+        }
+        return -1;
+    }
+
 }

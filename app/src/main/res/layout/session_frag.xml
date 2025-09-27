@@ -1,103 +1,107 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:baselineAligned="false"
     android:orientation="horizontal">
 
+  <!-- LiveView side -->
   <include
       android:layout_width="0dp"
       android:layout_height="match_parent"
       android:layout_weight="1"
-      layout="@layout/liveview"/>
+      layout="@layout/liveview" />
 
-  <LinearLayout
+  <!-- Scrollable side -->
+  <ScrollView
       android:layout_width="wrap_content"
       android:layout_height="match_parent"
-      android:orientation="vertical">
-
-    <include
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        layout="@layout/properties_grid"/>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" />
-
-    <TextView
-        android:id="@+id/exposureIndicatorText"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="4dp" />
-
-    <ImageView
-        android:id="@+id/batteryLevelIcon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="4dp"
-        android:src="@drawable/batterylevel" />
-
-    <TextView
-        android:id="@+id/focusModeText"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="4dp" />
-
-    <TextView
-        android:id="@+id/availableShotsText"
-        android:textAppearance="@style/TextAppearance.MaterialComponents.Body1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginEnd="4dp" />
+      android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-      <com.google.android.material.button.MaterialButton
-          android:id="@+id/takePictureBtn"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
+      <include
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:paddingBottom="30dp"
-          android:paddingTop="20dp"
-          android:text="@string/capture"
-          android:textAppearance="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          app:backgroundTint="?attr/colorPrimary"
-          app:iconTint="?attr/colorOnPrimary"
-          android:textColor="?attr/colorOnPrimary"
-          app:strokeWidth="3dp"
-          android:textSize="25sp"
-          />
+          layout="@layout/properties_grid" />
 
-      <com.google.android.material.button.MaterialButton
-          android:id="@+id/focusBtn"
-          style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          android:layout_width="0dp"
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="0dp"
+          android:layout_weight="1" />
+
+      <TextView
+          android:id="@+id/exposureIndicatorText"
+          android:layout_width="wrap_content"
           android:layout_height="wrap_content"
-          android:layout_weight="1"
-          android:focusable="true"
-          android:paddingBottom="30dp"
-          android:paddingTop="20dp"
-          android:text="@string/focus"
-          android:textAppearance="@style/Widget.MaterialComponents.Button.OutlinedButton"
-          app:backgroundTint="?attr/colorPrimary"
-          app:iconTint="?attr/colorOnPrimary"
-          android:textColor="?attr/colorOnPrimary"
-          app:strokeWidth="3dp"
-          android:textSize="25sp"
-          android:clickable="true"
+          android:layout_gravity="end"
+          android:layout_marginEnd="4dp"
+          android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
 
-          />
+      <ImageView
+          android:id="@+id/batteryLevelIcon"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="end"
+          android:layout_marginEnd="4dp"
+          android:src="@drawable/batterylevel" />
+
+      <TextView
+          android:id="@+id/focusModeText"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="end"
+          android:layout_marginEnd="4dp"
+          android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+      <TextView
+          android:id="@+id/availableShotsText"
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:layout_gravity="end"
+          android:layout_marginEnd="4dp"
+          android:textAppearance="@style/TextAppearance.MaterialComponents.Body1" />
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/takePictureBtn"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:text="@string/capture"
+            android:textAppearance="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="15sp"
+            app:backgroundTint="?attr/colorPrimary"
+            app:iconTint="?attr/colorOnPrimary"
+            app:cornerRadius="0dp" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/focusBtn"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:paddingTop="20dp"
+            android:paddingBottom="30dp"
+            android:text="@string/focus"
+            android:textAppearance="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="15sp"
+            app:backgroundTint="?attr/colorPrimary"
+            app:iconTint="?attr/colorOnPrimary"
+            app:cornerRadius="0dp" />
+      </LinearLayout>
     </LinearLayout>
-  </LinearLayout>
+  </ScrollView>
 </LinearLayout>

@@ -39,7 +39,8 @@
     </activity>
     <activity
       android:name="tech.treeentertainment.camera.activities.AppSettingsActivity"
-      android:label="@string/activity_app_settings_title" />
+      android:label="@string/activity_app_settings_title"
+        android:theme="@style/Theme.SomeCamera" />
   </application>
 
 </manifest>
