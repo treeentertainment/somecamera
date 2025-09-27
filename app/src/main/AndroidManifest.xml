@@ -23,6 +23,7 @@
       android:launchMode="singleTask"
       android:screenOrientation="sensorLandscape"
       android:exported="true"
+        android:theme="@style/Theme.SomeCamera"
         tools:ignore="DiscouragedApi">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>

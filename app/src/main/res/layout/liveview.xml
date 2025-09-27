@@ -1,78 +1,101 @@
-<FrameLayout
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
 
-  <!-- LiveView: 항상 전체 화면 -->
-  <tech.treeentertainment.camera.PictureView
-      android:id="@+id/liveView"
-      android:layout_width="match_parent"
-      android:layout_height="match_parent"
-      android:clickable="false"
-      android:focusable="false" />
+    <!-- 왼쪽 토글 버튼 -->
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/picture_stream_toggle"
+        style="?attr/materialButtonOutlinedStyle"
+        android:layout_width="30dp"
+        android:layout_height="match_parent"
+        app:icon="@drawable/ic_chevron_right"
+        app:iconGravity="textStart"
+        app:iconTint="?attr/colorOnSurface"
+        app:iconSize="24dp" />
 
-  <!-- 왼쪽 패널 (오버레이, 기본 GONE) -->
-  <LinearLayout
-      android:id="@+id/picture_stream_container"
-      android:layout_width="@dimen/pictureStreamWidth"
-      android:layout_height="match_parent"
-      android:layout_gravity="start"
-      android:orientation="horizontal"
-      android:background="@drawable/border_right"
-      android:visibility="gone"
-      >
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/picture_stream"
+    <!-- 메인 영역 (LiveView + Overlay + 버튼 + 오른쪽 패널) -->
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:background="@drawable/border_right" />
+        android:layout_weight="1">
 
-  </LinearLayout>
+        <!-- LiveView -->
+        <tech.treeentertainment.camera.PictureView
+            android:id="@+id/liveView"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:clickable="false"
+            android:focusable="false"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
+        <!-- picture_stream_container: LiveView 위에 겹침 -->
+        <LinearLayout
+            android:id="@+id/picture_stream_container"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="@drawable/border_right"
+            android:visibility="gone"
+            android:gravity="start"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
 
-  <com.google.android.material.button.MaterialButton
-      android:id="@+id/picture_stream_toggle"
-      style="?attr/materialButtonOutlinedStyle"
-      android:layout_width="30dp"
-      android:layout_height="wrap_content"
-      android:layout_gravity="bottom"
-      app:icon="@drawable/ic_chevron_right"
-      app:iconGravity="textStart"
-      app:iconTint="?attr/colorOnSurface"
-      app:iconSize="24dp" />
-  <!-- 오른쪽 패널 (오버레이, 기본 GONE) -->
-  <LinearLayout
-      android:id="@+id/rightPanel"
-      android:layout_width="wrap_content"
-      android:layout_height="match_parent"
-      android:layout_gravity="end"
-      android:orientation="horizontal"
-      android:background="?attr/colorSurface"
-      android:visibility="visible">
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/picture_stream"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/border_right"
+                android:paddingStart="0dp"
+                tools:ignore="RtlSymmetry" />
+        </LinearLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btn_liveview"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton.Icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:text="@string/continue_liveview"
-        android:visibility="gone" />
+        <!-- 오른쪽 패널 -->
+        <LinearLayout
+            android:id="@+id/rightPanel"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:background="?attr/colorSurface"
+            android:visibility="visible"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
 
-    <LinearLayout
-        android:id="@+id/leftPropertiesLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="horizontal" />
+            <LinearLayout
+                android:id="@+id/leftPropertiesLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
 
-    <include
-        android:id="@+id/driveLensPane"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        layout="@layout/drive_lens_pane" />
-  </LinearLayout>
+            <include
+                android:id="@+id/driveLensPane"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                layout="@layout/drive_lens_pane" />
+        </LinearLayout>
 
-</FrameLayout>
+        <!-- ✅ LiveView 버튼: 오른쪽 하단 + 패널 바로 왼쪽 -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_liveview"
+            style="?attr/materialButtonOutlinedStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/continue_liveview"
+            android:visibility="gone"
+            android:textColor="?attr/colorOnPrimary"
+            android:textSize="15sp"
+            app:backgroundTint="?attr/colorPrimary"
+            app:iconTint="?attr/colorOnPrimary"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/rightPanel"/>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</LinearLayout>

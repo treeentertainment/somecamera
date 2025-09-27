@@ -43,12 +43,12 @@ public class NikonGetLiveViewImageCommand extends NikonCommand {
         options.inTempStorage = tmpStorage;
         options.inMutable = true; // 반드시 mutable 옵션 추가
 
-        if (this.data.bitmap != null && this.data.bitmap.isMutable()) {
-            options.inBitmap = this.data.bitmap;
+        if (this.data.getBitmap() != null && this.data.getBitmap().isMutable()) {
+            options.inBitmap = this.data.getBitmap();
         } else {
             options.inBitmap = null; // immutable이면 재사용하지 않음
         }
-        this.data.bitmap = null;
+        this.data.setBitmap(null);
     }
 
     @Override
@@ -62,7 +62,7 @@ public class NikonGetLiveViewImageCommand extends NikonCommand {
             return;
         }
         data.hasHistogram = false;
-        if (this.data.bitmap != null && responseCode == Response.Ok) {
+        if (this.data.getBitmap() != null && responseCode == Response.Ok) {
             camera.onLiveViewReceived(data);
         } else {
             camera.onLiveViewReceived(null);
@@ -145,7 +145,7 @@ public class NikonGetLiveViewImageCommand extends NikonCommand {
         b.position(start + pictureOffset);
 
         if (b.remaining() <= 128) {
-            data.bitmap = null;
+            this.data.setBitmap(null);
             return;
         }
 
@@ -161,17 +161,17 @@ public class NikonGetLiveViewImageCommand extends NikonCommand {
             int jpegLen = eoi - soi + 2;
             try {
                 options.inBitmap = null; // 크기 불일치 문제 피하기 위해 재사용 안 함
-                data.bitmap = BitmapFactory.decodeByteArray(arr, soi, jpegLen, options);
+                this.data.setBitmap( BitmapFactory.decodeByteArray(arr, soi, jpegLen, options));
             } catch (RuntimeException e) {
                 Log.e(TAG, "decoding failed " + e.toString(), e);
-                data.bitmap = null;
+                this.data.setBitmap(null);
                 if (AppConfig.LOG) {
                     PacketUtil.logHexdump(TAG, arr, start, 512);
                 }
             }
         } else {
             Log.w(TAG, "JPEG markers not found (soi=" + soi + ", eoi=" + eoi + ")");
-            data.bitmap = null;
+            this.data.setBitmap(null);
         }
     }
 

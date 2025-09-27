@@ -169,68 +169,58 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         });
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String triggerMode = prefs.getString("capture_trigger_mode", "single_click");
-        String singleClickMode = prefs.getString("single_click_mode", "liveview");
-        String longPressMode = prefs.getString("long_press_mode", "high_quality");
-        String doubleClickMode = prefs.getString("double_click_mode", "high_quality");
+
         takePictureBtn.setOnTouchListener(new View.OnTouchListener() {
             private long pressStartTime;
             private long lastClickTime = 0;
             private final int DOUBLE_CLICK_THRESHOLD = 300; // ms
+            private final int LONG_PRESS_THRESHOLD = 2000;  // 2초
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
                         pressStartTime = System.currentTimeMillis();
-                        Log.d("TakePictureBtn", "ACTION_DOWN at " + pressStartTime);
                         return true;
 
                     case MotionEvent.ACTION_UP:
-                        v.performClick();
                         long pressDuration = System.currentTimeMillis() - pressStartTime;
-                        Log.d("TakePictureBtn", "ACTION_UP, pressDuration=" + pressDuration + "ms");
+                        long now = System.currentTimeMillis();
 
-                        switch (triggerMode) {
-                            case "single_click":
-                                Log.d("TakePictureBtn", "Mode=single_click");
-                                camera().capture(singleClickMode.equals("high_quality")
-                                        ? Camera.CAPTURE_HIGH_QUALITY
-                                        : Camera.CAPTURE_DEFAULT);
-                                break;
+                        // SharedPreferences에서 각 모드별 값 읽기
+                        String singleClickMode = prefs.getString("single_click_mode", "liveview");
+                        String longPressMode = prefs.getString("long_press_mode", "high_quality");
+                        String doubleClickMode = prefs.getString("double_click_mode", "high_quality");
 
-                            case "long_press":
-                                Log.d("TakePictureBtn", "Mode=long_press, Threshold=" + getCaptureHoldThreshold());
-                                if (pressDuration >= getCaptureHoldThreshold()) {
-                                    Log.d("TakePictureBtn", "Long press triggered!");
-                                    camera().capture(longPressMode.equals("high_quality")
-                                            ? Camera.CAPTURE_HIGH_QUALITY
-                                            : Camera.CAPTURE_DEFAULT);
-                                } else {
-                                    Log.d("TakePictureBtn", "Press too short for long press");
-                                }
-                                break;
-
-                            case "double_click":
-                                long now = System.currentTimeMillis();
-                                Log.d("TakePictureBtn", "Mode=double_click, now=" + now + ", lastClick=" + lastClickTime);
-                                if (now - lastClickTime <= DOUBLE_CLICK_THRESHOLD) {
-                                    Log.d("TakePictureBtn", "Double click detected!");
-                                    camera().capture(doubleClickMode.equals("high_quality")
-                                            ? Camera.CAPTURE_HIGH_QUALITY
-                                            : Camera.CAPTURE_DEFAULT);
-                                }
-                                lastClickTime = now;
-                                break;
+                        // 더블 클릭 처리
+                        if (now - lastClickTime <= DOUBLE_CLICK_THRESHOLD) {
+                            Log.d("TakePictureBtn", "Double click detected!");
+                            camera().capture(doubleClickMode.equals("high_quality")
+                                    ? Camera.CAPTURE_HIGH_QUALITY
+                                    : Camera.CAPTURE_DEFAULT);
+                            lastClickTime = 0; // 초기화
+                            return true;
                         }
+                        lastClickTime = now;
+
+                        // 길게 누른 경우 (2초 이상)
+                        if (pressDuration >= LONG_PRESS_THRESHOLD) {
+                            Log.d("TakePictureBtn", "Long press triggered!");
+                            camera().capture(longPressMode.equals("high_quality")
+                                    ? Camera.CAPTURE_HIGH_QUALITY
+                                    : Camera.CAPTURE_DEFAULT);
+                        } else { // 짧게 누른 경우 (한 번 클릭)
+                            Log.d("TakePictureBtn", "Single click triggered!");
+                            camera().capture(singleClickMode.equals("high_quality")
+                                    ? Camera.CAPTURE_HIGH_QUALITY
+                                    : Camera.CAPTURE_DEFAULT);
+                        }
+
                         return true;
                 }
                 return false;
             }
         });
-
-
-
 
         if (isPro) {
             gestureDetector = new GestureDetector(getActivity(), this);

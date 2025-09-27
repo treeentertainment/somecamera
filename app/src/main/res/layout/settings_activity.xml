@@ -13,7 +13,7 @@
         android:background="?attr/colorPrimary"
         android:titleTextColor="@android:color/white"
         app:navigationIcon="@drawable/ic_arrow_back"
-        app:title="@string/menu_settings"/>
+        app:title="@string/activity_app_settings_title"/>
 
     <!-- 프래그먼트가 들어갈 자리 -->
     <FrameLayout

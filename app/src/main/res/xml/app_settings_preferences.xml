@@ -24,7 +24,6 @@
         android:entryValues="@array/picturestream_num_pictures_entries"
         android:defaultValue="6" />
 
-    <!-- CheckBoxPreference 대신 SwitchPreferenceCompat 사용 -->
     <SwitchPreferenceCompat
         android:key="picturestream.show_filename"
         android:title="@string/pref_picturestream_show_filename_label"
@@ -43,17 +42,8 @@
         android:entryValues="@array/memory_picture_size_entries"
         android:defaultValue="2" />
   </PreferenceCategory>
-  <!-- 클릭 방식 선택 -->
-  <ListPreference
-      android:key="capture_trigger_mode"
-      android:title="캡처 트리거 방식"
-      android:defaultValue="single_click"
-      android:entries="@array/capture_trigger_entries"
-      android:entryValues="@array/capture_trigger_values"
-      android:summary="%s"/>
-  />
 
-  <!-- 각 트리거별 캡처 모드 선택 -->
+  <!-- 각 클릭 방식별 캡처 모드 -->
   <ListPreference
       android:key="single_click_mode"
       android:title="한 번 클릭 시 캡처 모드"
@@ -61,16 +51,14 @@
       android:entries="@array/capture_mode_entries"
       android:entryValues="@array/capture_mode_values"
       android:summary="%s"/>
-  />
 
   <ListPreference
       android:key="long_press_mode"
-      android:title="길게 누름 시 캡처 모드"
+      android:title="길게 누름 시 캡처 모드 (2초 이상)"
       android:defaultValue="high_quality"
       android:entries="@array/capture_mode_entries"
       android:entryValues="@array/capture_mode_values"
       android:summary="%s"/>
-  />
 
   <ListPreference
       android:key="double_click_mode"
@@ -79,6 +67,5 @@
       android:entries="@array/capture_mode_entries"
       android:entryValues="@array/capture_mode_values"
       android:summary="%s"/>
-
 
 </PreferenceScreen>

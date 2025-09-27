@@ -13,13 +13,15 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
-
+import java.io.FileOutputStream;
 import android.graphics.Bitmap;
 import android.hardware.usb.UsbRequest;
 import android.os.Handler;
 import android.util.Log;
 
 import org.acra.ACRA;
+
+import android.os.Environment;
 
 import tech.treeentertainment.camera.AppConfig;
 import tech.treeentertainment.camera.ptp.commands.CloseSessionCommand;
@@ -416,20 +418,36 @@ public abstract class PtpCamera implements Camera {
         });
     }
 
+    private static final int MAX_BUSY_RETRIES = 50; // 약 10초
+    private final Map<PtpAction, Integer> busyRetryCount = new HashMap<>();
+
     public void onDeviceBusy(PtpAction action, boolean requeue) {
-        if (AppConfig.LOG) {
-            Log.i(TAG, "onDeviceBusy, sleeping a bit");
+        int count = busyRetryCount.getOrDefault(action, 0) + 1;
+        busyRetryCount.put(action, count);
+
+        if (count > MAX_BUSY_RETRIES) {
+            Log.e(TAG, "Device busy too long, aborting action=" + action);
+            busyRetryCount.remove(action);
+            onPtpWarning("Camera busy too long, capture aborted.");
+            return;
         }
+
+        if (AppConfig.LOG) {
+            Log.i(TAG, "onDeviceBusy, retry " + count);
+        }
+
         if (requeue) {
             action.reset();
             queue.add(action);
         }
+
         try {
             Thread.sleep(200);
         } catch (InterruptedException e) {
             // nop
         }
     }
+
 
     public void onPtpWarning(final String message) {
         if (AppConfig.LOG) {
@@ -806,9 +824,9 @@ public abstract class PtpCamera implements Camera {
 
             // LiveView 프레임 캡쳐
             LiveViewData frame = new LiveViewData();
-            getLiveViewPicture(frame);
-            Bitmap bmp = frame.createBitmap();
-            if (bmp != null) {
+            frame.setFrameReadyListener(bmp -> {
+
+                if (bmp != null) {
                 Log.d("CameraCapture", "LiveView frame captured, size="
                         + bmp.getWidth() + "x" + bmp.getHeight());
 
@@ -816,7 +834,8 @@ public abstract class PtpCamera implements Camera {
                 bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
                 Log.d("CameraCapture", "Bitmap copied as mutable");
 
-                // 2. (추가 예정) 휴대폰 저장
+                    saveBitmapToPhone(bmp, "liveview_" + System.currentTimeMillis() + ".jpg");
+
                 // 3. Fragment listener 호출
                 if (listener != null) {
                     int handle = (int) System.currentTimeMillis();
@@ -833,8 +852,28 @@ public abstract class PtpCamera implements Camera {
             } else {
                 Log.w("CameraCapture", "LiveView frame capture failed, bmp=null");
             }
+            });
+            getLiveViewPicture(frame);
+
         } else {
             Log.w("CameraCapture", "Unknown capture mode=" + mode);
+        }
+    }
+
+    private void saveBitmapToPhone(Bitmap bmp, String fileName) {
+        try {
+            // 저장 경로: Pictures 디렉토리 사용 (API 29+ 대응)
+            File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "somecamera");
+            if (!dir.exists()) dir.mkdirs();
+
+            File file = new File(dir, fileName);
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 95, out);
+            out.flush();
+            out.close();
+            Log.d("CameraCapture", "Bitmap saved: " + file.getAbsolutePath());
+        } catch (Exception e) {
+            Log.e("CameraCapture", "Bitmap save failed", e);
         }
     }
 

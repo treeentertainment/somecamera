@@ -23,7 +23,6 @@ public class AppSettingsActivity extends AppCompatActivity {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setTitle("설정");
 
             // Material 아이콘 (Vector Asset) 지정
             getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_back);

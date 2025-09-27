@@ -2,6 +2,7 @@
 package tech.treeentertainment.camera.ptp.commands;
 
 import android.graphics.Bitmap;
+import android.util.Log;
 
 import tech.treeentertainment.camera.ptp.PtpAction;
 import tech.treeentertainment.camera.ptp.PtpCamera;
@@ -30,6 +31,8 @@ public class RetrievePictureAction implements PtpAction {
         if (getInfo.getResponseCode() != Response.Ok) {
             return;
         }
+
+        Log.d("RetrievePictureAction", "GetObjectInfo response=" + getInfo.getResponseCode());
 
         ObjectInfo objectInfo = getInfo.getObjectInfo();
         if (objectInfo == null) {
