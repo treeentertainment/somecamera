@@ -29,6 +29,9 @@ public class NikonCamera extends PtpCamera {
 
     private Set<Integer> supportedOperations;
     private int[] vendorPropCodes = new int[0];
+
+    private boolean waitCaptureAfterLvStop = false;
+
     private int enableAfAreaPoint;
     private boolean gotNikonShutterSpeed;
     private boolean liveViewStoppedInternal;
@@ -70,6 +73,16 @@ public class NikonCamera extends PtpCamera {
                     }
                 }
             });
+        }
+
+        // ✅ LiveView 종료 후 캡처 실행
+        if (waitCaptureAfterLvStop
+                && (property == PtpConstants.Property.ExposureTime
+                || property == PtpConstants.Property.NikonShutterSpeed)) {
+
+            Log.i("NikonCamera", "LiveView stopped event received, starting capture.");
+            waitCaptureAfterLvStop = false;
+            queue.add(new InitiateCaptureCommand(this));
         }
     }
 
@@ -247,9 +260,10 @@ public class NikonCamera extends PtpCamera {
             } else {
                 Log.d("NikonCamera", "No CaptureDuringLv support, stopping LiveView first.");
 
-                // ✅ LiveView 종료 후 캡처 실행 (콜백 사용)
+                waitCaptureAfterLvStop = true;
+                //    onPropertyChanged 이벤트에서 실행되도록 위임
                 queue.add(new NikonStopLiveViewAction(this, false, () -> {
-                    queue.add(new InitiateCaptureCommand(NikonCamera.this));
+                    android.util.Log.i("NikonCamera", "StopLiveView requested, waiting for event...");
                 }));
                 return;
             }

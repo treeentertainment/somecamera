@@ -236,7 +236,7 @@ public class MainActivity extends SessionActivity implements CameraListener {
         // 권장: Material 로 Progress 표시
         new MaterialAlertDialogBuilder(this, R.style.CustomAlertDialogTheme)
                 .setTitle(R.string.app_name)
-                .setMessage("Generating information. Please wait...")
+                .setMessage(R.string.generating_information_please_wait)
                 .setCancelable(false)
                 .show();
         // 만약 기존 ProgressDialog 계속 쓰고 싶다면:

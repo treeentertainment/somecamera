@@ -30,7 +30,7 @@ public class NikonCaptureDuringLvCommand extends SimpleCommand {
                 NikonCamera nikonCamera = (NikonCamera) camera;
 
                 nikonCamera.queue.add(new NikonStopLiveViewAction(nikonCamera, false, () -> {
-                    nikonCamera.enqueue(new InitiateCaptureCommand(nikonCamera), 0);
+                    nikonCamera.enqueue(new InitiateCaptureCommand(nikonCamera), 500);
 
                     // LiveView 재개
                     nikonCamera.queue.add(new NikonStartLiveViewAction(nikonCamera));

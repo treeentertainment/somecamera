@@ -21,21 +21,32 @@ public class NikonStopLiveViewAction implements PtpAction {
 
     @Override
     public void exec(IO io) {
+        android.util.Log.i("NikonStopLiveViewAction", "exec() called, sending EndLiveView command...");
         SimpleCommand simpleCmd = new SimpleCommand(camera, Operation.NikonEndLiveView);
         io.handleCommand(simpleCmd);
 
         if (simpleCmd.getResponseCode() == Response.DeviceBusy) {
+            android.util.Log.i("NikonStopLiveViewAction", "device busy");
             camera.onDeviceBusy(this, true);
-        } else {
+        } else if (simpleCmd.getResponseCode() == Response.Ok) {
             if (notifyUser) {
+                android.util.Log.i("NikonStopLiveViewAction", "notify");
                 camera.onLiveViewStopped();
             } else {
+                android.util.Log.i("NikonStopLiveViewAction", "internal");
                 camera.onLiveViewStoppedInternal();
             }
 
+
+
             if (callback != null) {
+                android.util.Log.i("NikonStopLiveViewAction", "callback rub");
                 callback.run();
             }
+        } else {
+            // 실패 로그 추가
+            android.util.Log.w("NikonStopLiveViewAction",
+                    "Failed to stop LiveView. Response=0x" + Integer.toHexString(simpleCmd.getResponseCode()));
         }
     }
 

@@ -59,6 +59,7 @@ public abstract class PtpCamera implements Camera {
         Error
     }
 
+    private boolean waitCaptureAfterLvStop = false;
     private static final String TAG = PtpCamera.class.getSimpleName();
 
     private final WorkerThread workerThread = new WorkerThread();
@@ -244,11 +245,24 @@ public abstract class PtpCamera implements Camera {
     public void onPropertyChanged(int property, final int value) {
         Log.i(TAG, "p " + property + " " + value);
         ptpProperties.put(property, value);
+
         final Integer virtual = ptpToVirtualProperty.get(property);
         if (AppConfig.LOG) {
-            Log.d(TAG, String.format("onPropertyChanged %s %s(%d)", PtpConstants.propertyToString(property),
-                    virtual != null ? propertyToString(virtual, value) : "", value));
+            Log.d(TAG, String.format("onPropertyChanged %s %s(%d)",
+                    PtpConstants.propertyToString(property),
+                    virtual != null ? propertyToString(virtual, value) : "",
+                    value));
         }
+
+        // 📌 D700은 ExposureTime(0x500d), NikonShutterSpeed(0xd100) 변경 시점이 준비 완료 신호
+        if (waitCaptureAfterLvStop &&
+                (property == PtpConstants.Property.ExposureTime ||
+                        property == PtpConstants.Property.NikonShutterSpeed)) {
+            Log.i(TAG, "Camera ready after LiveView stop → triggering InitiateCaptureCommand");
+            waitCaptureAfterLvStop = false;
+            queue.add(new InitiateCaptureCommand(this));
+        }
+
         if (virtual != null) {
             handler.post(new Runnable() {
                 @Override

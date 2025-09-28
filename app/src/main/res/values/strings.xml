@@ -88,4 +88,5 @@
   <string name="meter_label">Meter</string>
   <string name="f_meter_label">F-Meter</string>
   <string name="exp_label">Exp</string>
+    <string name="generating_information_please_wait">Generating information. Please wait...</string>
 </resources>
