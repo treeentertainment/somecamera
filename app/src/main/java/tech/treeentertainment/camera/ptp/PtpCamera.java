@@ -42,10 +42,11 @@ import tech.treeentertainment.camera.ptp.model.LiveViewData;
 
 public abstract class PtpCamera implements Camera {
 
-    public interface  IO{
+    public interface IO {
         void handleCommand(Command command);
     }
 
+    private Command lastCommand;
     enum State {
         // initial state
         Starting,
@@ -59,7 +60,6 @@ public abstract class PtpCamera implements Camera {
         Error
     }
 
-    private boolean waitCaptureAfterLvStop = false;
     private static final String TAG = PtpCamera.class.getSimpleName();
 
     private final WorkerThread workerThread = new WorkerThread();
@@ -247,21 +247,6 @@ public abstract class PtpCamera implements Camera {
         ptpProperties.put(property, value);
 
         final Integer virtual = ptpToVirtualProperty.get(property);
-        if (AppConfig.LOG) {
-            Log.d(TAG, String.format("onPropertyChanged %s %s(%d)",
-                    PtpConstants.propertyToString(property),
-                    virtual != null ? propertyToString(virtual, value) : "",
-                    value));
-        }
-
-        // 📌 D700은 ExposureTime(0x500d), NikonShutterSpeed(0xd100) 변경 시점이 준비 완료 신호
-        if (waitCaptureAfterLvStop &&
-                (property == PtpConstants.Property.ExposureTime ||
-                        property == PtpConstants.Property.NikonShutterSpeed)) {
-            Log.i(TAG, "Camera ready after LiveView stop → triggering InitiateCaptureCommand");
-            waitCaptureAfterLvStop = false;
-            queue.add(new InitiateCaptureCommand(this));
-        }
 
         if (virtual != null) {
             handler.post(new Runnable() {
@@ -432,11 +417,18 @@ public abstract class PtpCamera implements Camera {
         });
     }
 
-    private static final int MAX_BUSY_RETRIES = 50; // 약 10초
+    private static final int MAX_BUSY_RETRIES = 5; // 약 10초
     private final Map<PtpAction, Integer> busyRetryCount = new HashMap<>();
 
     public void onDeviceBusy(PtpAction action, boolean requeue) {
         int count = busyRetryCount.getOrDefault(action, 0) + 1;
+
+        if (count == 1) {
+            Log.w(TAG, "Device busy detected! Action: " + action +
+                    ", camera state: " + this.toString() +
+                    ", last command: " + (lastCommand != null ? lastCommand.toString() : "null"));
+        }
+
         busyRetryCount.put(action, count);
 
         if (count > MAX_BUSY_RETRIES) {
@@ -597,9 +589,12 @@ public abstract class PtpCamera implements Camera {
 
         @Override
         public void handleCommand(Command command) {
-            if (AppConfig.LOG) {
-//                   Log.i(TAG, "handling command " + command.getClass().getSimpleName());
-            }
+            lastCommand = command;
+          //  if (AppConfig.LOG) {
+          //      if (!command.getClass().getSimpleName().equals("NikonGetLiveViewImageCommand")) {
+          //          Log.i(TAG, "handling command " + command.getClass().getSimpleName());
+        //        }
+       //     }
 
             ByteBuffer b = smallIn;
             b.position(0);
@@ -719,8 +714,7 @@ public abstract class PtpCamera implements Camera {
                         Log.e(TAG, "Exception " + e.getLocalizedMessage());
                         e.printStackTrace();
                     }
-                    onPtpError(String.format("Error parsing %s with length %d", command.getClass().getSimpleName(),
-                            length));
+                    onPtpError(String.format("Error parsing %s with length %d", command.getClass().getSimpleName(), length));
                 }
             }
         }
@@ -828,73 +822,10 @@ public abstract class PtpCamera implements Camera {
 
     @Override
     public void capture(int mode) {
-        Log.d("CameraCapture", "capture() called with mode=" + mode);
-
-        if (mode == CAPTURE_HIGH_QUALITY) {
-            Log.d("CameraCapture", "High quality capture requested");
-            queue.add(new InitiateCaptureCommand(this));
-        } else if (mode == CAPTURE_DEFAULT) {
-            Log.d("CameraCapture", "Default capture (LiveView frame)");
-
-            // LiveView 프레임 캡쳐
-            LiveViewData frame = new LiveViewData();
-            frame.setFrameReadyListener(bmp -> {
-
-                if (bmp != null) {
-                Log.d("CameraCapture", "LiveView frame captured, size="
-                        + bmp.getWidth() + "x" + bmp.getHeight());
-
-                // 1. mutable 복사
-                bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
-                Log.d("CameraCapture", "Bitmap copied as mutable");
-
-                    saveBitmapToPhone(bmp, "liveview_" + System.currentTimeMillis() + ".jpg");
-
-                // 3. Fragment listener 호출
-                if (listener != null) {
-                    int handle = (int) System.currentTimeMillis();
-                    Log.d("CameraCapture", "Notify listener: handle=" + handle);
-                    listener.onCapturedPictureReceived(
-                            handle,
-                            "liveview_" + handle + ".jpg",
-                            bmp,
-                            bmp
-                    );
-                } else {
-                    Log.w("CameraCapture", "Listener is null, cannot deliver bitmap");
-                }
-            } else {
-                Log.w("CameraCapture", "LiveView frame capture failed, bmp=null");
-            }
-            });
-            getLiveViewPicture(frame);
-
-        } else {
-            Log.w("CameraCapture", "Unknown capture mode=" + mode);
-        }
+        queue.add(new InitiateCaptureCommand(this));
     }
 
-    private void saveBitmapToPhone(Bitmap bmp, String fileName) {
-        try {
-            // 저장 경로: Pictures 디렉토리 사용 (API 29+ 대응)
-            File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "somecamera");
-            if (!dir.exists()) dir.mkdirs();
-
-            File file = new File(dir, fileName);
-            FileOutputStream out = new FileOutputStream(file);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 95, out);
-            out.flush();
-            out.close();
-            Log.d("CameraCapture", "Bitmap saved: " + file.getAbsolutePath());
-        } catch (Exception e) {
-            Log.e("CameraCapture", "Bitmap save failed", e);
-        }
-    }
-
-
-
-
-        @Override
+    @Override
     public boolean isAutoFocusSupported() {
         return autoFocusSupported;
     }

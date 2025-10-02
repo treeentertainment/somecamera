@@ -139,7 +139,6 @@ public class PtpUsbService implements PtpService {
         }
         IntentFilter filter = new IntentFilter(ACTION_USB_PERMISSION);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-            // 앱 내부에서만 받는 브로드캐스트이므로 NOT_EXPORTED 사용
             context.registerReceiver(permissionReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
         } else {
             context.registerReceiver(permissionReceiver, filter);

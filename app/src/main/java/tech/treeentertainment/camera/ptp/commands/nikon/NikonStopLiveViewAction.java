@@ -40,7 +40,7 @@ public class NikonStopLiveViewAction implements PtpAction {
 
 
             if (callback != null) {
-                android.util.Log.i("NikonStopLiveViewAction", "callback rub");
+                android.util.Log.i("NikonStopLiveViewAction", "callback run");
                 callback.run();
             }
         } else {

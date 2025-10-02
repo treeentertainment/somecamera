@@ -1,8 +1,12 @@
 
 package tech.treeentertainment.camera.ptp;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.util.Log;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -21,6 +25,7 @@ import tech.treeentertainment.camera.ptp.commands.nikon.NikonGetLiveViewImageCom
 import tech.treeentertainment.camera.ptp.commands.nikon.NikonOpenSessionAction;
 import tech.treeentertainment.camera.ptp.commands.nikon.NikonStartLiveViewAction;
 import tech.treeentertainment.camera.ptp.commands.nikon.NikonStopLiveViewAction;
+import tech.treeentertainment.camera.ptp.commands.nikon.NikonTakePictureCommand;
 import tech.treeentertainment.camera.ptp.model.DevicePropDesc;
 import tech.treeentertainment.camera.ptp.model.LiveViewData;
 import tech.treeentertainment.camera.ptp.commands.nikon.NikonCaptureDuringLvCommand;
@@ -73,16 +78,6 @@ public class NikonCamera extends PtpCamera {
                     }
                 }
             });
-        }
-
-        // ✅ LiveView 종료 후 캡처 실행
-        if (waitCaptureAfterLvStop
-                && (property == PtpConstants.Property.ExposureTime
-                || property == PtpConstants.Property.NikonShutterSpeed)) {
-
-            Log.i("NikonCamera", "LiveView stopped event received, starting capture.");
-            waitCaptureAfterLvStop = false;
-            queue.add(new InitiateCaptureCommand(this));
         }
     }
 
@@ -238,6 +233,7 @@ public class NikonCamera extends PtpCamera {
         case Property.FocusPoints:
             return true;
         case Property.ColorTemperature:
+            
             return wb != null && wb == 0x8012;
         default:
             return true;
@@ -251,29 +247,74 @@ public class NikonCamera extends PtpCamera {
 
     @Override
     public void capture(int mode) {
-        if (liveViewOpen) {
-            // ✅ Nikon 전용 CaptureDuringLv 지원 여부 확인
-            if (hasSupportForOperation(Operation.NikonCaptureDuringLv)) {
-                Log.d("NikonCamera", "Using NikonCaptureDuringLv (high quality).");
-                queue.add(new NikonCaptureDuringLvCommand(this));
-                return;
+        if (mode == CAPTURE_HIGH_QUALITY) {
+            if (liveViewOpen) {
+                if (hasSupportForOperation(Operation.NikonCaptureDuringLv)) {
+                    Log.d("NikonCamera", "Using NikonCaptureDuringLv (high quality).");
+                    queue.add(new NikonCaptureDuringLvCommand(this));
+                } else {
+                    Log.d("NikonCamera", "No CaptureDuringLv support, stopping LiveView first.");
+                    queue.add(new NikonStopLiveViewAction(this, false, () -> {
+                        android.util.Log.i("NikonCamera", "StopLiveView requested, waiting for event...");
+                        queue.add(new NikonTakePictureCommand(this));
+                    }));
+                }
+
             } else {
-                Log.d("NikonCamera", "No CaptureDuringLv support, stopping LiveView first.");
-
-                waitCaptureAfterLvStop = true;
-                //    onPropertyChanged 이벤트에서 실행되도록 위임
-                queue.add(new NikonStopLiveViewAction(this, false, () -> {
-                    android.util.Log.i("NikonCamera", "StopLiveView requested, waiting for event...");
-                }));
-                return;
+                Log.d("NikonCamera", "Normal capture (LiveView not open).");
+                queue.add(new NikonTakePictureCommand(this));
             }
+        } else {
+            LiveViewData frame = new LiveViewData();
+            frame.setFrameReadyListener(bmp -> {
+
+                if (bmp != null) {
+                    Log.d("CameraCapture", "LiveView frame captured, size="
+                            + bmp.getWidth() + "x" + bmp.getHeight());
+
+                    // 1. mutable 복사
+                    bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
+                    Log.d("CameraCapture", "Bitmap copied as mutable");
+
+                    saveBitmapToPhone(bmp, "liveview_" + System.currentTimeMillis() + ".jpg");
+
+                    // 3. Fragment listener 호출
+                    if (listener != null) {
+                        int handle = (int) System.currentTimeMillis();
+                        Log.d("CameraCapture", "Notify listener: handle=" + handle);
+                        listener.onCapturedPictureReceived(
+                                handle,
+                                "liveview_" + handle + ".jpg",
+                                bmp,
+                                bmp
+                        );
+                    } else {
+                        Log.w("CameraCapture", "Listener is null, cannot deliver bitmap");
+                    }
+                } else {
+                    Log.w("CameraCapture", "LiveView frame capture failed, bmp=null");
+                }
+            });
+            getLiveViewPicture(frame);
         }
-
-        // ✅ 기본 캡처
-        Log.d("NikonCamera", "Normal capture (LiveView not open).");
-        queue.add(new InitiateCaptureCommand(this));
     }
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void saveBitmapToPhone(Bitmap bmp, String fileName) {
+        try {
+            // 저장 경로: Pictures 디렉토리 사용 (API 29+ 대응)
+            File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "somecamera");
+            if (!dir.exists()) dir.mkdirs();
 
+            File file = new File(dir, fileName);
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 95, out);
+            out.flush();
+            out.close();
+            Log.d("CameraCapture", "Bitmap saved: " + file.getAbsolutePath());
+        } catch (Exception e) {
+            Log.e("CameraCapture", "Bitmap save failed", e);
+        }
+    }
 
     private int wholeWidth;
     private int wholeHeight;

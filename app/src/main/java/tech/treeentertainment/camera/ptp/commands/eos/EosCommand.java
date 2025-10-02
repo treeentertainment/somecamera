@@ -1,4 +1,3 @@
-
 package tech.treeentertainment.camera.ptp.commands.eos;
 
 import tech.treeentertainment.camera.ptp.EosCamera;

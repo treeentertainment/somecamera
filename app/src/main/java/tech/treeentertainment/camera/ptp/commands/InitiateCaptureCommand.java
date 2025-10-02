@@ -1,4 +1,3 @@
-
 package tech.treeentertainment.camera.ptp.commands;
 
 import java.nio.ByteBuffer;
@@ -15,8 +14,8 @@ public class InitiateCaptureCommand extends Command {
     }
 
     @Override
-    public void exec(IO io) {
-        io.handleCommand(this);
+        public void exec(IO io) {
+            io.handleCommand(this);
         if (responseCode == Response.DeviceBusy) {
             camera.onDeviceBusy(this, true); // TODO when nikon live view is enabled this stalls
             return;

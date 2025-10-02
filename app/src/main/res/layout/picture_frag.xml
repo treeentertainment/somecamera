@@ -17,4 +17,14 @@
     android:layout_height="wrap_content"
     android:layout_gravity="center"/>
 
+
+  <!-- res/layout/picture_frag.xml -->
+  <com.google.android.material.button.MaterialButton
+      android:id="@+id/btn_close"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="@string/close"
+      android:layout_gravity="bottom|center_horizontal"
+      android:layout_marginBottom="16dp"/>
+
 </FrameLayout>

@@ -16,7 +16,6 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary">
 
-            <!-- 툴바 안에 카메라 이름 표시 -->
             <TextView
                 android:id="@+id/cameraName"
                 android:layout_width="wrap_content"
@@ -42,6 +41,7 @@
 
     <!-- 실제 콘텐츠 부분 -->
     <LinearLayout
+        android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"

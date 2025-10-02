@@ -12,6 +12,11 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.material.button.MaterialButton;
+
 import tech.treeentertainment.camera.GestureDetector;
 import tech.treeentertainment.camera.GestureDetector.GestureHandler;
 import tech.treeentertainment.camera.PictureView;
@@ -55,13 +60,18 @@ public class PictureFragment extends SessionFragment implements Camera.RetrieveI
             }
         });
 
+        MaterialButton btnClose = view.findViewById(R.id.btn_close);
+        btnClose.setOnClickListener(v -> {
+            requireActivity().getSupportFragmentManager().popBackStack();
+        });
+
         return view;
     }
 
     @Override
     public void onStart() {
         super.onStart();
-        getActivity().getActionBar().hide();
+        ((AppCompatActivity) getActivity()).getSupportActionBar().hide();
         if (camera() == null) {
 
         } else if (picture == null) {
@@ -72,10 +82,14 @@ public class PictureFragment extends SessionFragment implements Camera.RetrieveI
     @Override
     public void onStop() {
         super.onStop();
-        if (isRemoving()) {
-            getActivity().getActionBar().show();
+        if (getActivity() instanceof AppCompatActivity) {
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.show();
+            }
         }
     }
+
 
     @Override
     public void enableUi(boolean enabled) {

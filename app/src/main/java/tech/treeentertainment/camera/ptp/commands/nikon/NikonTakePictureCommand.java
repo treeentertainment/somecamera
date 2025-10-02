@@ -2,15 +2,14 @@ package tech.treeentertainment.camera.ptp.commands.nikon;
 
 import java.nio.ByteBuffer;
 
-import tech.treeentertainment.camera.ptp.PtpCamera;
+import tech.treeentertainment.camera.ptp.NikonCamera;
 import tech.treeentertainment.camera.ptp.PtpCamera.IO;
+import tech.treeentertainment.camera.ptp.PtpConstants.Operation;
 import tech.treeentertainment.camera.ptp.PtpConstants.Response;
-import tech.treeentertainment.camera.ptp.commands.Command;
 
-public class NikonTakePictureCommand extends Command {
-    public static final int NIKON_START_CAPTURE = 0x90C0;
+public class NikonTakePictureCommand extends NikonCommand {
 
-    public NikonTakePictureCommand(PtpCamera camera) {
+    public NikonTakePictureCommand(NikonCamera camera) {
         super(camera);
     }
 
@@ -24,6 +23,6 @@ public class NikonTakePictureCommand extends Command {
 
     @Override
     public void encodeCommand(ByteBuffer b) {
-        encodeCommand(b, NIKON_START_CAPTURE, 0, 0);
+        encodeCommand(b, Operation.InitiateCapture);
     }
 }

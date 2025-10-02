@@ -6,12 +6,11 @@ import android.util.Log;
 import tech.treeentertainment.camera.ptp.NikonCamera;
 import tech.treeentertainment.camera.ptp.PtpCamera;
 import tech.treeentertainment.camera.ptp.PtpConstants;
-import tech.treeentertainment.camera.ptp.commands.InitiateCaptureCommand;
 import tech.treeentertainment.camera.ptp.commands.SimpleCommand; // ✅ 추가
 public class NikonCaptureDuringLvCommand extends SimpleCommand {
 
     public NikonCaptureDuringLvCommand(PtpCamera camera) {
-        super(camera, 0x90C0); // Nikon vendor-specific CaptureDuringLv
+        super(camera, 0x9201); // Nikon vendor-specific CaptureDuringLv
     }
 
     @SuppressLint("LongLogTag")
@@ -22,7 +21,7 @@ public class NikonCaptureDuringLvCommand extends SimpleCommand {
         Log.d("NikonCaptureDuringLvCommand",
                 "Response = " + code + " (" + PtpConstants.responseToString(code) + ")");
 
-        if (code == PtpConstants.Response.ParameterNotSupported) {
+        if (code == PtpConstants.Response.ParameterNotSupported || code == PtpConstants.Response.OperationNotSupported || code == PtpConstants.Response.DeviceBusy) {
             Log.w("NikonCaptureDuringLvCommand",
                     "D700 does not support CaptureDuringLv. Falling back.");
 
@@ -30,10 +29,8 @@ public class NikonCaptureDuringLvCommand extends SimpleCommand {
                 NikonCamera nikonCamera = (NikonCamera) camera;
 
                 nikonCamera.queue.add(new NikonStopLiveViewAction(nikonCamera, false, () -> {
-                    nikonCamera.enqueue(new InitiateCaptureCommand(nikonCamera), 500);
-
-                    // LiveView 재개
-                    nikonCamera.queue.add(new NikonStartLiveViewAction(nikonCamera));
+                    android.util.Log.i("NikonCamera", "StopLiveView requested, waiting for event...");
+                    nikonCamera.enqueue(new NikonTakePictureCommand(nikonCamera), 500);
                 }));
 
             } else {
@@ -41,7 +38,4 @@ public class NikonCaptureDuringLvCommand extends SimpleCommand {
             }
         }
     }
-
-
-
 }

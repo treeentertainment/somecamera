@@ -3,6 +3,8 @@ package tech.treeentertainment.camera.view;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+
+import android.annotation.SuppressLint;
 import android.os.Environment;
 import android.net.Uri;
 import android.content.Intent;
@@ -173,9 +175,10 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         takePictureBtn.setOnTouchListener(new View.OnTouchListener() {
             private long pressStartTime;
             private long lastClickTime = 0;
-            private final int DOUBLE_CLICK_THRESHOLD = 300; // ms
+            private final int DOUBLE_CLICK_THRESHOLD = 1000; // ms
             private final int LONG_PRESS_THRESHOLD = 2000;  // 2초
 
+            @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 switch (event.getAction()) {
@@ -246,10 +249,11 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
             });
 
 
-
+// liveview start/end toggle
             liveViewToggle.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    Log.d("camera", "onClick: liveviewtoggle");
                     onLiveViewToggleClicked(v);
                 }
             });
@@ -308,9 +312,6 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
             thumbnailAdapter = new ThumbnailAdapter(getActivity());
             RecyclerView pictureStream = view.findViewById(R.id.picture_stream);
             pictureStream.setLayoutManager(new LinearLayoutManager(getContext()));
-
-             // ThumbnailAdapter는 RecyclerView.Adapter 기반이어야 함
-
             thumbnailAdapter = new ThumbnailAdapter(getActivity());
             thumbnailAdapter.setOnItemClickListener(handle -> {
                 if (camera() == null) return;
@@ -385,7 +386,6 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
     }
 
     private int getCaptureHoldThreshold() {
-        // 기본값 2초
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(requireContext());
         String valueStr = prefs.getString("capture_hold_seconds", "2");
         int thresholdSeconds = 2;
@@ -435,15 +435,24 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
     @Override
     public void onResume() {
         super.onResume();
+        ((SessionActivity) getActivity()).setSessionView(this);
+
         if (camera() != null) {
-            if (isPro && camera().isLiveViewOpen()) {
-                // TODO possible that more than one calls this
+            if (isPro) {
+                if (!camera().isLiveViewOpen()) {
+                    // LiveView를 강제로 다시 켜줌
+                    camera().setLiveView(true);
+                }
                 currentLiveViewData = null;
                 currentLiveViewData2 = null;
                 camera().getLiveViewPicture(null);
+                cameraStarted(camera());
             }
         }
     }
+
+
+// TabletSessionFragment.java
 
     @Override
     public void onStop() {
@@ -453,7 +462,47 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
             editor.putBoolean("property.id" + e.getKey().intValue() + ".autohide", e.getValue().getAutoHide());
         }
         editor.apply();
+
+        // 설정값에 따라 LiveView 종료
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean autoStopLiveView = prefs.getBoolean("auto_stop_liveview_on_tab_change", true);
+        if (autoStopLiveView && camera() != null && camera().isLiveViewOpen()) {
+            liveViewToggle.setEnabled(false);
+            camera().setLiveView(false);
+        }
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        Log.d("tabletsessionfragment", "onStop: ");
+        Editor editor = prefs.edit();
+        for (Map.Entry<Integer, PropertyDisplayer> e : properties.entrySet()) {
+            editor.putBoolean("property.id" + e.getKey().intValue() + ".autohide", e.getValue().getAutoHide());
+        }
+        editor.apply();
+
+        // 설정값에 따라 LiveView 종료
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        boolean autoStopLiveView = prefs.getBoolean("auto_stop_liveview_on_tab_change", true);
+        if (autoStopLiveView && camera() != null && camera().isLiveViewOpen()) {
+            camera().setLiveView(false);
+            liveViewToggle.setEnabled(false);
+        }
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        Log.d("TabletSessionFragment", "onDestroyView");
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("TabletSessionFragment", "onDestroy");
+    }
+
 
     @Override
     public void enableUi(boolean enabled) {
@@ -776,7 +825,7 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
         camera().setLiveView(liveViewToggle.isChecked());
         if (liveViewToggle.isChecked()) {
         } else {
-//            handler.removeCallbacks(liveViewRestarterRunner);
+            handler.removeCallbacks(liveViewRestarterRunner);
             btnLiveview.setVisibility(View.GONE);
             liveView.setLiveViewData(null);
             histogramToggle.setChecked(false);
@@ -784,6 +833,7 @@ public class TabletSessionFragment extends SessionFragment implements GestureDet
             onDriveLensToggleClicked(null);
         }
     }
+
 
     public void onFocusClicked(View view) {
         camera().focus();

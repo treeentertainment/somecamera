@@ -1,10 +1,14 @@
 
 package tech.treeentertainment.camera.ptp;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
+import android.graphics.Bitmap;
+import android.os.Environment;
 import android.util.Log;
 
 import tech.treeentertainment.camera.ptp.PtpConstants.Operation;
@@ -15,6 +19,9 @@ import tech.treeentertainment.camera.ptp.commands.eos.EosOpenSessionAction;
 import tech.treeentertainment.camera.ptp.commands.eos.EosSetLiveViewAction;
 import tech.treeentertainment.camera.ptp.commands.eos.EosSetPropertyCommand;
 import tech.treeentertainment.camera.ptp.commands.eos.EosTakePictureCommand;
+import tech.treeentertainment.camera.ptp.commands.nikon.NikonCaptureDuringLvCommand;
+import tech.treeentertainment.camera.ptp.commands.nikon.NikonStopLiveViewAction;
+import tech.treeentertainment.camera.ptp.commands.nikon.NikonTakePictureCommand;
 import tech.treeentertainment.camera.ptp.model.LiveViewData;
 
 public class EosCamera extends PtpCamera {
@@ -72,11 +79,65 @@ public class EosCamera extends PtpCamera {
         //queue.add(new SimpleCommand(this, Operation.EosRemoteReleaseOn, 1, 0));
     }
 
-    public void capture() {
-        if (isBulbCurrentShutterSpeed()) {
-            queue.add(new SimpleCommand(this, cameraIsCapturing ? Operation.EosBulbEnd : Operation.EosBulbStart));
+    @Override
+    public void capture(int mode) {
+        if (mode == CAPTURE_HIGH_QUALITY) {
+                if (isBulbCurrentShutterSpeed()) {
+                    queue.add(new SimpleCommand(this, cameraIsCapturing ? Operation.EosBulbEnd : Operation.EosBulbStart));
+                } else {
+                    queue.add(new EosTakePictureCommand(this));
+                }
         } else {
-            queue.add(new EosTakePictureCommand(this));
+            // LiveView 프레임 캡쳐
+            LiveViewData frame = new LiveViewData();
+            frame.setFrameReadyListener(bmp -> {
+
+                if (bmp != null) {
+                    Log.d("CameraCapture", "LiveView frame captured, size="
+                            + bmp.getWidth() + "x" + bmp.getHeight());
+
+                    // 1. mutable 복사
+                    bmp = bmp.copy(Bitmap.Config.ARGB_8888, true);
+                    Log.d("CameraCapture", "Bitmap copied as mutable");
+
+                    saveBitmapToPhone(bmp, "liveview_" + System.currentTimeMillis() + ".jpg");
+
+                    // 3. Fragment listener 호출
+                    if (listener != null) {
+                        int handle = (int) System.currentTimeMillis();
+                        Log.d("CameraCapture", "Notify listener: handle=" + handle);
+                        listener.onCapturedPictureReceived(
+                                handle,
+                                "liveview_" + handle + ".jpg",
+                                bmp,
+                                bmp
+                        );
+                    } else {
+                        Log.w("CameraCapture", "Listener is null, cannot deliver bitmap");
+                    }
+                } else {
+                    Log.w("CameraCapture", "LiveView frame capture failed, bmp=null");
+                }
+            });
+            getLiveViewPicture(frame);
+        }
+    }
+
+    @SuppressWarnings("ResultOfMethodCallIgnored")
+    private void saveBitmapToPhone(Bitmap bmp, String fileName) {
+        try {
+            // 저장 경로: Pictures 디렉토리 사용 (API 29+ 대응)
+            File dir = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "somecamera");
+            if (!dir.exists()) dir.mkdirs();
+
+            File file = new File(dir, fileName);
+            FileOutputStream out = new FileOutputStream(file);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 95, out);
+            out.flush();
+            out.close();
+            Log.d("CameraCapture", "Bitmap saved: " + file.getAbsolutePath());
+        } catch (Exception e) {
+            Log.e("CameraCapture", "Bitmap save failed", e);
         }
     }
 

@@ -23,11 +23,11 @@
 
   <!-- about dialog -->
   <string name="about_dialog_version">Version %1$s</string>
-  <string name="about_dialog_copyright">Copyright \u00A9 2011 Nils Assbeck and MichaeXl Z\u00F6ch</string>
-  <string name="about_dialog_message">Remote Your Cam USB allows you to control your Canon DSLR camera via USB directly form your Android tablet.</string>
+  <string name="about_dialog_copyright">Copyright \u00A9 2025 treeentertainment, original code from Nils Assbeck and MichaeXl Z\u00F6ch</string>
+  <string name="about_dialog_message">SOME CAMERA allows you to control your Canon DSLR camera via USB directly form your Android tablet.</string>
 
   <!-- feedback dialog -->
-  <string name="feedback_dialog_title">Help us improve T EXPERT CAM!</string>
+  <string name="feedback_dialog_title">Help us improve SOME CAMERA!</string>
   <string name="feedback_dialog_message">Want to help improving the app? Then please give us feedback by sending us device information of your camera. Click the "OK" button to open your preferred Email application.</string>
 
   <!-- no camera dialog -->
@@ -88,5 +88,11 @@
   <string name="meter_label">Meter</string>
   <string name="f_meter_label">F-Meter</string>
   <string name="exp_label">Exp</string>
-    <string name="generating_information_please_wait">Generating information. Please wait...</string>
+  <string name="generating_information_please_wait">Generating information. Please wait…</string>
+  <string name="close">닫기</string>
+  <string name="pref_auto_stop_liveview_on_tab_change_title">탭 변경 시 LiveView 자동 종료</string>
+  <string name="pref_auto_stop_liveview_on_tab_change_summary">탭을 바꿀 때 LiveView를 자동으로 끕니다.</string>
+  <string name="pref_single_click_mode_title">한 번 클릭 시 캡처 모드</string>
+  <string name="pref_long_press_mode_title">길게 누름 시 캡처 모드 (2초 이상)</string>
+  <string name="pref_double_click_mode_title">더블 클릭 시 캡처 모드</string>
 </resources>

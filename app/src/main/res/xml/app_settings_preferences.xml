@@ -11,6 +11,12 @@
         android:entries="@array/captured_picture_duration_labels"
         android:entryValues="@array/captured_picture_duration_entries"
         android:defaultValue="-1" />
+
+    <CheckBoxPreference
+        android:key="auto_stop_liveview_on_tab_change"
+        android:title="@string/pref_auto_stop_liveview_on_tab_change_title"
+        android:summary="@string/pref_auto_stop_liveview_on_tab_change_summary"
+        android:defaultValue="true" />
   </PreferenceCategory>
 
   <PreferenceCategory
@@ -46,7 +52,7 @@
   <!-- 각 클릭 방식별 캡처 모드 -->
   <ListPreference
       android:key="single_click_mode"
-      android:title="한 번 클릭 시 캡처 모드"
+      android:title="@string/pref_single_click_mode_title"
       android:defaultValue="liveview"
       android:entries="@array/capture_mode_entries"
       android:entryValues="@array/capture_mode_values"
@@ -54,7 +60,7 @@
 
   <ListPreference
       android:key="long_press_mode"
-      android:title="길게 누름 시 캡처 모드 (2초 이상)"
+      android:title="@string/pref_long_press_mode_title"
       android:defaultValue="high_quality"
       android:entries="@array/capture_mode_entries"
       android:entryValues="@array/capture_mode_values"
@@ -62,10 +68,9 @@
 
   <ListPreference
       android:key="double_click_mode"
-      android:title="더블 클릭 시 캡처 모드"
+      android:title="@string/pref_double_click_mode_title"
       android:defaultValue="high_quality"
       android:entries="@array/capture_mode_entries"
       android:entryValues="@array/capture_mode_values"
       android:summary="%s"/>
-
 </PreferenceScreen>

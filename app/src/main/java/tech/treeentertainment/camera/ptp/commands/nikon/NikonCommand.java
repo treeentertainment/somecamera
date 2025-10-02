@@ -1,4 +1,3 @@
-
 package tech.treeentertainment.camera.ptp.commands.nikon;
 
 import tech.treeentertainment.camera.ptp.NikonCamera;

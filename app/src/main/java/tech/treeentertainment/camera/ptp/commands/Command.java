@@ -104,6 +104,14 @@ public abstract class Command implements PtpAction {
         if (type == Type.Data) {
             decodeData(b, length);
         } else if (type == Type.Response) {
+
+      //      if (!getClass().getSimpleName().equals("NikonGetLiveViewImageCommand")) {
+        //        Log.i(TAG,
+         //               String.format("Received %s packet for %s, length %d, code %s, tx %d",
+         //                       PtpConstants.typeToString(type), getClass().getSimpleName(), length,
+      //                          PtpConstants.codeToString(type, code), tx));
+       //     }
+
             hasResponseReceived = true;
             responseCode = code;
             decodeResponse(b, length);
