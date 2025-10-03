@@ -1,4 +1,3 @@
-
 package tech.treeentertainment.camera;
 
 import java.io.File;
@@ -24,6 +23,7 @@ import android.view.WindowManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.core.content.FileProvider;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.google.android.material.tabs.TabLayout;
@@ -40,6 +40,7 @@ import tech.treeentertainment.camera.util.PackageUtil;
 import tech.treeentertainment.camera.view.SessionActivity;
 import tech.treeentertainment.camera.view.SessionView;
 import tech.treeentertainment.camera.view.WebViewDialogFragment;
+import tech.treeentertainment.camera.BuildConfig;
 
 public class MainActivity extends SessionActivity implements CameraListener {
 
