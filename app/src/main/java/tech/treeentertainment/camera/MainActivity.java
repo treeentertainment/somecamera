@@ -1,7 +1,4 @@
 package tech.treeentertainment.camera;
-
-import tech.treeentertainment.camera.BuildConfig;
-
 import java.io.File;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -279,11 +276,11 @@ public class MainActivity extends SessionActivity implements CameraListener {
                 emailIntent.putExtra(Intent.EXTRA_SUBJECT, "RYC USB Feedback");
     
                 if (out != null && out.exists()) {
-                    Uri uri = FileProvider.getUriForFile(
-                            this,
-                            BuildConfig.APPLICATION_ID + ".provider",
-                            out
-                    );
+                   Uri uri = FileProvider.getUriForFile(
+                      this,
+                      getApplicationContext().getPackageName() + ".provider",
+                      out
+                   );
                     emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
                     emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     emailIntent.putExtra(Intent.EXTRA_TEXT, "문제가 있나요? 로그 파일을 확인해 주세요.");
