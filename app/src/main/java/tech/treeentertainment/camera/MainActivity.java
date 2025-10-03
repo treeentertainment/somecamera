@@ -1,5 +1,7 @@
 package tech.treeentertainment.camera;
 
+import tech.treeentertainment.camera.BuildConfig;
+
 import java.io.File;
 
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
