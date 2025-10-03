@@ -40,7 +40,6 @@ import tech.treeentertainment.camera.util.PackageUtil;
 import tech.treeentertainment.camera.view.SessionActivity;
 import tech.treeentertainment.camera.view.SessionView;
 import tech.treeentertainment.camera.view.WebViewDialogFragment;
-import tech.treeentertainment.camera.BuildConfig;
 
 public class MainActivity extends SessionActivity implements CameraListener {
 
