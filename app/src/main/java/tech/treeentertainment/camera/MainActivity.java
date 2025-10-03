@@ -257,43 +257,51 @@ public class MainActivity extends SessionActivity implements CameraListener {
                 .show();
     }
 
-
     private void sendDeviceInformation() {
-        showProgressDialog();
-        Thread th = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                File dir = getExternalCacheDir();
-                final File out = dir != null ? new File(dir, "deviceinfo.txt") : null;
-
-                if (camera != null) {
+        new Thread(() -> {
+            File dir = getExternalCacheDir();
+            File out = dir != null ? new File(dir, "deviceinfo.txt") : null;
+    
+            try {
+                if (camera != null && out != null) {
                     camera.writeDebugInfo(out);
                 }
-
-                final String shortDeviceInfo = out == null && camera != null ? camera.getDeviceInfo() : "unknown";
-
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        MainActivity.this.dismissDialog(DIALOG_PROGRESS);
-                        Intent sendIntent = new Intent(Intent.ACTION_SEND);
-                        sendIntent.setType("text/plain");
-                        sendIntent.putExtra(Intent.EXTRA_SUBJECT, "RYC USB Feedback");
-                        sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[] { "treeentertainment@naver.com" });
-                        if (out != null && camera != null) {
-                            sendIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse("file://" + out.toString()));
-                            sendIntent.putExtra(Intent.EXTRA_TEXT, "Any problems or feature whishes? Let us know: ");
-                        } else {
-                            sendIntent.putExtra(Intent.EXTRA_TEXT,
-                                    "Any problems or feature whishes? Let us know: \n\n\n" + shortDeviceInfo);
-                        }
-                        startActivity(Intent.createChooser(sendIntent, "Email:"));
-                    }
-                });
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        });
-        th.start();
+    
+            runOnUiThread(() -> {
+                Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                emailIntent.setType("message/rfc822"); // 이메일 앱만 필터됨
+                emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"treeentertainment@naver.com"});
+                emailIntent.putExtra(Intent.EXTRA_SUBJECT, "RYC USB Feedback");
+    
+                if (out != null && out.exists()) {
+                    Uri uri = FileProvider.getUriForFile(
+                            this,
+                            BuildConfig.APPLICATION_ID + ".provider",
+                            out
+                    );
+                    emailIntent.putExtra(Intent.EXTRA_STREAM, uri);
+                    emailIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, "문제가 있나요? 로그 파일을 확인해 주세요.");
+                } else {
+                    String deviceInfo = camera != null ? camera.getDeviceInfo() : "unknown";
+                    emailIntent.putExtra(Intent.EXTRA_TEXT,
+                            "문제가 있나요? 로그 파일이 첨부되지 않았습니다.\n\nDevice Info:\n" + deviceInfo);
+                }
+    
+                try {
+                    startActivity(Intent.createChooser(emailIntent, "Send email..."));
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    Toast.makeText(this, "이메일 앱을 찾을 수 없습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }).start();
     }
+
+
 
     public void onMenuChangelogClicked(MenuItem item) {
         showChangelog();
