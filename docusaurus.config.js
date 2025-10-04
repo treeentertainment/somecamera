@@ -24,9 +24,6 @@ const config = {
       '@docusaurus/preset-classic',
       {
         docs: false, // 기본 docs 비활성화 (우리가 plugin으로 따로 넣음)
-        theme: {
-          customCss: require.resolve('./src/css/custom.css'),
-        },
       },
     ],
   ],
