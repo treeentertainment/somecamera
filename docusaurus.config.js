@@ -71,11 +71,11 @@ const config = {
         },
         {
           label: 'Docs (EN)',
-          to: '/docs/en/index',
+          to: '/docs/en/intro/index',
         },
         {
           label: 'Docs (KR)',
-          to: '/docs/kr/index',
+          to: '/docs/kr/intro/index',
         },
       ],
     },
