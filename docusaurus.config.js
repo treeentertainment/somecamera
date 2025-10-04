@@ -37,7 +37,7 @@ const config = {
         path: 'docs/kr',
         routeBasePath: 'docs/kr',
         sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-        editUrl: 'https://github.com/treeentertainment/SomeCamera/edit/main/',
+        editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/docs/kr',
       },
     ],
     // English docs
@@ -48,7 +48,7 @@ const config = {
         path: 'docs/en',
         routeBasePath: 'docs/en',
         sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-        editUrl: 'https://github.com/treeentertainment/SomeCamera/edit/main/',
+        editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/docs/en',
       },
     ],
   ],
@@ -57,8 +57,8 @@ const config = {
     navbar: {
       title: 'SomeCamera',
       items: [
-        { to: '/docs/en/index', label: 'Docs (EN)', position: 'left' },
-        { to: '/docs/kr/index', label: 'Docs (KR)', position: 'left' },
+        { to: '/docs/en/intro/index', label: 'Docs (EN)', position: 'left' },
+        { to: '/docs/kr/intro/index', label: 'Docs (KR)', position: 'left' },
         { type: 'localeDropdown', position: 'right' },
       ],
     },
