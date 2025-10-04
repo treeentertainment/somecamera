@@ -10,6 +10,7 @@ on:
       - '.github/workflows/deploy.yml'
       - 'docusaurus.config.js'
       - 'package.json'
+      - 'sidebar.js'
   workflow_dispatch:
 
 permissions:
