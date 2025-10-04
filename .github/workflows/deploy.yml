@@ -36,18 +36,13 @@ jobs:
         with:
           node-version: 22
 
-      - name: Cache Node modules
-        uses: actions/cache@v3
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
+      - name: Install Quartz globally
+        run: npm install -g @jackyzha0/quartz
 
       - name: Install dependencies
         run: npm install
 
-      - name: Prepare content
+      - name: Prepare content (no date)
         run: |
           mkdir -p content
           rm -rf content/docs
@@ -59,8 +54,7 @@ jobs:
           cat README.md >> content/index.md
 
       - name: Build Quartz
-        run: node ./quartz/bootstrap-cli.mjs build --output public
-        # 또는 npm run quartz -- build --output public
+        run: quartz build --output public
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
