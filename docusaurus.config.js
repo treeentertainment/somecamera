@@ -5,7 +5,7 @@ const config = {
   tagline: 'SomeCamera',
   url: 'https://camera.treeentertainment.tech',
   baseUrl: '/',
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'warn',
   onBrokenMarkdownLinks: 'warn',
   favicon: 'favicon.ico',
   organizationName: 'treeentertainment', // Usually GitHub org/user name.
@@ -21,6 +21,14 @@ const config = {
       },
     ],
   ],
+  i18n: {
+  defaultLocale: 'en',          // 기본 언어
+  locales: ['kr', 'en'],        // 지원 언어
+  localeConfigs: {
+    kr: { label: '한국어' },
+    en: { label: 'English' },
+  },
+},
 };
 
 module.exports = config;
