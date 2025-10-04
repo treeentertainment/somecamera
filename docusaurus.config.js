@@ -5,6 +5,7 @@ const config = {
   url: 'https://camera.treeentertainment.tech',
   baseUrl: '/',
   favicon: 'favicon.ico',
+
   i18n: {
     defaultLocale: 'en',
     locales: ['kr', 'en'],
@@ -13,6 +14,7 @@ const config = {
       en: { label: 'English' },
     },
   },
+
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -30,11 +32,12 @@ const config = {
             }
           },
           editUrl:
-            'https://github.com/treeentertainment/SomeCamera/edit/main/docs',
+            'https://github.com/treeentertainment/SomeCamera/edit/main/',
         },
       },
     ],
   ],
+
   themeConfig: {
     navbar: {
       title: 'SomeCamera',
@@ -46,8 +49,8 @@ const config = {
     footer: {
       style: 'dark',
       links: [
-        { label 'github', href: 'https://github.com/treeentertainment/somecamera' },
-        { label: 'docs', to: 'docs/intro' },
+        { label: 'GitHub', href: 'https://github.com/treeentertainment/SomeCamera' },
+        { label: 'Docs', to: 'docs/intro' },
       ],
     },
   },
