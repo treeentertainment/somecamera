@@ -57,8 +57,8 @@ const config = {
     navbar: {
       title: 'SomeCamera',
       items: [
-        { to: '/docs/en/intro/index', label: 'Docs (EN)', position: 'left' },
-        { to: '/docs/kr/intro/index', label: 'Docs (KR)', position: 'left' },
+        { to: '/docs/en/intro/', label: 'Docs (EN)', position: 'left' },
+        { to: '/docs/kr/intro/', label: 'Docs (KR)', position: 'left' },
         { type: 'localeDropdown', position: 'right' },
       ],
     },
@@ -71,11 +71,11 @@ const config = {
         },
         {
           label: 'Docs (EN)',
-          to: '/docs/en/intro/index',
+          to: '/docs/en/intro/',
         },
         {
           label: 'Docs (KR)',
-          to: '/docs/kr/intro/index',
+          to: '/docs/kr/intro/',
         },
       ],
     },
