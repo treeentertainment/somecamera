@@ -3,7 +3,7 @@ const sidebars = {
     {
       type: 'category',
       label: 'Home',               // 루트 README.md
-      items: ['README'],
+      items: ['index'],
     },
     {
       type: 'category',
