@@ -11,7 +11,7 @@ on:
       - 'quartz.config.ts'
       - 'quartz.layout.ts'
   workflow_dispatch:
-  
+
 permissions:
   contents: read
   pages: write
@@ -36,6 +36,14 @@ jobs:
         with:
           node-version: 22
 
+      - name: Cache Node modules
+        uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
       - name: Install dependencies
         run: npm install
 
@@ -44,14 +52,15 @@ jobs:
           mkdir -p content
           rm -rf content/docs
           cp -r docs content/docs
-      
+
           # README.md 첫 번째 heading 추출 → title 로 사용
           TITLE=$(grep -m1 '^## ' README.md | sed 's/^## //')
           echo -e "---\ntitle: \"${TITLE}\"\n---\n" > content/index.md
           cat README.md >> content/index.md
-          
+
       - name: Build Quartz
-        run: npx quartz build --output public
+        run: node ./quartz/bootstrap-cli.mjs build --output public
+        # 또는 npm run quartz -- build --output public
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
