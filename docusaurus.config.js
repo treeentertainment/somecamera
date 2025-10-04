@@ -1,3 +1,6 @@
+// @ts-check
+// Docusaurus full config with KR/EN docs separated
+
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'SomeCamera',
@@ -6,12 +9,13 @@ const config = {
   baseUrl: '/',
   favicon: 'favicon.ico',
 
+  // i18n 기본 설정
   i18n: {
     defaultLocale: 'en',
-    locales: ['kr', 'en'],
+    locales: ['en', 'kr'],
     localeConfigs: {
-      kr: { label: '한국어' },
       en: { label: 'English' },
+      kr: { label: '한국어' },
     },
   },
 
@@ -19,21 +23,35 @@ const config = {
     [
       '@docusaurus/preset-classic',
       {
-        docs: {
-          path: 'docs',
-          routeBasePath: 'docs',
-          sidebarPath: ({ locale }) => {
-            switch (locale) {
-              case 'en':
-              default:
-                return require.resolve('./sidebars/sidebars_en.js');
-              case 'kr':
-                return require.resolve('./sidebars/sidebars_kr.js');
-            }
-          },
-          editUrl:
-            'https://github.com/treeentertainment/SomeCamera/edit/main/',
+        docs: false, // 기본 docs 비활성화 (우리가 plugin으로 따로 넣음)
+        theme: {
+          customCss: require.resolve('./src/css/custom.css'),
         },
+      },
+    ],
+  ],
+
+  plugins: [
+    // Korean docs
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'kr',
+        path: 'docs/kr',
+        routeBasePath: 'docs/kr',
+        sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
+        editUrl: 'https://github.com/treeentertainment/SomeCamera/edit/main/',
+      },
+    ],
+    // English docs
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'en',
+        path: 'docs/en',
+        routeBasePath: 'docs/en',
+        sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
+        editUrl: 'https://github.com/treeentertainment/SomeCamera/edit/main/',
       },
     ],
   ],
@@ -42,15 +60,26 @@ const config = {
     navbar: {
       title: 'SomeCamera',
       items: [
-        { to: 'docs/intro', label: 'Docs', position: 'left' },
+        { to: '/docs/en/index', label: 'Docs (EN)', position: 'left' },
+        { to: '/docs/kr/index', label: 'Docs (KR)', position: 'left' },
         { type: 'localeDropdown', position: 'right' },
       ],
     },
     footer: {
       style: 'dark',
       links: [
-        { label: 'GitHub', href: 'https://github.com/treeentertainment/SomeCamera' },
-        { label: 'Docs', to: 'docs/intro' },
+        {
+          label: 'GitHub',
+          href: 'https://github.com/treeentertainment/SomeCamera',
+        },
+        {
+          label: 'Docs (EN)',
+          to: '/docs/en/index',
+        },
+        {
+          label: 'Docs (KR)',
+          to: '/docs/kr/index',
+        },
       ],
     },
   },
