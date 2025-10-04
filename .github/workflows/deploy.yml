@@ -1,4 +1,4 @@
-name: Deploy Docusaurus site from docs
+name: Deploy Workflow
 
 on:
   push:
