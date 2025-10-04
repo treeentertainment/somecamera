@@ -25,17 +25,19 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Setup Docker
         uses: docker/setup-buildx-action@v2
 
-      - name: Prepare content
+      - name: Prepare content (no date)
         run: |
           mkdir -p content
           rm -rf content/docs
           cp -r docs content/docs
+
+          # README.md 첫 번째 heading 추출 → title로 사용
           TITLE=$(grep -m1 '^## ' README.md | sed 's/^## //')
           echo -e "---\ntitle: \"${TITLE}\"\n---\n" > content/index.md
           cat README.md >> content/index.md
@@ -43,7 +45,10 @@ jobs:
       - name: Build Quartz using Docker
         run: |
           docker pull ghcr.io/jackyzha0/quartz:sha-f14260b
-          docker run --rm -v ./content:/usr/src/app/content -v ./public:/usr/src/app/public ghcr.io/jackyzha0/quartz:sha-f14260b build
+          docker run --rm \
+            -v $PWD:/usr/src/app \
+            -w /usr/src/app \
+            ghcr.io/jackyzha0/quartz:sha-f14260b quartz build --output public
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
@@ -51,11 +56,11 @@ jobs:
           path: ./public
 
   deploy:
+    runs-on: ubuntu-latest
+    needs: build
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    needs: build
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
