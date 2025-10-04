@@ -1,4 +1,5 @@
-name: ${{ github.event.inputs.tag_name }}
+name: Release build
+run-name: Release ${{ github.event.inputs.tag_name }}
 
 on:
   workflow_dispatch:
