@@ -1,4 +1,4 @@
-name: Release build
+name: ${{ github.event.inputs.tag_name }}
 
 on:
   workflow_dispatch:
