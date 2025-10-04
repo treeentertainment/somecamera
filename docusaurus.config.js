@@ -3,7 +3,7 @@
 const config = {
   title: 'SomeCamera',
   tagline: 'SomeCamera',
-  url: 'camera.treeentertainment.tech',
+  url: 'https://camera.treeentertainment.tech',
   baseUrl: '/',
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
