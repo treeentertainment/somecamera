@@ -5,7 +5,6 @@ const config = {
   url: 'https://camera.treeentertainment.tech',
   baseUrl: '/',
   favicon: 'favicon.ico',
-
   i18n: {
     defaultLocale: 'en',
     locales: ['kr', 'en'],
@@ -14,7 +13,6 @@ const config = {
       en: { label: 'English' },
     },
   },
-
   presets: [
     [
       '@docusaurus/preset-classic',
@@ -37,7 +35,6 @@ const config = {
       },
     ],
   ],
-
   themeConfig: {
     navbar: {
       title: 'SomeCamera',
