@@ -1,3 +1,4 @@
+import path from 'path';
 import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 
 export default {
@@ -11,17 +12,20 @@ export default {
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'],
+    locales: ['en', 'kr'],
   },
+
   markdown: {
     mermaid: true,
   },
+
   themes: ['@docusaurus/theme-mermaid'],
+
   presets: [
     [
       'classic',
       {
-        docs: false, // docs preset 자체는 안 쓰고, plugin-content-docs 로 따로 등록
+        docs: false, // docs preset 안 쓰고 plugin-content-docs 사용
       },
     ],
   ],
@@ -41,7 +45,7 @@ export default {
         id: 'en',
         path: 'pages/docs/en',
         routeBasePath: 'docs/en',
-        sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
+        sidebarPath: path.resolve('./pages/config/sidebars/sidebars_en.js'),
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
@@ -51,11 +55,19 @@ export default {
         id: 'kr',
         path: 'pages/docs/kr',
         routeBasePath: 'docs/kr',
-        sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
+        sidebarPath: path.resolve('./pages/config/sidebars/sidebars_kr.js'),
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
   ],
+
+  configureWebpack: () => ({
+    resolve: {
+      alias: {
+        '@site/src/pages': path.resolve('./pages'),
+      },
+    },
+  }),
 
   themeConfig: {
     navbar: {
