@@ -86,10 +86,13 @@ export default {
         path: 'pages/kr/intro',                // ✅ /pages/kr/intro
         routeBasePath: 'kr/intro',
       },
-      {
+    ],
+    [
+     '@docusaurus/plugin-content-pages',
+     {
        path: 'pages',           // pages 디렉토리 전체
        routeBasePath: '/',      // 루트 경로에 노출
-      }
+     },
     ],
     [
     // ⚙️ Webpack alias
