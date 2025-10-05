@@ -1,3 +1,5 @@
+const remarkGithubAdmonitionsToDirectives = require('remark-github-admonitions-to-directives');
+
 export default {
   title: 'SomeCamera',
   url: 'https://camera.treeentertainment.tech',
@@ -37,7 +39,7 @@ export default {
       id: 'en',
       path: 'pages/docs/en',
       routeBasePath: 'docs/en',
-      sidebarPath: require.resolve('./pages/config/sidebars/sidebars_en.js'),
+      sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
     },
     ],
     [
@@ -46,7 +48,7 @@ export default {
       id: 'kr',
       path: 'pages/docs/kr',
       routeBasePath: 'docs/kr',
-      sidebarPath: require.resolve('./pages/config/sidebars/sidebars_kr.js'),
+      sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
     },
     ],
   ],
