@@ -1,5 +1,7 @@
 // @ts-check
 // Docusaurus full config with KR/EN docs separated
+import remarkDirective from 'remark-directive';
+import remarkDirectiveRehype from 'remark-directive-rehype';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
@@ -9,6 +11,7 @@ const config = {
   baseUrl: '/',
   favicon: 'favicon.ico',
   onBrokenLinks: 'warn',
+
   // i18n 기본 설정
   i18n: {
     defaultLocale: 'en',
@@ -38,8 +41,10 @@ const config = {
         routeBasePath: 'docs/kr',
         sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
         editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/',
+        remarkPlugins: [remarkDirective, remarkDirectiveRehype],
       },
     ],
+
     // English docs
     [
       '@docusaurus/plugin-content-docs',
@@ -49,8 +54,10 @@ const config = {
         routeBasePath: 'docs/en',
         sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
         editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/',
+        remarkPlugins: [remarkDirective, remarkDirectiveRehype],
       },
     ],
+
     // Plugin for client redirects
     [
       '@docusaurus/plugin-client-redirects',
@@ -94,4 +101,4 @@ const config = {
   },
 };
 
-module.exports = config;
+export default config;
