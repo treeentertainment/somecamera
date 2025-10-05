@@ -94,7 +94,6 @@ export default {
        routeBasePath: '/',      // 루트 경로에 노출
      },
     ],
-    [
     // ⚙️ Webpack alias
     function webpackAliasPlugin() {
       return {
@@ -110,8 +109,7 @@ export default {
         },
       };
     },
-  ],
-
+],
   themeConfig: {
     navbar: {
       title: 'SomeCamera',
