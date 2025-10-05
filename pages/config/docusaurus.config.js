@@ -7,21 +7,24 @@ export default {
   favicon: 'favicon.ico',
 
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
     locales: ['en'], // i18n 기능 대신 직접 /docs/en, /docs/kr 관리
   },
 
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+    beforeDefaultRemarkPlugins: [remarkGithubAdmonitionsToDirectives],
+  },
+
   presets: [
     [
       'classic',
       {
-       docs: false,
-       markdown: {
-         beforeDefaultRemarkPlugins: [remarkGithubAdmonitionsToDirectives],
-       },
+       docs: false
       },
     ],
   ],
