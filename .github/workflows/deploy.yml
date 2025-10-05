@@ -1,4 +1,4 @@
-name: Deploy Workflow
+name: Deploy Quartz site
 
 on:
   push:
@@ -8,11 +8,10 @@ on:
       - 'docs/**'
       - 'README.md'
       - '.github/workflows/deploy.yml'
-      - 'docusaurus.config.js'
-      - 'package.json'
-      - 'sidebars/**'
+      - 'quartz.config.ts'
+      - 'quartz.layout.ts'
   workflow_dispatch:
-
+  
 permissions:
   contents: read
   pages: write
@@ -23,48 +22,38 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-deploy:
+  build:
     runs-on: ubuntu-latest
     steps:
-      # 1. 레포지토리 체크아웃
-      - name: Checkout repository
+      - name: Checkout
         uses: actions/checkout@v4
 
-      # 2. Node.js 설치
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      # 3. 의존성 설치
       - name: Install dependencies
         run: npm install
 
-      # 4. docs 폴더 준비 (Docusaurus docs 폴더로 복사)
-      - name: Prepare docs
-        run: |
-          mkdir -p docusaurus_docs
-          rm -rf docusaurus_docs/*
-          cp -r docs/* docusaurus_docs/
+      - name: Build Quartz
+        run: npx quartz build --output public
 
-          # README.md 첫 번째 heading → index.md 제목
-          TITLE=$(grep -m1 '^## ' README.md | sed 's/^## //')
-          echo -e "---\ntitle: \"${TITLE}\"\n---\n" > docusaurus_docs/index.md
-          cat README.md >> docusaurus_docs/index.md
-
-      # 5. Docusaurus docs 폴더 교체
-      - name: Replace Docusaurus docs
-        run: |
-          rm -rf docs
-          mv docusaurus_docs docs
-
-      # 6. 사이트 빌드
-      - name: Build Docusaurus site
-        run: npm run build
-
-      # 7. GitHub Pages 배포
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          path: ./public
+
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
