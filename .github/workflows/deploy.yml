@@ -8,7 +8,7 @@ on:
       - 'pages/**'
       - 'README.md'
       - '.github/workflows/deploy.yml'
-      - 'docusaurus.config.js'
+      - 'pages/config/docusaurus.config.js'
       - 'package.json'
   workflow_dispatch:
   
