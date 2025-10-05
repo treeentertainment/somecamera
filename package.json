@@ -21,7 +21,8 @@
     "remark-directive": "^4.0.0",
     "remark-directive-rehype": "^0.1.1",
     "remark-github-admonitions-to-directives" : "^2.1.0",
-    "@docusaurus/theme-mermaid" : "^3.9.1"
+    "@docusaurus/theme-mermaid" : "^3.9.1",
+    "@mermaid-js/layout-elk": "^0.2.0"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
