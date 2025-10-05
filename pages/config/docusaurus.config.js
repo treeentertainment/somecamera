@@ -25,20 +25,26 @@ export default {
     [
       'classic',
       {
-        docs: false, // docs preset 안 쓰고 plugin-content-docs 사용
+        docs: false, // docs preset 안 쓰고, plugin-content-docs 로 따로 등록
       },
     ],
   ],
 
   plugins: [
+    // 🔗 리다이렉트
     [
       '@docusaurus/plugin-client-redirects',
       {
         redirects: [
-          { from: '/download', to: 'https://github.com/treeentertainment/somecamera/releases/latest' },
+          {
+            from: '/download',
+            to: 'https://github.com/treeentertainment/somecamera/releases/latest',
+          },
         ],
       },
     ],
+
+    // 📚 English docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -49,6 +55,8 @@ export default {
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
+
+    // 📚 Korean docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -59,15 +67,23 @@ export default {
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
-  ],
 
-  configureWebpack: () => ({
-    resolve: {
-      alias: {
-        '@site/src/pages': path.resolve('./pages'),
-      },
+    // ⚙️ Webpack alias (v3에서는 plugin으로 등록해야 함)
+    function customWebpackPlugin() {
+      return {
+        name: 'custom-webpack-plugin',
+        configureWebpack() {
+          return {
+            resolve: {
+              alias: {
+                '@site/src/pages': path.resolve('./pages'),
+              },
+            },
+          };
+        },
+      };
     },
-  }),
+  ],
 
   themeConfig: {
     navbar: {
