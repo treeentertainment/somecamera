@@ -25,8 +25,7 @@ export default {
     [
       'classic',
       {
-        docs: false,
-        pages: false,
+        docs: false, // docs preset 안 쓰고 plugin-content-docs 사용
       },
     ],
   ],
@@ -40,41 +39,35 @@ export default {
         ],
       },
     ],
-
-    // English docs
     [
       '@docusaurus/plugin-content-docs',
       {
         id: 'en',
-        path: 'docs/en',   // ✅ pages/docs/en → docs/en 으로 옮기는 게 깔끔
+        path: 'pages/docs/en',
         routeBasePath: 'docs/en',
         sidebarPath: path.resolve('./pages/config/sidebars/sidebars_en.js'),
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
-
-    // Korean docs
     [
       '@docusaurus/plugin-content-docs',
       {
         id: 'kr',
-        path: 'docs/kr',
+        path: 'pages/docs/kr',
         routeBasePath: 'docs/kr',
         sidebarPath: path.resolve('./pages/config/sidebars/sidebars_kr.js'),
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
-
-    // Pages
-    [
-      '@docusaurus/plugin-content-pages',
-      {
-        id: 'pages',
-        path: 'pages',
-        routeBasePath: '/', // root
-      },
-    ],
   ],
+
+  configureWebpack: () => ({
+    resolve: {
+      alias: {
+        '@site/src/pages': path.resolve('./pages'),
+      },
+    },
+  }),
 
   themeConfig: {
     navbar: {
