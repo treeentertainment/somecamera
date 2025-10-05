@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "description": "SomeCamera documentation website",
-  "author": "channl101 <treeentertainment@nate.com>",
+  "author": "treeentertainment <treeentertainment@nate.com>",
   "license": "MIT",
   "scripts": {
     "start": "docusaurus start",
@@ -22,7 +22,7 @@
     "remark-directive-rehype": "^0.1.1",
     "remark-github-admonitions-to-directives" : "^2.1.0",
     "@docusaurus/theme-mermaid" : "^3.9.1",
-    "@mermaid-js/layout-elk": "^0.2.0"
+    "@mermaid-js/layout-elk": "^0.1.9",
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
