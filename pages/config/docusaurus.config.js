@@ -1,4 +1,5 @@
 import path from 'path';
+import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 
 export default {
   title: 'SomeCamera',
