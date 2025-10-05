@@ -1,4 +1,4 @@
-name: Deploy Quartz site
+name: Deploy site
 
 on:
   push:
@@ -8,8 +8,8 @@ on:
       - 'pages/**'
       - 'README.md'
       - '.github/workflows/deploy.yml'
-      - 'quartz.config.ts'
-      - 'quartz.layout.ts'
+      - 'docusaurus.config.js'
+      - 'package.json'
   workflow_dispatch:
   
 permissions:
