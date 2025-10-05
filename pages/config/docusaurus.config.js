@@ -8,6 +8,7 @@ export default {
   favicon: 'favicon.ico',
 
   onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
@@ -16,9 +17,6 @@ export default {
 
   markdown: {
     mermaid: true,
-    hooks: {
-      onBrokenMarkdownLinks: 'warn', // ✅ v4 방식
-    },
   },
 
   themes: ['@docusaurus/theme-mermaid'],
@@ -27,78 +25,55 @@ export default {
     [
       'classic',
       {
-        docs: false,  // docs preset 끔 (plugin-content-docs 따로 등록)
-        pages: false, // ✅ 기본 pages 플러그인 비활성화
+        docs: false,
+        pages: false,
       },
     ],
   ],
 
   plugins: [
-    // 🔗 리다이렉트
     [
       '@docusaurus/plugin-client-redirects',
       {
         redirects: [
-          {
-            from: '/download',
-            to: 'https://github.com/treeentertainment/somecamera/releases/latest',
-          },
+          { from: '/download', to: 'https://github.com/treeentertainment/somecamera/releases/latest' },
         ],
       },
     ],
 
-    // 📚 English docs
+    // English docs
     [
       '@docusaurus/plugin-content-docs',
       {
         id: 'en',
-        path: 'pages/docs/en',
+        path: 'docs/en',   // ✅ pages/docs/en → docs/en 으로 옮기는 게 깔끔
         routeBasePath: 'docs/en',
         sidebarPath: path.resolve('./pages/config/sidebars/sidebars_en.js'),
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
 
-    // 📚 Korean docs
+    // Korean docs
     [
       '@docusaurus/plugin-content-docs',
       {
         id: 'kr',
-        path: 'pages/docs/kr',
+        path: 'docs/kr',
         routeBasePath: 'docs/kr',
         sidebarPath: path.resolve('./pages/config/sidebars/sidebars_kr.js'),
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
 
-    // 📄 Pages (직접 등록)
+    // Pages
     [
       '@docusaurus/plugin-content-pages',
       {
         id: 'pages',
         path: 'pages',
-        routeBasePath: '/', // root 라우트
+        routeBasePath: '/', // root
       },
     ],
-
-    // ⚙️ Webpack alias
-    function customWebpackPlugin() {
-      return {
-        name: 'custom-webpack-plugin',
-        configureWebpack() {
-          return {
-            resolve: {
-              alias: {
-                '@site/src/pages': path.resolve('./pages'),
-              },
-              fallback: {
-                "path": require.resolve("path-browserify"),
-              },
-            },
-          };
-        },
-      };
-    },
   ],
 
   themeConfig: {
