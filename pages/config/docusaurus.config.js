@@ -26,6 +26,11 @@ export default {
       'classic',
       {
         docs: false,
+        blog: false,
+        pages: {
+          path: 'pages',
+          routeBasePath: '/',
+        },
       },
     ],
   ],
@@ -59,7 +64,6 @@ export default {
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
-    // Add webpack configuration as a plugin to make it actually work
     function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
@@ -75,17 +79,6 @@ export default {
       };
     },
   ],
-
-  // Remove this if you want the webpack aliases to actually work
-  // customFields: {
-  //   configureWebpack: () => ({
-  //     resolve: {
-  //       alias: {
-  //         '@site/src/pages': path.resolve('./pages'),
-  //       },
-  //     },
-  //   }),
-  // },
 
   themeConfig: {
     navbar: {
