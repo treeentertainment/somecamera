@@ -20,7 +20,8 @@
     "@docusaurus/plugin-client-redirects": "^3.9.1",
     "remark-directive": "^4.0.0",
     "remark-directive-rehype": "^0.1.1",
-    "remark-github-admonitions-to-directives" : "^2.1.0"
+    "remark-github-admonitions-to-directives" : "^2.1.0",
+    "@docusaurus/theme-mermaid" : "^3.9.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",

@@ -14,6 +14,7 @@ export default {
     locales: ['en'],
   },
 
+  themes: ['@docusaurus/theme-mermaid'],
   presets: [
     [
       'classic',
