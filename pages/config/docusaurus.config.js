@@ -1,3 +1,5 @@
+import path from 'path';
+
 export default {
   title: 'SomeCamera',
   url: 'https://camera.treeentertainment.tech',
