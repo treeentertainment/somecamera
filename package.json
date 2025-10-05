@@ -17,7 +17,9 @@
     "@docusaurus/preset-classic": "^3.7.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@docusaurus/plugin-client-redirects": "^3.9.1"
+    "@docusaurus/plugin-client-redirects": "^3.9.1",
+    "remark-directive": "^4.0.0",
+    "remark-directive-rehype": "^0.1.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
