@@ -29,7 +29,7 @@ const config = {
   ],
 
   plugins: [
-    // Korean docs
+      '@docusaurus/plugin-client-redirects',
     [
       '@docusaurus/plugin-content-docs',
       {
