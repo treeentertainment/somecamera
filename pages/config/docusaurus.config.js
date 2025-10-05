@@ -91,6 +91,9 @@ export default {
               alias: {
                 '@site/src/pages': path.resolve('./pages'),
               },
+              fallback: {
+                "path": require.resolve("path-browserify"),
+              },
             },
           };
         },
