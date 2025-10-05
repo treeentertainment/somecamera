@@ -8,7 +8,7 @@ const config = {
   url: 'https://camera.treeentertainment.tech',
   baseUrl: '/',
   favicon: 'favicon.ico',
-
+  onBrokenLinks: 'warn',
   // i18n 기본 설정
   i18n: {
     defaultLocale: 'en',
