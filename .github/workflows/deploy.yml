@@ -39,7 +39,7 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Build Quartz
+      - name: Build Docusaurus
         run: npm run build
 
       - name: Upload artifact
