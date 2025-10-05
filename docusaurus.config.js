@@ -51,6 +51,18 @@ const config = {
         editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/docs/en',
       },
     ],
+    // Plugin for client redirects
+    [
+      'docusaurus-plugin-client-redirects',
+      {
+        redirects: [
+          {
+            to: '/docs/en/intro/', // Default doc homepage
+            from: '/',             // Redirect root path
+          },
+        ],
+      },
+    ],
   ],
 
   themeConfig: {
