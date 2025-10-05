@@ -1,4 +1,4 @@
-const remarkGithubAdmonitionsToDirectives = require('remark-github-admonitions-to-directives');
+import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 
 export default {
   title: 'SomeCamera',
@@ -7,24 +7,18 @@ export default {
   favicon: 'favicon.ico',
 
   onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
-    locales: ['en'], // i18n 기능 대신 직접 /docs/en, /docs/kr 관리
-  },
-
-  markdown: {
-    hooks: {
-      onBrokenMarkdownLinks: 'warn',
-    },
-    beforeDefaultRemarkPlugins: [remarkGithubAdmonitionsToDirectives],
+    locales: ['en'],
   },
 
   presets: [
     [
       'classic',
       {
-       docs: false
+        docs: false, // docs preset 자체는 안 쓰고, plugin-content-docs 로 따로 등록
       },
     ],
   ],
@@ -33,26 +27,30 @@ export default {
     [
       '@docusaurus/plugin-client-redirects',
       {
-        redirects: [{ from: '/download', to: 'https://github.com/treeentertainment/somecamera/releases/latest' }],
+        redirects: [
+          { from: '/download', to: 'https://github.com/treeentertainment/somecamera/releases/latest' },
+        ],
       },
     ],
     [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'en',
-      path: 'pages/docs/en',
-      routeBasePath: 'docs/en',
-      sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-    },
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'en',
+        path: 'pages/docs/en',
+        routeBasePath: 'docs/en',
+        sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
+        remarkPlugins: [remarkGithubAdmonitionsToDirectives],
+      },
     ],
     [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'kr',
-      path: 'pages/docs/kr',
-      routeBasePath: 'docs/kr',
-      sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-    },
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'kr',
+        path: 'pages/docs/kr',
+        routeBasePath: 'docs/kr',
+        sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
+        remarkPlugins: [remarkGithubAdmonitionsToDirectives],
+      },
     ],
   ],
 
