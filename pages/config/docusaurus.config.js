@@ -67,6 +67,13 @@ export default {
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
+    [
+      '@docusaurus/plugin-content-pages',
+      {
+        path: 'pages', // 여기서 pages 폴더 전체를 라우팅 소스로 사용
+        routeBasePath: '/', // root 에 매핑
+      },
+   ],
 
     // ⚙️ Webpack alias (v3에서는 plugin으로 등록해야 함)
     function customWebpackPlugin() {
