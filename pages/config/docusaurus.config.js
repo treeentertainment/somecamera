@@ -21,18 +21,11 @@ export default {
 
   themes: ['@docusaurus/theme-mermaid'],
 
-  // Classic 프리셋에서 docs와 blog 설정을 명시적으로 구성
   presets: [
     [
       'classic',
       {
-        docs: false, // 별도 플러그인으로 관리하므로 비활성화
-        blog: false, // 블로그 기능 비활성화
-        pages: {
-          // pages 플러그인 명시적 활성화
-          path: 'pages',
-          routeBasePath: '/',
-        },
+        docs: false,
       },
     ],
   ],
@@ -66,17 +59,33 @@ export default {
         remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
+    // Add webpack configuration as a plugin to make it actually work
+    function webpackAliasPlugin() {
+      return {
+        name: 'webpack-alias-plugin',
+        configureWebpack() {
+          return {
+            resolve: {
+              alias: {
+                '@site/src/pages': path.resolve('./pages'),
+              },
+            },
+          };
+        },
+      };
+    },
   ],
 
-  // configureWebpack을 올바른 위치로 이동
-  configureWebpack: () => ({
-    resolve: {
-      alias: {
-        '@site/src/pages': path.resolve('./pages'),
-        '@site/pages': path.resolve('./pages'),
-      },
-    },
-  }),
+  // Remove this if you want the webpack aliases to actually work
+  // customFields: {
+  //   configureWebpack: () => ({
+  //     resolve: {
+  //       alias: {
+  //         '@site/src/pages': path.resolve('./pages'),
+  //       },
+  //     },
+  //   }),
+  // },
 
   themeConfig: {
     navbar: {
@@ -84,35 +93,15 @@ export default {
       items: [
         { to: '/docs/en/intro', label: 'Docs (EN)', position: 'left' },
         { to: '/docs/kr/intro', label: 'Docs (KR)', position: 'left' },
-        {
-          href: 'https://github.com/treeentertainment/SomeCamera',
-          label: 'GitHub',
-          position: 'right',
-        },
       ],
     },
     footer: {
       style: 'dark',
       links: [
-        {
-          title: 'Documentation',
-          items: [
-            { label: 'Docs (EN)', to: '/docs/en/intro' },
-            { label: 'Docs (KR)', to: '/docs/kr/intro' },
-          ],
-        },
-        {
-          title: 'Community',
-          items: [
-            { label: 'GitHub', href: 'https://github.com/treeentertainment/SomeCamera' },
-            { label: 'Releases', href: 'https://github.com/treeentertainment/somecamera/releases/latest' },
-          ],
-        },
+        { label: 'GitHub', href: 'https://github.com/treeentertainment/SomeCamera' },
+        { label: 'Docs (EN)', to: '/docs/en/intro' },
+        { label: 'Docs (KR)', to: '/docs/kr/intro' },
       ],
-    },
-    // Mermaid 테마 설정 추가
-    mermaid: {
-      theme: { light: 'neutral', dark: 'dark' },
     },
   },
 };
