@@ -16,7 +16,10 @@ export default {
     [
       'classic',
       {
-        docs: false, // plugin-content-docs 비활성화 (pages 기반만 사용)
+       docs: false,
+       markdown: {
+         beforeDefaultRemarkPlugins: [remarkGithubAdmonitionsToDirectives],
+       },
       },
     ],
   ],
