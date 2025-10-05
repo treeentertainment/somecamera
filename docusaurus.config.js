@@ -53,7 +53,7 @@ const config = {
     ],
     // Plugin for client redirects
     [
-      'docusaurus-plugin-client-redirects',
+      '@docusaurus/plugin-client-redirects',
       {
         redirects: [
           {
