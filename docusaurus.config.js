@@ -37,7 +37,7 @@ const config = {
         path: 'docs/kr',
         routeBasePath: 'docs/kr',
         sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-        editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/docs/kr',
+        editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/',
       },
     ],
     // English docs
@@ -48,7 +48,7 @@ const config = {
         path: 'docs/en',
         routeBasePath: 'docs/en',
         sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-        editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/docs/en',
+        editUrl: 'https://github.com/treeentertainment/SomeCamera/tree/main/',
       },
     ],
     // Plugin for client redirects
