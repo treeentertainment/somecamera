@@ -1,6 +1,3 @@
-import path from 'path';
-import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
-
 export default {
   title: 'SomeCamera',
   url: 'https://camera.treeentertainment.tech',
@@ -25,7 +22,7 @@ export default {
     [
       'classic',
       {
-        docs: false, // docs preset 안 쓰고 plugin-content-docs 사용
+        docs: false,
       },
     ],
   ],
@@ -61,13 +58,16 @@ export default {
     ],
   ],
 
-  configureWebpack: () => ({
-    resolve: {
-      alias: {
-        '@site/src/pages': path.resolve('./pages'),
+  // Move configureWebpack to customFields
+  customFields: {
+    configureWebpack: () => ({
+      resolve: {
+        alias: {
+          '@site/src/pages': path.resolve('./pages'),
+        },
       },
-    },
-  }),
+    }),
+  },
 
   themeConfig: {
     navbar: {
