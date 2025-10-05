@@ -7,17 +7,17 @@
 [![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/treeentertainment/somecamera/deploy.yml?style=for-the-badge&logo=%20&label=deploy)
 ](https://github.com/treeentertainment/somecamera/actions/workflows/deploy.yml)
 
-> [!NOTE]
-> This repository is a fork of [michaelzoech/remoteyourcam-usb](https://github.com/michaelzoech/remoteyourcam-usb)
+>  [!NOTE]
+>  This repository is a fork of [michaelzoech/remoteyourcam-usb](https://github.com/michaelzoech/remoteyourcam-usb)
 >
-> ```mermaid
-> graph LR;
+>  ```mermaid
+>  graph LR;
 >
->     A[fa:fa-github Remote Your Cam OSS] -->|FORK| B[fa:fa-github SomeCamera]
+>      A[fa:fa-github Remote Your Cam OSS] -->|FORK| B[fa:fa-github SomeCamera]
 >
->     click A "https://github.com/michaelzoech/remoteyourcam-usb" "Go to Remote Your Cam OSS"
->     click B "https://github.com/treeentertainment/somecamera" "Go to somecamera"
-> ```
+>      click A "https://github.com/michaelzoech/remoteyourcam-usb" "Go to Remote Your Cam OSS"
+>      click B "https://github.com/treeentertainment/somecamera" "Go to somecamera"
+>  ```
 
 ## Features
 
