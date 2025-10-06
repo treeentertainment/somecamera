@@ -41,11 +41,11 @@ export default {
       {
         redirects: [
           {
-            from: '/download',
+            from: ['/download', '/en/download', '/kr/download'],
             to: 'https://github.com/treeentertainment/somecamera/releases/latest',
           },
           {
-            from: '/github',
+            from: ['/github', '/en/github', '/kr/github'],
             to: 'https://github.com/treeentertainment/somecamera',
           },
         ],
