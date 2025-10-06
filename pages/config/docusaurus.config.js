@@ -6,10 +6,7 @@ export default {
   url: 'https://camera.treeentertainment.tech',
   baseUrl: '/',
   favicon: 'favicon.ico',
-
   onBrokenLinks: 'warn',
-
-  // i18n 제거 (언어별 plugin-content-docs 로 처리)
   markdown: {
     mermaid: true,
     hooks: {
@@ -18,7 +15,6 @@ export default {
   },
   themes: ['@docusaurus/theme-classic','@docusaurus/theme-mermaid'],
   plugins: [
-    // ✅ Sitemap (언어별)
     [
       '@docusaurus/plugin-sitemap',
       {
@@ -35,8 +31,6 @@ export default {
         priority: 0.5,
       },
     ],
-
-    // ✅ Redirects
     [
       '@docusaurus/plugin-client-redirects',
       {
@@ -55,14 +49,11 @@ export default {
     [
     '@docusaurus/plugin-content-pages',
      {
-       path: 'pages',
+       id: 'home',
+       path: './pages/home',
        routeBasePath: '/',
-       include: [
-         'home/*.md',   // home 폴더 내 모든 md 파일
-       ],
      },
     ],
-    // ✅ Docs (영문)
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -72,8 +63,6 @@ export default {
         sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
       },
     ],
-
-    // ✅ Docs (한국어)
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -83,25 +72,6 @@ export default {
         sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
       },
     ],
-
-    // ✅ Webpack alias
-    function webpackAliasPlugin() {
-      return {
-        name: 'webpack-alias-plugin',
-        configureWebpack() {
-          return {
-            resolve: {
-              alias: {
-                '@site/src/pages': path.resolve('./pages'),
-              },
-              fallback: {
-                path: require.resolve('path-browserify'),
-              },
-            },
-          };
-        },
-      };
-    },
   ],
 
   themeConfig: {
