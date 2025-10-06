@@ -96,7 +96,7 @@ export default {
       id: 'docs-en',
       path: 'pages/en/docs',
       routeBasePath: 'en/docs',
-      sidebarPath: require.resolve('./pages/config/sidebars/sidebars_en.js'),
+      sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
     },
   ],
   // EN Intro
@@ -106,7 +106,7 @@ export default {
       id: 'intro-en',
       path: 'pages/en/intro',
       routeBasePath: 'en/intro',
-      sidebarPath: require.resolve('./pages/config/sidebars/sidebars_en.js'),
+      sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
     },
   ],
 
@@ -117,7 +117,7 @@ export default {
       id: 'docs-kr',
       path: 'pages/kr/docs',
       routeBasePath: 'kr/docs',
-      sidebarPath: require.resolve('./pages/config/sidebars/sidebars_kr.js'),
+      sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
     },
   ],
   // KR Intro
@@ -127,7 +127,7 @@ export default {
       id: 'intro-kr',
       path: 'pages/kr/intro',
       routeBasePath: 'kr/intro',
-      sidebarPath: require.resolve('./pages/config/sidebars/sidebars_kr.js'),
+      sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
     },
   ],
     ],
