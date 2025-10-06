@@ -83,8 +83,8 @@ export default {
       items: [
         { href: '/github/', label: 'GitHub', position: 'right', target: '_blank' },
         { href: '/download/', label: 'Download', position: 'right', target: '_blank' },
-        { to: '/en/intro', label: 'Docs (EN)', position: 'left' },
-        { to: '/kr/intro', label: 'Docs (KR)', position: 'left' },
+        { to: '/en/docs/sitemap', label: 'Docs (EN)', position: 'left' },
+        { to: '/kr/docs/sitemap', label: 'Docs (KR)', position: 'left' },
       ],
     },
     footer: {
@@ -92,8 +92,8 @@ export default {
       links: [
         { label: 'GitHub', href: '/github/', target: '_blank' },
         { label: 'Download', href: '/download/', target: '_blank' },
-        { label: 'Docs (EN)', to: '/en/intro' },
-        { label: 'Docs (KR)', to: '/kr/intro' },
+        { label: 'Docs (EN)', to: '/en/docs/sitemap' },
+        { label: 'Docs (KR)', to: '/kr/docs/sitemap' },
       ],
     },
   },
