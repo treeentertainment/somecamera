@@ -1,6 +1,5 @@
 // pages/config/docusaurus.config.js
 import path from 'path';
-import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 
 export default {
   title: 'SomeCamera',
@@ -15,29 +14,14 @@ export default {
     locales: ['en', 'kr'],
   },
 
-  markdown: {
-    mermaid: true,
-    hooks: {
-      onBrokenMarkdownLinks: 'warn',
-    },
-  },
-
+  markdown: { mermaid: true },
   themes: ['@docusaurus/theme-mermaid'],
 
-  presets: [
-    [
-      'classic',
-      {
-        // ✅ docs 플러그인 비활성화 (중복 방지)
-        docs: false,
-        blog: false,
-        pages: false,
-      },
-    ],
-  ],
+  // classic preset 제거 (docs 중복 방지)
+  presets: [],
 
   plugins: [
-    // 🔗 Redirects
+    // 🔹 Redirects
     [
       '@docusaurus/plugin-client-redirects',
       {
@@ -54,19 +38,18 @@ export default {
       },
     ],
 
-    // Pages plugin
+    // 🔹 Pages 전체 (config 폴더만 제외)
     [
       '@docusaurus/plugin-content-pages',
       {
         path: 'pages',
         routeBasePath: '/',
-        exclude: [
-          '**/config/**',
-        ],
+        exclude: ['**/config/**', '**/docs/**', '**/intro/**'], 
+        // 👉 docs/intro 는 plugin-content-docs 가 관리
       },
     ],
 
-    // Webpack alias
+    // 🔹 Webpack alias
     function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
@@ -85,7 +68,7 @@ export default {
       };
     },
 
-    // EN Docs
+    // 🔹 EN Docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -96,7 +79,7 @@ export default {
       },
     ],
 
-    // EN Intro
+    // 🔹 EN Intro
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -107,7 +90,7 @@ export default {
       },
     ],
 
-    // KR Docs
+    // 🔹 KR Docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -118,7 +101,7 @@ export default {
       },
     ],
 
-    // KR Intro
+    // 🔹 KR Intro
     [
       '@docusaurus/plugin-content-docs',
       {
