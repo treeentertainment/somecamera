@@ -27,6 +27,7 @@ export default {
     [
       'classic',
       {
+        docs: false,
         blog: false,
         pages: false,
         sitemap: false,
