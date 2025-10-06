@@ -35,6 +35,7 @@ export default {
         },
         blog: false,
         pages: false,
+        sitemap: false, // 🚨 기본 sitemap 끄기
       },
     ],
     [
@@ -48,6 +49,7 @@ export default {
         },
         blog: false,
         pages: false,
+        sitemap: false, // 🚨 기본 sitemap 끄기
       },
     ],
   ],
