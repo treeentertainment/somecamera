@@ -17,7 +17,7 @@ export default {
   markdown: {
     mermaid: true,
     hooks: {
-      onBrokenMarkdownLinks: 'warn', // ✅ v4 대응
+      onBrokenMarkdownLinks: 'warn',
     },
   },
 
@@ -29,7 +29,7 @@ export default {
       {
         docs: false,
         blog: false,
-        pages: false, // ✅ 기본 pages 끔 (중복 방지)
+        pages: false, // 기본 pages 끔
       },
     ],
   ],
@@ -48,45 +48,15 @@ export default {
       },
     ],
 
-    // ===== ENGLISH =====
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'en-docs',
-        path: 'pages/en/docs',                 // ✅ /pages/en/docs
-        routeBasePath: 'en/docs',
-        sidebarPath: path.resolve('./pages/config/sidebars/sidebars_en.js'),
-        remarkPlugins: [remarkGithubAdmonitionsToDirectives],
-      },
-    ],
+    // ===== ALL PAGES AT ONCE =====
     [
       '@docusaurus/plugin-content-pages',
       {
-        id: 'en-intro',
-        path: 'pages/en/intro',                // ✅ /pages/en/intro
-        routeBasePath: 'en/intro',
+        path: 'pages',         // /pages 전체 등록!
+        routeBasePath: '/',    // 루트 및 하위 경로에 노출
       },
     ],
 
-    // ===== KOREAN =====
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'kr-docs',
-        path: 'pages/kr/docs',                 // ✅ /pages/kr/docs
-        routeBasePath: 'kr/docs',
-        sidebarPath: path.resolve('./pages/config/sidebars/sidebars_kr.js'),
-        remarkPlugins: [remarkGithubAdmonitionsToDirectives],
-      },
-    ],
-    [
-      '@docusaurus/plugin-content-pages',
-      {
-        id: 'kr-intro',
-        path: 'pages/kr/intro',                // ✅ /pages/kr/intro
-        routeBasePath: 'kr/intro',
-      },
-    ],
     // ⚙️ Webpack alias
     function webpackAliasPlugin() {
       return {
@@ -102,14 +72,14 @@ export default {
         },
       };
     },
-],
+  ],
+
   themeConfig: {
     navbar: {
       title: 'SomeCamera',
       items: [
-        { to: '/en/intro', label: 'Intro (EN)', position: 'left' },
+        // 필요한 경로만 남기세요
         { to: '/en/docs/intro', label: 'Docs (EN)', position: 'left' },
-        { to: '/kr/intro', label: 'Intro (KR)', position: 'left' },
         { to: '/kr/docs/intro', label: 'Docs (KR)', position: 'left' },
       ],
     },
@@ -117,9 +87,7 @@ export default {
       style: 'dark',
       links: [
         { label: 'GitHub', href: 'https://github.com/treeentertainment/SomeCamera' },
-        { label: 'Intro (EN)', to: '/en/intro' },
         { label: 'Docs (EN)', to: '/en/docs/intro' },
-        { label: 'Intro (KR)', to: '/kr/intro' },
         { label: 'Docs (KR)', to: '/kr/docs/intro' },
       ],
     },
