@@ -56,9 +56,7 @@ export default {
         routeBasePath: '/',    // 루트 및 하위 경로에 노출
       },
     ],
-
-    // ⚙️ Webpack alias
-    function webpackAliasPlugin() {
+   function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
         configureWebpack() {
@@ -67,6 +65,9 @@ export default {
               alias: {
                 '@site/src/pages': path.resolve('./pages'),
               },
+              fallback: {
+                path: require.resolve('path-browserify')
+              }
             },
           };
         },
