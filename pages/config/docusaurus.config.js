@@ -53,14 +53,15 @@ export default {
       },
     ],
     [
-      '@docusaurus/plugin-content-pages',
-      {
-        path: 'pages',
-        routeBasePath: '/',
-        include: ['index.md'], // Only include pages/index.md
-      },
+    '@docusaurus/plugin-content-pages',
+     {
+       path: 'pages',
+       routeBasePath: '/',
+       include: [
+         'home/*.md',   // home 폴더 내 모든 md 파일
+       ],
+     },
     ],
-
     // ✅ Docs (영문)
     [
       '@docusaurus/plugin-content-docs',
