@@ -29,7 +29,7 @@ export default {
       {
         docs: false,
         blog: false,
-        pages: false, // 기본 pages 끔
+        pages: false,
       },
     ],
   ],
@@ -44,6 +44,10 @@ export default {
             from: '/download',
             to: 'https://github.com/treeentertainment/somecamera/releases/latest',
           },
+          {
+            from: '/github',
+            to: 'https://github.com/treeentertainment/somecamera',
+          },
         ],
       },
     ],
@@ -53,7 +57,7 @@ export default {
         path: 'pages',
         routeBasePath: '/',
         exclude: [
-          '**/config/**',   // ✅ config 폴더 무시
+          '**/config/**', 
         ],
       },
     ],
@@ -80,17 +84,18 @@ export default {
     navbar: {
       title: 'SomeCamera',
       items: [
-        // 필요한 경로만 남기세요
-        { to: '/en/docs/intro', label: 'Docs (EN)', position: 'left' },
-        { to: '/kr/docs/intro', label: 'Docs (KR)', position: 'left' },
+        { to: '/download', label: 'Download', position: 'left' },
+        { to: '/en/intro', label: 'Docs (EN)', position: 'left' },
+        { to: '/kr/intro', label: 'Docs (KR)', position: 'left' },
       ],
     },
     footer: {
       style: 'dark',
       links: [
-        { label: 'GitHub', href: 'https://github.com/treeentertainment/SomeCamera' },
-        { label: 'Docs (EN)', to: '/en/docs/intro' },
-        { label: 'Docs (KR)', to: '/kr/docs/intro' },
+        { label: 'GitHub', to: '/github' },
+        { label: 'Download' , to: '/download' },
+        { label: 'Docs (EN)', to: '/en/intro' },
+        { label: 'Docs (KR)', to: '/kr/intro' },
       ],
     },
   },
