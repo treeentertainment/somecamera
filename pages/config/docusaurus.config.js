@@ -6,31 +6,37 @@ export default {
   url: 'https://camera.treeentertainment.tech',
   baseUrl: '/',
   favicon: 'favicon.ico',
+
   onBrokenLinks: 'warn',
+
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'kr'],
   },
+
   markdown: {
     mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
   },
+
   themes: ['@docusaurus/theme-mermaid'],
+
   presets: [
     [
       'classic',
       {
         docs: {
           routeBasePath: '/', // docs를 루트에서 노출
-          sidebarPath: false, // ✅ 함수 대신 false로 지정
+          sidebarPath: false, // 🔑 함수 대신 false (여기는 루트용 docs는 안 씀)
         },
         blog: false,
         pages: false,
       },
     ],
   ],
+
   plugins: [
     // 🔗 Redirects
     [
@@ -48,16 +54,18 @@ export default {
         ],
       },
     ],
+
+    // Pages plugin
     [
       '@docusaurus/plugin-content-pages',
       {
         path: 'pages',
         routeBasePath: '/',
-        exclude: [
-          '**/config/**',
-        ],
+        exclude: ['**/config/**'],
       },
     ],
+
+    // Webpack alias
     function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
@@ -75,48 +83,49 @@ export default {
         },
       };
     },
-    // EN Docs
-  [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'docs-en',
-      path: 'pages/en/docs',
-      routeBasePath: 'en/docs',
-      sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-    },
-  ],
-  // EN Intro
-  [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'intro-en',
-      path: 'pages/en/intro',
-      routeBasePath: 'en/intro',
-      sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-    },
-  ],
 
-  // KR Docs
-  [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'docs-kr',
-      path: 'pages/kr/docs',
-      routeBasePath: 'kr/docs',
-      sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-    },
-  ],
-  // KR Intro
-  [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'intro-kr',
-      path: 'pages/kr/intro',
-      routeBasePath: 'kr/intro',
-      sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-    },
-  ],
+    // EN Docs
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'docs-en',
+        path: 'pages/en/docs',
+        routeBasePath: 'en/docs',
+        sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
+      },
     ],
+    // EN Intro
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'intro-en',
+        path: 'pages/en/intro',
+        routeBasePath: 'en/intro',
+        sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
+      },
+    ],
+
+    // KR Docs
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'docs-kr',
+        path: 'pages/kr/docs',
+        routeBasePath: 'kr/docs',
+        sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
+      },
+    ],
+    // KR Intro
+    [
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'intro-kr',
+        path: 'pages/kr/intro',
+        routeBasePath: 'kr/intro',
+        sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
+      },
+    ],
+  ],
 
   themeConfig: {
     navbar: {
