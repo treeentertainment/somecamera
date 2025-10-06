@@ -53,7 +53,24 @@ export default {
   ],
 
   plugins: [
-    // 🔗 Redirects
+        [
+      'docusaurus-plugin-sitemap',
+      {
+        id: 'sitemap-en',
+        changefreq: 'weekly',
+        priority: 0.5,
+        // other config options for the English sitemap
+      }
+    ],
+    [
+      'docusaurus-plugin-sitemap',
+      {
+        id: 'sitemap-kr',
+        changefreq: 'weekly',
+        priority: 0.5,
+        // other config options for the Korean sitemap
+      }
+    ],
     [
       '@docusaurus/plugin-client-redirects',
       {
