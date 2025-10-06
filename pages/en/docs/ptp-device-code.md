@@ -1,7 +1,7 @@
 ---
 id: en-docs-ptp-devicd-code
 title: PTP DEVICE CODE
-description: LIST OF DEVICE CODES
+description: List of device codes
 ---
 
 ## 📸 Canon & Nikon PTP/IP Camera Command Reference
