@@ -81,7 +81,6 @@ export default {
       path: './pages/en',
       routeBasePath: 'en',
       sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-      disableVersioning: true, 
       },
     ],
     [
@@ -91,7 +90,6 @@ export default {
       path: './pages/kr',
       routeBasePath: 'kr',
       sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-      disableVersioning: true, // <--- Add this
     },
     ],
     function webpackAliasPlugin() {
