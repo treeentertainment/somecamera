@@ -44,7 +44,15 @@ export default {
       {
         path: 'pages',
         routeBasePath: '/',
-        exclude: ['**/config/**', '**/docs/**', '**/intro/**'], 
+        exclude: [
+        '**/config/**',
+        '**/en/docs/**',
+        '**/en/intro/**',
+        '**/kr/docs/**',
+        '**/kr/intro/**',
+        '**/docs/**',
+        '**/intro/**',
+         ], 
         // 👉 docs/intro 는 plugin-content-docs 가 관리
       },
     ],
