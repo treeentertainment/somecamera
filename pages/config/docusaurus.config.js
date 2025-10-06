@@ -1,5 +1,5 @@
-// pages/config/docusaurus.config.js
 import path from 'path';
+import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 
 export default {
   title: 'SomeCamera',
@@ -14,14 +14,31 @@ export default {
     locales: ['en', 'kr'],
   },
 
-  markdown: { mermaid: true },
+  markdown: {
+    mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
+
   themes: ['@docusaurus/theme-mermaid'],
 
-  // classic preset 제거 (docs 중복 방지)
-  presets: [],
+  presets: [
+    [
+      'classic',
+      {
+        docs: {
+          routeBasePath: '/', // docs를 루트에서 노출
+          sidebarPath: false, // 🔑 함수 대신 false (여기는 루트용 docs는 안 씀)
+        },
+        blog: false,
+        pages: false,
+      },
+    ],
+  ],
 
   plugins: [
-    // 🔹 Redirects
+    // 🔗 Redirects
     [
       '@docusaurus/plugin-client-redirects',
       {
@@ -38,26 +55,17 @@ export default {
       },
     ],
 
-    // 🔹 Pages 전체 (config 폴더만 제외)
+    // Pages plugin
     [
       '@docusaurus/plugin-content-pages',
       {
         path: 'pages',
         routeBasePath: '/',
-        exclude: [
-        '**/config/**',
-        '**/en/docs/**',
-        '**/en/intro/**',
-        '**/kr/docs/**',
-        '**/kr/intro/**',
-        '**/docs/**',
-        '**/intro/**',
-         ], 
-        // 👉 docs/intro 는 plugin-content-docs 가 관리
+        exclude: ['**/config/**'],
       },
     ],
 
-    // 🔹 Webpack alias
+    // Webpack alias
     function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
@@ -76,7 +84,7 @@ export default {
       };
     },
 
-    // 🔹 EN Docs
+    // EN Docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -86,8 +94,7 @@ export default {
         sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
       },
     ],
-
-    // 🔹 EN Intro
+    // EN Intro
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -98,7 +105,7 @@ export default {
       },
     ],
 
-    // 🔹 KR Docs
+    // KR Docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -108,8 +115,7 @@ export default {
         sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
       },
     ],
-
-    // 🔹 KR Intro
+    // KR Intro
     [
       '@docusaurus/plugin-content-docs',
       {
