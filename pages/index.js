@@ -7,7 +7,16 @@ import Admonition from '@theme/Admonition';
 export default function Home() {
   return (
     <Layout title="SOME CAMERA" description="Remote Camera App">
-      <main style={{ padding: '2rem', maxWidth: '900px', margin: '0 auto' }}>
+      <main style={{
+    padding: '2rem',
+    width: '100%',
+    maxWidth: '1200px',
+    margin: '0 auto',
+
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  }}>
         <h2>SOME CAMERA</h2>
 
         <img
