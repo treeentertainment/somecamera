@@ -23,7 +23,8 @@
     "remark-github-admonitions-to-directives" : "^2.1.0",
     "@docusaurus/theme-mermaid" : "^3.9.1",
     "@mermaid-js/layout-elk": "^0.1.9",
-    "path-browserify" : "^1.0.1"
+    "path-browserify" : "^1.0.1",
+    "@docusaurus/plugin-sitemap" : "^3.9.1"
   },
   "devDependencies": {
     "@types/node": "^24.0.0",
