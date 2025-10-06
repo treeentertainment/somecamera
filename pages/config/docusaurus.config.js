@@ -47,13 +47,14 @@ export default {
         ],
       },
     ],
-
-    // ===== ALL PAGES AT ONCE =====
     [
       '@docusaurus/plugin-content-pages',
       {
-        path: 'pages',         // /pages 전체 등록!
-        routeBasePath: '/',    // 루트 및 하위 경로에 노출
+        path: 'pages',
+        routeBasePath: '/',
+        exclude: [
+          '**/config/**',   // ✅ config 폴더 무시
+        ],
       },
     ],
    function webpackAliasPlugin() {
