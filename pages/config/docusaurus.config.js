@@ -6,45 +6,31 @@ export default {
   url: 'https://camera.treeentertainment.tech',
   baseUrl: '/',
   favicon: 'favicon.ico',
-
   onBrokenLinks: 'warn',
-
   i18n: {
     defaultLocale: 'en',
     locales: ['en', 'kr'],
   },
-
   markdown: {
     mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
   },
-
   themes: ['@docusaurus/theme-mermaid'],
-
   presets: [
     [
       'classic',
       {
         docs: {
           routeBasePath: '/', // docs를 루트에서 노출
-          sidebarPath: ({ locale }) => {
-            switch (locale) {
-              case 'kr':
-                return require.resolve('./pages/config/sidebars/sidebars_kr.js');
-              case 'en':
-              default:
-                return require.resolve('./pages/config/sidebars/sidebars_en.js');
-            }
-          },
+          sidebarPath: false, // ✅ 함수 대신 false로 지정
         },
         blog: false,
         pages: false,
       },
     ],
   ],
-
   plugins: [
     // 🔗 Redirects
     [
