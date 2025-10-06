@@ -52,6 +52,7 @@ export default {
        id: 'home',
        path: './pages/home',
        routeBasePath: '/',
+       remarkPlugins: [remarkGithubAdmonitionsToDirectives],
      },
     ],
     [
@@ -61,6 +62,7 @@ export default {
         path: './pages/en',
         routeBasePath: 'en',
         sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
+        remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
     [
@@ -70,6 +72,7 @@ export default {
         path: './pages/kr',
         routeBasePath: 'kr',
         sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
+        remarkPlugins: [remarkGithubAdmonitionsToDirectives],
       },
     ],
   ],
