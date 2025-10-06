@@ -1,4 +1,10 @@
-# 📸 Canon & Nikon PTP/IP Camera Command Reference
+---
+id: en-docs-ptp-devicd-code
+title: PTP DEVICE CODE
+description: LIST OF DEVICE CODES
+---
+
+## 📸 Canon & Nikon PTP/IP Camera Command Reference
 
 This document summarizes **PTP (Picture Transfer Protocol) / PTP/IP command codes** used by Canon and Nikon cameras.  
 For detailed information about each code (Operations, Events, Device Properties, Image Formats, etc.), refer to the [PTP official documentation](https://en.wikipedia.org/wiki/Picture_Transfer_Protocol) and Canon/Nikon SDK references.
