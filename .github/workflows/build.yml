@@ -23,14 +23,26 @@ on:
       - 'settings.gradle.kts'
       - 'gradle.properties'
       - 'project.properties'
+
 jobs:
   build:
     name: Build APK
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout code
+    - name: Checkout only relevant paths
       uses: actions/checkout@v4
+      with:
+        sparse-checkout: |
+          app
+          gradle
+          gradlew
+          gradlew.bat
+          build.gradle
+          settings.gradle.kts
+          gradle.properties
+          project.properties
+        sparse-checkout-cone-mode: false
 
     - name: Set up JDK 17
       uses: actions/setup-java@v4
