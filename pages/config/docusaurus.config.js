@@ -89,8 +89,7 @@ export default {
         },
       };
     },
-    plugins: [
-  // EN Docs
+    // EN Docs
   [
     '@docusaurus/plugin-content-docs',
     {
@@ -131,7 +130,7 @@ export default {
       sidebarPath: require.resolve('./pages/config/sidebars/sidebars_kr.js'),
     },
   ],
-  ],
+    ],
 
   themeConfig: {
     navbar: {
