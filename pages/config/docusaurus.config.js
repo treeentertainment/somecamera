@@ -29,7 +29,7 @@ export default {
       {
         docs: {
           id: 'en',
-          path: 'pages/en',
+          path: '/en',
           routeBasePath: 'en',
           sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
         },
@@ -42,7 +42,7 @@ export default {
       {
         docs: {
           id: 'kr',
-          path: 'pages/kr',
+          path: '/kr',
           routeBasePath: 'kr',
           sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
         },
