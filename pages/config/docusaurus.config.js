@@ -33,6 +33,7 @@ export default {
           routeBasePath: 'en',
           sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
         },
+        docs: false,  // 👈 preset 안 docs 비활성화
         blog: false,
         pages: false,
         sitemap: false, // 🚨 기본 sitemap 끄기
@@ -48,6 +49,7 @@ export default {
           routeBasePath: 'kr',
           sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
         },
+        docs: false,  // 👈 preset 안 docs 비활성화
         blog: false,
         pages: false,
         sitemap: false, // 🚨 기본 sitemap 끄기
