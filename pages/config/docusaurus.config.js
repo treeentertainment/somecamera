@@ -105,16 +105,6 @@ export default {
         },
       };
     },
-
-    // ✅ Custom Theme
-    function ThemePlugin() {
-      return {
-        name: 'theme-plugin',
-        getThemePath() {
-          return path.resolve(__dirname, './pages/config/theme');
-        },
-      };
-    },
   ],
 
   themeConfig: {
