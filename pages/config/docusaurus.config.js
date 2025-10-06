@@ -21,20 +21,7 @@ export default {
       onBrokenMarkdownLinks: 'warn',
     },
   },
-
   themes: ['@docusaurus/theme-mermaid'],
-  presets: [
-    [
-      'classic',
-      {
-        docs: false,
-        blog: false,
-        pages: false,
-        sitemap: false,
-        svgr: false,
-      },
-    ],
-  ],
   plugins: [
         [
       '@docusaurus/plugin-sitemap',
