@@ -1,4 +1,3 @@
-
 import path from 'path';
 import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 
@@ -10,26 +9,25 @@ export default {
 
   onBrokenLinks: 'warn',
 
-  i18n: {
-    defaultLocale: 'en',
-    locales: ['en', 'kr'],
-  },
-
+  // i18n 제거 (언어별 plugin-content-docs 로 처리)
   markdown: {
     mermaid: true,
     hooks: {
       onBrokenMarkdownLinks: 'warn',
     },
   },
+
   themes: ['@docusaurus/theme-mermaid'],
+
   plugins: [
-        [
+    // ✅ Sitemap (언어별)
+    [
       '@docusaurus/plugin-sitemap',
       {
         id: 'sitemap-en',
         changefreq: 'weekly',
         priority: 0.5,
-      }
+      },
     ],
     [
       '@docusaurus/plugin-sitemap',
@@ -37,8 +35,10 @@ export default {
         id: 'sitemap-kr',
         changefreq: 'weekly',
         priority: 0.5,
-      }
+      },
     ],
+
+    // ✅ Redirects
     [
       '@docusaurus/plugin-client-redirects',
       {
@@ -54,7 +54,9 @@ export default {
         ],
       },
     ],
-     [
+
+    // ✅ Static pages (index 등)
+    [
       '@docusaurus/plugin-content-pages',
       {
         path: 'pages',
@@ -62,24 +64,30 @@ export default {
         include: ['index.md'], // Only include pages/index.md
       },
     ],
+
+    // ✅ Docs (영문)
     [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'en',
-      path: './pages/en',
-      routeBasePath: 'en',
-      sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'en',
+        path: './pages/en',
+        routeBasePath: 'en',
+        sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
       },
     ],
+
+    // ✅ Docs (한국어)
     [
-    '@docusaurus/plugin-content-docs',
-    {
-      id: 'kr',
-      path: './pages/kr',
-      routeBasePath: 'kr',
-      sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-    },
+      '@docusaurus/plugin-content-docs',
+      {
+        id: 'kr',
+        path: './pages/kr',
+        routeBasePath: 'kr',
+        sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
+      },
     ],
+
+    // ✅ Webpack alias
     function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
@@ -97,7 +105,8 @@ export default {
         },
       };
     },
-    // ⚡ 커스텀 테마 plugin
+
+    // ✅ Custom Theme
     function ThemePlugin() {
       return {
         name: 'theme-plugin',
