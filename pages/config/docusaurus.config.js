@@ -41,7 +41,6 @@ export default {
         id: 'sitemap-en',
         changefreq: 'weekly',
         priority: 0.5,
-        // other config options for the English sitemap
       }
     ],
     [
@@ -50,7 +49,6 @@ export default {
         id: 'sitemap-kr',
         changefreq: 'weekly',
         priority: 0.5,
-        // other config options for the Korean sitemap
       }
     ],
     [
@@ -68,26 +66,24 @@ export default {
         ],
       },
     ],
-    [
+     [
       '@docusaurus/plugin-content-pages',
       {
         path: 'pages',
         routeBasePath: '/',
-        exclude: [
-          '**/config/**',
-        ],
+        include: ['index.md'], // Only include pages/index.md
       },
     ],
-     [
+    [
     '@docusaurus/plugin-content-docs',
     {
       id: 'en',
       path: './pages/en',
       routeBasePath: 'en',
       sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-    },
-  ],
-  [
+      },
+    ],
+    [
     '@docusaurus/plugin-content-docs',
     {
       id: 'kr',
@@ -95,7 +91,7 @@ export default {
       routeBasePath: 'kr',
       sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
     },
-  ],
+    ],
     function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
