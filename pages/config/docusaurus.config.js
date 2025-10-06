@@ -1,3 +1,4 @@
+// pages/config/docusaurus.config.js
 import path from 'path';
 import remarkGithubAdmonitionsToDirectives from 'remark-github-admonitions-to-directives';
 
@@ -8,7 +9,6 @@ export default {
   favicon: 'favicon.ico',
 
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
@@ -17,6 +17,9 @@ export default {
 
   markdown: {
     mermaid: true,
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
   },
 
   themes: ['@docusaurus/theme-mermaid'],
@@ -25,7 +28,8 @@ export default {
     [
       'classic',
       {
-        docs: false, // 기본 docs 플러그인 끔 (우리가 커스텀 플러그인 사용)
+        // ✅ docs 플러그인 비활성화 (중복 방지)
+        docs: false,
         blog: false,
         pages: false,
       },
@@ -50,13 +54,15 @@ export default {
       },
     ],
 
-    // 일반 페이지 (e.g. index.js)
+    // Pages plugin
     [
       '@docusaurus/plugin-content-pages',
       {
         path: 'pages',
         routeBasePath: '/',
-        exclude: ['**/config/**'], // 설정 파일 제외
+        exclude: [
+          '**/config/**',
+        ],
       },
     ],
 
@@ -79,7 +85,7 @@ export default {
       };
     },
 
-    // 📘 EN Docs
+    // EN Docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -90,7 +96,7 @@ export default {
       },
     ],
 
-    // 📘 EN Intro
+    // EN Intro
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -101,7 +107,7 @@ export default {
       },
     ],
 
-    // 📘 KR Docs
+    // KR Docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -112,7 +118,7 @@ export default {
       },
     ],
 
-    // 📘 KR Intro
+    // KR Intro
     [
       '@docusaurus/plugin-content-docs',
       {
