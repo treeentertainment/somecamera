@@ -54,7 +54,7 @@ export default {
 
   plugins: [
         [
-      'docusaurus-plugin-sitemap',
+      '@docusaurus/plugin-sitemap',
       {
         id: 'sitemap-en',
         changefreq: 'weekly',
@@ -63,7 +63,7 @@ export default {
       }
     ],
     [
-      'docusaurus-plugin-sitemap',
+      '@docusaurus/plugin-sitemap',
       {
         id: 'sitemap-kr',
         changefreq: 'weekly',
