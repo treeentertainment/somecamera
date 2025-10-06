@@ -22,42 +22,42 @@ export default {
   },
 
   themes: ['@docusaurus/theme-mermaid'],
-
   presets: [
     [
       'classic',
       {
+        id: 'classic-en', // unique preset ID
         docs: {
           id: 'en',
           path: './pages/en',
           routeBasePath: 'en',
           sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
         },
-        docs: false,  // 👈 preset 안 docs 비활성화
+        docs: false,
         blog: false,
         pages: false,
-        sitemap: false, // 🚨 기본 sitemap 끄기
-        svgr: false,   // 🚨 svgr 비활성화
+        sitemap: false,
+        svgr: false,
       },
     ],
     [
       'classic',
       {
+        id: 'classic-kr', // unique preset ID
         docs: {
           id: 'kr',
           path: './pages/kr',
           routeBasePath: 'kr',
           sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
         },
-        docs: false,  // 👈 preset 안 docs 비활성화
+        docs: false,
         blog: false,
         pages: false,
-        sitemap: false, // 🚨 기본 sitemap 끄기
-        svgr: false,   // 🚨 svgr 비활성화
+        sitemap: false,
+        svgr: false,
       },
     ],
   ],
-
   plugins: [
         [
       '@docusaurus/plugin-sitemap',
