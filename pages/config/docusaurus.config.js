@@ -84,8 +84,8 @@ export default {
     navbar: {
       title: 'SomeCamera',
       items: [
-        { href: '/github/', label: 'GitHub', position: 'right', target: '_self' },
-        { href: '/download/', label: 'Download', position: 'right', target: '_self' },
+        { href: '/github/', label: 'GitHub', position: 'right', target: '_blank' },
+        { href: '/download/', label: 'Download', position: 'right', target: '_blank' },
         { to: '/en/intro', label: 'Docs (EN)', position: 'left' },
         { to: '/kr/intro', label: 'Docs (KR)', position: 'left' },
       ],
@@ -93,8 +93,8 @@ export default {
     footer: {
       style: 'dark',
       links: [
-        { label: 'GitHub', href: '/github/', target: '_self' },
-        { label: 'Download' , href: '/download/', target: '_self' },
+        { label: 'GitHub', href: '/github/', target: '_blank' },
+        { label: 'Download' , href: '/download/', target: '_blank' },
         { label: 'Docs (EN)', to: '/en/intro' },
         { label: 'Docs (KR)', to: '/kr/intro' },
       ],
