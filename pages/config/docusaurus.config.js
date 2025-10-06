@@ -28,16 +28,23 @@ export default {
       'classic',
       {
         docs: {
-          routeBasePath: '/', // docs를 루트에서 노출
-          sidebarPath: ({ locale }) => {
-            switch (locale) {
-              case 'kr':
-                return require.resolve('./pages/config/sidebars/sidebars_kr.js');
-              case 'en':
-              default:
-                return require.resolve('./pages/config/sidebars/sidebars_en.js');
-            }
-          },
+          id: 'en',
+          path: 'docs/en',
+          routeBasePath: 'en',
+          sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
+        },
+        blog: false,
+        pages: false,
+      },
+    ],
+    [
+      'classic',
+      {
+        docs: {
+          id: 'kr',
+          path: 'docs/kr',
+          routeBasePath: 'kr',
+          sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
         },
         blog: false,
         pages: false,
@@ -92,7 +99,7 @@ export default {
     // ⚡ 커스텀 테마 plugin
     function ThemePlugin() {
       return {
-        name: 'my-theme-plugin',
+        name: 'theme-plugin',
         getThemePath() {
           return path.resolve(__dirname, './pages/config/theme');
         },
