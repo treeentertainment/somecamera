@@ -27,7 +27,18 @@ export default {
     [
       'classic',
       {
-        docs: false,
+        docs: {
+          routeBasePath: '/', // docs를 루트에서 노출
+          sidebarPath: ({ locale }) => {
+            switch (locale) {
+              case 'kr':
+                return require.resolve('./pages/config/sidebars/sidebars_kr.js');
+              case 'en':
+              default:
+                return require.resolve('./pages/config/sidebars/sidebars_en.js');
+            }
+          },
+        },
         blog: false,
         pages: false,
       },
@@ -57,11 +68,11 @@ export default {
         path: 'pages',
         routeBasePath: '/',
         exclude: [
-          '**/config/**', 
+          '**/config/**',
         ],
       },
     ],
-   function webpackAliasPlugin() {
+    function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
         configureWebpack() {
@@ -71,10 +82,19 @@ export default {
                 '@site/src/pages': path.resolve('./pages'),
               },
               fallback: {
-                path: require.resolve('path-browserify')
-              }
+                path: require.resolve('path-browserify'),
+              },
             },
           };
+        },
+      };
+    },
+    // ⚡ 커스텀 테마 plugin
+    function ThemePlugin() {
+      return {
+        name: 'my-theme-plugin',
+        getThemePath() {
+          return path.resolve(__dirname, './pages/config/theme');
         },
       };
     },
@@ -94,7 +114,7 @@ export default {
       style: 'dark',
       links: [
         { label: 'GitHub', href: '/github/', target: '_blank' },
-        { label: 'Download' , href: '/download/', target: '_blank' },
+        { label: 'Download', href: '/download/', target: '_blank' },
         { label: 'Docs (EN)', to: '/en/intro' },
         { label: 'Docs (KR)', to: '/kr/intro' },
       ],
