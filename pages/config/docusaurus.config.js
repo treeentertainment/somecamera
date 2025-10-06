@@ -8,6 +8,7 @@ export default {
   favicon: 'favicon.ico',
 
   onBrokenLinks: 'warn',
+  onBrokenMarkdownLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
@@ -16,9 +17,6 @@ export default {
 
   markdown: {
     mermaid: true,
-    hooks: {
-      onBrokenMarkdownLinks: 'warn',
-    },
   },
 
   themes: ['@docusaurus/theme-mermaid'],
@@ -27,10 +25,7 @@ export default {
     [
       'classic',
       {
-        docs: {
-          routeBasePath: '/', // docs를 루트에서 노출
-          sidebarPath: false, // 🔑 함수 대신 false (여기는 루트용 docs는 안 씀)
-        },
+        docs: false, // 기본 docs 플러그인 끔 (우리가 커스텀 플러그인 사용)
         blog: false,
         pages: false,
       },
@@ -55,13 +50,13 @@ export default {
       },
     ],
 
-    // Pages plugin
+    // 일반 페이지 (e.g. index.js)
     [
       '@docusaurus/plugin-content-pages',
       {
         path: 'pages',
         routeBasePath: '/',
-        exclude: ['**/config/**'],
+        exclude: ['**/config/**'], // 설정 파일 제외
       },
     ],
 
@@ -84,7 +79,7 @@ export default {
       };
     },
 
-    // EN Docs
+    // 📘 EN Docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -94,7 +89,8 @@ export default {
         sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
       },
     ],
-    // EN Intro
+
+    // 📘 EN Intro
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -105,7 +101,7 @@ export default {
       },
     ],
 
-    // KR Docs
+    // 📘 KR Docs
     [
       '@docusaurus/plugin-content-docs',
       {
@@ -115,7 +111,8 @@ export default {
         sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
       },
     ],
-    // KR Intro
+
+    // 📘 KR Intro
     [
       '@docusaurus/plugin-content-docs',
       {
