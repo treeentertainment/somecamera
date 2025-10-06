@@ -29,7 +29,15 @@ export default {
       {
         docs: {
           routeBasePath: '/', // docs를 루트에서 노출
-          sidebarPath: false, // 🔑 함수 대신 false (여기는 루트용 docs는 안 씀)
+          sidebarPath: ({ locale }) => {
+            switch (locale) {
+              case 'kr':
+                return require.resolve('./pages/config/sidebars/sidebars_kr.js');
+              case 'en':
+              default:
+                return require.resolve('./pages/config/sidebars/sidebars_en.js');
+            }
+          },
         },
         blog: false,
         pages: false,
@@ -54,18 +62,16 @@ export default {
         ],
       },
     ],
-
-    // Pages plugin
     [
       '@docusaurus/plugin-content-pages',
       {
         path: 'pages',
         routeBasePath: '/',
-        exclude: ['**/config/**'],
+        exclude: [
+          '**/config/**',
+        ],
       },
     ],
-
-    // Webpack alias
     function webpackAliasPlugin() {
       return {
         name: 'webpack-alias-plugin',
@@ -83,48 +89,15 @@ export default {
         },
       };
     },
-
-    // EN Docs
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'docs-en',
-        path: 'pages/en/docs',
-        routeBasePath: 'en/docs',
-        sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-      },
-    ],
-    // EN Intro
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'intro-en',
-        path: 'pages/en/intro',
-        routeBasePath: 'en/intro',
-        sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
-      },
-    ],
-
-    // KR Docs
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'docs-kr',
-        path: 'pages/kr/docs',
-        routeBasePath: 'kr/docs',
-        sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-      },
-    ],
-    // KR Intro
-    [
-      '@docusaurus/plugin-content-docs',
-      {
-        id: 'intro-kr',
-        path: 'pages/kr/intro',
-        routeBasePath: 'kr/intro',
-        sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
-      },
-    ],
+    // ⚡ 커스텀 테마 plugin
+    function ThemePlugin() {
+      return {
+        name: 'my-theme-plugin',
+        getThemePath() {
+          return path.resolve(__dirname, './pages/config/theme');
+        },
+      };
+    },
   ],
 
   themeConfig: {
