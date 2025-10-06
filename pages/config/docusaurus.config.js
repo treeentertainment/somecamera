@@ -16,9 +16,7 @@ export default {
       onBrokenMarkdownLinks: 'warn',
     },
   },
-
-  themes: ['@docusaurus/theme-mermaid'],
-
+  themes: ['@docusaurus/theme-classic','@docusaurus/theme-mermaid'],
   plugins: [
     // ✅ Sitemap (언어별)
     [
@@ -54,8 +52,6 @@ export default {
         ],
       },
     ],
-
-    // ✅ Static pages (index 등)
     [
       '@docusaurus/plugin-content-pages',
       {
@@ -70,7 +66,7 @@ export default {
       '@docusaurus/plugin-content-docs',
       {
         id: 'en',
-        path: './pages/en',
+        path: '/en',
         routeBasePath: 'en',
         sidebarPath: require.resolve('./sidebars/sidebars_en.js'),
       },
@@ -81,7 +77,7 @@ export default {
       '@docusaurus/plugin-content-docs',
       {
         id: 'kr',
-        path: './pages/kr',
+        path: '/kr',
         routeBasePath: 'kr',
         sidebarPath: require.resolve('./sidebars/sidebars_kr.js'),
       },
