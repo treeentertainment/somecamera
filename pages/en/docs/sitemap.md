@@ -1,5 +1,5 @@
 ---
-id: en-docs-sitemap
+id: sitemap
 title: sitemap
 description: Site map of docs
 ---
